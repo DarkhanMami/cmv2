@@ -1,0 +1,17 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=root
+Group=root
+Environment=DJANGO_SETTINGS_MODULE=system.settings
+WorkingDirectory=/webapps/moodle-backend
+ExecStart=/usr/local/bin/gunicorn system.wsgi:application -c /webapps/moodle-backend/gunicorn.conf.py
+
+[Install]
+WantedBy=multi-user.target
+
+stdout_logfile=/var/log/moodle/supervisord_stdout.txt
+stdout_logfile_maxbytes=20MB
+stdout_logfile_backups=10

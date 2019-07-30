@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>Статистика обращений</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+</head>
+<body>
+<h1>Статистика обращений</h1>
+<table class="display compact">
+    <thead>
+        <tr>
+            {% for type in params.types %}
+                <th>{{ type }}</th>
+            {% endfor %}
+       </tr>
+    </thead>
+    <tbody>
+        {% for item in params.data %}
+            <tr>
+            {% for it in item %}
+                <td>{{ it }}</td>
+            {% endfor %}
+             </tr>
+        {% endfor %}
+    </tbody>
+{#    <tfoot>#}
+{#        {% for item in params.data %}#}
+{#            {% if item.0 == 'Всего' %}#}
+{#                <tr>#}
+{#                {% for it in item %}#}
+{#                    <td>{{ it }}</td>#}
+{#                {% endfor %}#}
+{#                 </tr>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#    </tfoot>#}
+</table>
+</body>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type=text/javascript src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#stat_table').DataTable( {
+            dom: 'Bfrtip',
+            pageLength: 50,
+            buttons: [  { extend: 'copy', text: 'Скопировать' } , 'excel', { extend: 'print', text: 'Печать' }],
+            language: {
+                      "processing": "Подождите...",
+                      "search": "Поиск:",
+                      "lengthMenu": "Показать _MENU_ записей",
+                      "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                      "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                      "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                      "infoPostFix": "",
+                      "loadingRecords": "Загрузка записей...",
+                      "zeroRecords": "Записи отсутствуют.",
+                      "emptyTable": "В таблице отсутствуют данные",
+                      "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                      },
+                      "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                      }
+                    },
+        } );
+    } );
+</script>
+
+</html>
