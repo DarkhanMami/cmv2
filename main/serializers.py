@@ -20,7 +20,7 @@ class WellSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Well
-        fields = ['name', 'field']
+        fields = ['name', 'field', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'production_type']
 
 
 class WellMatrixSerializer(serializers.ModelSerializer):
@@ -28,30 +28,31 @@ class WellMatrixSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WellMatrix
-        fields = ['well', 'fluid', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'gas', 'timestamp']
+        fields = ['well', 'fluid_agzu', 'fluid_isu', 'shortage_isu', 'shortage_prs', 'shortage_wait',
+                    'well_stop', 'oil_loss', 'active', 'performance']
 
 
-class WellMatrixCreateSerializer(serializers.ModelSerializer):
-    well = WellSerializer(many=False, read_only=True)
-
-    class Meta:
-        model = WellMatrix
-        fields = ['well', 'fluid', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'gas']
-
-
-class FieldBalanceSerializer(serializers.ModelSerializer):
-    field = FieldSerializer(many=False, read_only=True)
-
-    class Meta:
-        model = FieldBalance
-        fields = ['field', 'transport_balance', 'ansagan_balance', 'transport_brutto', 'ansagan_brutto',
-                  'transport_netto', 'ansagan_netto', 'transport_density', 'ansagan_density',
-                  'agzu_fluid', 'agzu_oil', 'teh_rej_fluid', 'teh_rej_oil', 'timestamp']
+# class WellMatrixCreateSerializer(serializers.ModelSerializer):
+#     well = WellSerializer(many=False, read_only=True)
+#
+#     class Meta:
+#         model = WellMatrix
+#         fields = ['well', ]
 
 
-class FieldBalanceCreateSerializer(serializers.ModelSerializer):
-    field = FieldSerializer(many=False, read_only=True)
-
-    class Meta:
-        model = FieldBalance
-        fields = ['field', 'transport_balance', 'transport_brutto', 'transport_netto', 'transport_density']
+# class FieldBalanceSerializer(serializers.ModelSerializer):
+#     field = FieldSerializer(many=False, read_only=True)
+#
+#     class Meta:
+#         model = FieldBalance
+#         fields = ['field', 'transport_balance', 'ansagan_balance', 'transport_brutto', 'ansagan_brutto',
+#                   'transport_netto', 'ansagan_netto', 'transport_density', 'ansagan_density',
+#                   'agzu_fluid', 'agzu_oil', 'teh_rej_fluid', 'teh_rej_oil', 'timestamp']
+#
+#
+# class FieldBalanceCreateSerializer(serializers.ModelSerializer):
+#     field = FieldSerializer(many=False, read_only=True)
+#
+#     class Meta:
+#         model = FieldBalance
+#         fields = ['field', 'transport_balance', 'transport_brutto', 'transport_netto', 'transport_density']
