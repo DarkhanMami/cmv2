@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 admin.site.site_header = 'Администрирование'
-admin.site.site_title = 'EmirOil'
+admin.site.site_title = 'CM_v2'
 
 
 urlpatterns = [
