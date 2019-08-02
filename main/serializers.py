@@ -32,27 +32,27 @@ class WellMatrixSerializer(serializers.ModelSerializer):
                     'well_stop', 'oil_loss', 'active', 'performance']
 
 
-# class WellMatrixCreateSerializer(serializers.ModelSerializer):
-#     well = WellSerializer(many=False, read_only=True)
-#
-#     class Meta:
-#         model = WellMatrix
-#         fields = ['well', ]
+class WellMatrixCreateSerializer(serializers.ModelSerializer):
+    well = WellSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = WellMatrix
+        fields = ['well', ]
 
 
-# class FieldBalanceSerializer(serializers.ModelSerializer):
-#     field = FieldSerializer(many=False, read_only=True)
-#
-#     class Meta:
-#         model = FieldBalance
-#         fields = ['field', 'transport_balance', 'ansagan_balance', 'transport_brutto', 'ansagan_brutto',
-#                   'transport_netto', 'ansagan_netto', 'transport_density', 'ansagan_density',
-#                   'agzu_fluid', 'agzu_oil', 'teh_rej_fluid', 'teh_rej_oil', 'timestamp']
-#
-#
-# class FieldBalanceCreateSerializer(serializers.ModelSerializer):
-#     field = FieldSerializer(many=False, read_only=True)
-#
-#     class Meta:
-#         model = FieldBalance
-#         fields = ['field', 'transport_balance', 'transport_brutto', 'transport_netto', 'transport_density']
+class FieldBalanceSerializer(serializers.ModelSerializer):
+    field = FieldSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = FieldBalance
+        fields = ['field', 'transport_balance', 'ansagan_balance', 'transport_brutto', 'ansagan_brutto',
+                  'transport_netto', 'ansagan_netto', 'transport_density', 'ansagan_density',
+                  'agzu_fluid', 'agzu_oil', 'teh_rej_fluid', 'teh_rej_oil', 'timestamp']
+
+
+class FieldBalanceCreateSerializer(serializers.ModelSerializer):
+    field = FieldSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = FieldBalance
+        fields = ['field', 'transport_balance', 'transport_brutto', 'transport_netto', 'transport_density']
