@@ -44,49 +44,49 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'admin_reorder.middleware.ModelAdminReorder',
+    'admin_reorder.middleware.ModelAdminReorder',
 
 ]
 
 
-# ADMIN_REORDER = (
-#     # Keep original label and models
-#     # 'sites',
-#
-#     # # Rename app
-#     # {'app': 'auth', 'label': 'Authorisation'},
-#     #
-#     # # Reorder app models
-#     # {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
-#     #
-#     # # Exclude models
-#     # {'app': 'auth', 'models': ('auth.User', )},
-#     #
-#     # # Cross-linked models
-#     # {'app': 'auth', 'models': ('auth.User', 'sites.Site')},
-#     #
-#     # # models with custom name
-#     # {'app': 'main', 'label': 'Галерея', 'models': (
-#     #     'main.Gallery',
-#     #     'main.VideoGallery',
-#     # )},
-#
-#     {'app': 'main', 'label': 'Основное меню', 'models': (
-#         'main.User',
-#         # 'main.Feedback',
-#     )},
-#
-#     {'app': 'main', 'label': 'Справочники', 'models': (
-#         'main.Field',
-#         'main.Well',
-#     )},
-#
-#     {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
-#         'main.WellMatrix',
-#         'main.FieldBalance',
-#     )},
-#
-# )
+ADMIN_REORDER = (
+    # Keep original label and models
+    # 'sites',
+
+    # # Rename app
+    # {'app': 'auth', 'label': 'Authorisation'},
+    #
+    # # Reorder app models
+    # {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
+    #
+    # # Exclude models
+    # {'app': 'auth', 'models': ('auth.User', )},
+    #
+    # # Cross-linked models
+    # {'app': 'auth', 'models': ('auth.User', 'sites.Site')},
+    #
+    # # models with custom name
+    # {'app': 'main', 'label': 'Галерея', 'models': (
+    #     'main.Gallery',
+    #     'main.VideoGallery',
+    # )},
+
+    {'app': 'main', 'label': 'Основное меню', 'models': (
+        'main.User',
+        # 'main.Feedback',
+    )},
+
+    {'app': 'main', 'label': 'Справочники', 'models': (
+        'main.Field',
+        'main.Well',
+    )},
+
+    {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
+        'main.WellMatrix',
+        'main.FieldBalance',
+    )},
+
+)
 
 
 CORS_ORIGIN_ALLOW_ALL = True
