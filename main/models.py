@@ -133,15 +133,16 @@ class Well(models.Model):
 class WellMatrix(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='wells')
 
-    fluid_agzu = models.FloatField(default=0, db_index=True, verbose_name=_('Жидкость (АГЗУ)'))
-    fluid_isu = models.FloatField(default=0, db_index=True, verbose_name=_('Жидкость (ИСУ)'))
+    filling = models.FloatField(default=0, verbose_name=_('Заполнение насоса'))
+    fluid_agzu = models.FloatField(default=0, verbose_name=_('Жидкость (АГЗУ)'))
+    fluid_isu = models.FloatField(default=0, verbose_name=_('Жидкость (ИСУ)'))
 
-    shortage_isu = models.FloatField(default=0, db_index=True, verbose_name=_('Недобор (ИСУ)'))
-    shortage_prs = models.FloatField(default=0, db_index=True, verbose_name=_('Недобор (ПРС)'))
-    shortage_wait = models.FloatField(default=0, db_index=True, verbose_name=_('Недобор (Ожид.тех)'))
+    shortage_isu = models.FloatField(default=0, verbose_name=_('Недобор (ИСУ)'))
+    shortage_prs = models.FloatField(default=0, verbose_name=_('Недобор (ПРС)'))
+    shortage_wait = models.FloatField(default=0, verbose_name=_('Недобор (Ожид.тех)'))
 
-    well_stop = models.FloatField(default=0, db_index=True, verbose_name=_('Остановы'))
-    oil_loss = models.FloatField(default=0, db_index=True, verbose_name=_('Потери'))
+    well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
+    oil_loss = models.FloatField(default=0, verbose_name=_('Потери'))
 
     active = models.BooleanField(default=False, verbose_name=_('Активный'))
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
