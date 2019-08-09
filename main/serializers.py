@@ -32,6 +32,14 @@ class WellMatrixSerializer(serializers.ModelSerializer):
                     'well_stop', 'oil_loss', 'active', 'performance']
 
 
+class DepressionSerializer(serializers.ModelSerializer):
+    well = WellSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Depression
+        fields = ['well', 'densityPL', 'densityZB', 'densityDiff', 'fluid_av', 'timestamp']
+
+
 class WellMatrixCreateSerializer(serializers.ModelSerializer):
     well = WellSerializer(many=False, read_only=True)
 

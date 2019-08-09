@@ -152,6 +152,21 @@ class WellMatrix(models.Model):
         verbose_name_plural = _("Матрица ИСУ")
 
 
+class Depression(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='depression_wells')
+
+    densityPL = models.FloatField(default=0, verbose_name=_('Давление (Пласт)'))
+    densityZB = models.FloatField(default=0, verbose_name=_('Давление (Забой)'))
+    densityDiff = models.FloatField(default=0, verbose_name=_('Разница'))
+    fluid_av = models.FloatField(default=0, verbose_name=_('Жидкость (ср.)'))
+
+    timestamp = models.DateField(blank=False, verbose_name=_('Дата'))
+
+    class Meta:
+        verbose_name = _("Подбор депрессии")
+        verbose_name_plural = _("Подбор депрессий")
+
+
 class FieldBalance(models.Model):
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='bal_fields')
     transport_balance = models.FloatField(default=0, db_index=True, verbose_name=_('Автомобильные весы (жидкость)'))

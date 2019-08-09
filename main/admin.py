@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
 from main import models
-from main.models import Field, Well, WellMatrix, FieldBalance
+from main.models import Field, Well, WellMatrix, FieldBalance, Depression
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -76,6 +76,12 @@ class WellAdmin(admin.ModelAdmin):
 class WellMatrixAdmin(admin.ModelAdmin):
     list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'shortage_isu', 'shortage_prs', 'shortage_wait',
                     'well_stop', 'oil_loss', 'active', 'performance')
+    search_fields = ('well',)
+
+
+@admin.register(Depression)
+class DepressionAdmin(admin.ModelAdmin):
+    list_display = ('well', 'densityPL', 'densityZB', 'densityDiff', 'fluid_av', 'timestamp')
     search_fields = ('well',)
 
 

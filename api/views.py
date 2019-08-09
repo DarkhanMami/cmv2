@@ -20,7 +20,7 @@ from api.serializers import UserSerializer
 from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
-    FieldBalanceSerializer, FieldBalanceCreateSerializer
+    FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer
 from django.core.mail import EmailMessage
 
 
@@ -81,6 +81,52 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['post'], detail=False)
     def create_wellmatrix(self, request, *args, **kwargs):
+        serializer = WellMatrixCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            well = models.Well.objects.get(name=request.data["well"])
+            dt = datetime.now()
+            wellmatrix = WellMatrix.objects.update_or_create(well=well, defaults={"fluid": request.data["fluid"],
+                                                                                  "teh_rej_fluid": request.data["teh_rej_fluid"],
+                                                                                  "teh_rej_oil": request.data["teh_rej_oil"],
+                                                                                  "teh_rej_water": request.data["teh_rej_water"],
+                                                                                  "gas": request.data["gas"],
+                                                                                  "timestamp": dt})
+            return Response(self.get_serializer(wellmatrix, many=False).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('well',)
+    queryset = models.Depression.objects.all()
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        return models.Depression.objects.all()
+
+    def get_serializer_class(self):
+        # if self.action == 'create_wellmatrix':
+        #     return WellMatrixCreateSerializer
+        return DepressionSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    @action(methods=['get'], detail=False)
+    def get_by_field(self, request, *args, **kwargs):
+        field = models.Field.objects.get(name=request.GET.get("field"))
+        result = models.Depression.objects.filter(well__field=field)
+        return Response(DepressionSerializer(result, many=True).data)
+
+    @action(methods=['post'], detail=False)
+    def create_depression(self, request, *args, **kwargs):
         serializer = WellMatrixCreateSerializer(data=request.data)
         if serializer.is_valid():
             well = models.Well.objects.get(name=request.data["well"])
