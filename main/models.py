@@ -141,6 +141,9 @@ class WellMatrix(models.Model):
     shortage_prs = models.FloatField(default=0, verbose_name=_('Недобор (ПРС)'))
     shortage_wait = models.FloatField(default=0, verbose_name=_('Недобор (Ожид.тех)'))
 
+    brigade_num = models.IntegerField(default=0, verbose_name=_('Номер бригады'))
+    ts_num = models.FloatField(default=0, verbose_name=_('Номер ТС'))
+
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
     oil_loss = models.FloatField(default=0, verbose_name=_('Потери'))
 
@@ -148,8 +151,8 @@ class WellMatrix(models.Model):
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
 
     class Meta:
-        verbose_name = _("Матрица ИСУ")
-        verbose_name_plural = _("Матрица ИСУ")
+        verbose_name = _("Матрица")
+        verbose_name_plural = _("Матрица")
 
 
 class Depression(models.Model):
