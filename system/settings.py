@@ -84,7 +84,7 @@ ADMIN_REORDER = (
     {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
         'main.WellMatrix',
         'main.Depression',
-        'authtoken.Token'
+        # 'authtoken.Token'
     )},
 
 )
