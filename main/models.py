@@ -142,7 +142,7 @@ class WellMatrix(models.Model):
     shortage_wait = models.FloatField(default=0, verbose_name=_('Недобор (Ожид.тех)'))
 
     brigade_num = models.IntegerField(default=0, verbose_name=_('Номер бригады'))
-    ts_num = models.FloatField(default=0, verbose_name=_('Номер ТС'))
+    ts_num = models.CharField(max_length=20, blank=True, default="", verbose_name=_('Номер ТС'))
 
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
     oil_loss = models.FloatField(default=0, verbose_name=_('Потери'))
