@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'api',
     'main',
     'corsheaders',
-    # 'admin_reorder',
+    'admin_reorder',
 ]
 
 MIDDLEWARE = [
