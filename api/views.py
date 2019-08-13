@@ -105,7 +105,7 @@ class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
         return {'request': self.request}
 
     def get_queryset(self):
-        return models.Depression.objects.all()
+        return None
 
     def get_serializer_class(self):
         # if self.action == 'create_wellmatrix':
@@ -120,9 +120,9 @@ class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
         return [permission() for permission in permission_classes]
 
     @action(methods=['get'], detail=False)
-    def get_by_field(self, request, *args, **kwargs):
-        field = models.Field.objects.get(name=request.GET.get("field"))
-        result = models.Depression.objects.filter(well__field=field)
+    def get_by_well(self, request, *args, **kwargs):
+        well = models.Well.objects.get(name=request.GET.get("well"))
+        result = models.Depression.objects.filter(well=well)
         return Response(DepressionSerializer(result, many=True).data)
 
     @action(methods=['post'], detail=False)

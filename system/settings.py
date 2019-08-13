@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@7w5)c63v6yzmj@=d9$($3xao1tjw667h4(kof#2b6g=3)p7-r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 # Application definition
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'api',
     'main',
     'corsheaders',
-    'admin_reorder',
+    # 'admin_reorder',
 ]
 
 MIDDLEWARE = [
@@ -49,44 +49,44 @@ MIDDLEWARE = [
 ]
 
 
-ADMIN_REORDER = (
-    # Keep original label and models
-    # 'sites',
-
-    # # Rename app
-    # {'app': 'auth', 'label': 'Authorisation'},
-    #
-    # # Reorder app models
-    # {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
-    #
-    # # Exclude models
-    # {'app': 'auth', 'models': ('auth.User', )},
-    #
-    # # Cross-linked models
-    # {'app': 'auth', 'models': ('auth.User', 'sites.Site')},
-    #
-    # # models with custom name
-    # {'app': 'main', 'label': 'Галерея', 'models': (
-    #     'main.Gallery',
-    #     'main.VideoGallery',
-    # )},
-
-    {'app': 'main', 'label': 'Основное меню', 'models': (
-        'main.User',
-        # 'main.Feedback',
-    )},
-
-    {'app': 'main', 'label': 'Справочники', 'models': (
-        'main.Field',
-        'main.Well',
-    )},
-
-    {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
-        'main.WellMatrix',
-        'main.Depression',
-    )},
-
-)
+# ADMIN_REORDER = (
+#     # Keep original label and models
+#     # 'sites',
+#
+#     # # Rename app
+#     # {'app': 'auth', 'label': 'Authorisation'},
+#     #
+#     # # Reorder app models
+#     # {'app': 'auth', 'models': ('auth.User', 'auth.Group')},
+#     #
+#     # # Exclude models
+#     # {'app': 'auth', 'models': ('auth.User', )},
+#     #
+#     # # Cross-linked models
+#     # {'app': 'auth', 'models': ('auth.User', 'sites.Site')},
+#     #
+#     # # models with custom name
+#     # {'app': 'main', 'label': 'Галерея', 'models': (
+#     #     'main.Gallery',
+#     #     'main.VideoGallery',
+#     # )},
+#
+#     {'app': 'main', 'label': 'Основное меню', 'models': (
+#         'main.User',
+#         # 'main.Feedback',
+#     )},
+#
+#     {'app': 'main', 'label': 'Справочники', 'models': (
+#         'main.Field',
+#         'main.Well',
+#     )},
+#
+#     {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
+#         'main.WellMatrix',
+#         'main.Depression',
+#     )},
+#
+# )
 
 
 CORS_ORIGIN_ALLOW_ALL = True
