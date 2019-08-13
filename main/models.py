@@ -149,6 +149,7 @@ class WellMatrix(models.Model):
 
     active = models.BooleanField(default=False, verbose_name=_('Активный'))
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
+    has_isu = models.BooleanField(default=False, verbose_name=_('Оснащен ИСУ'))
 
     class Meta:
         verbose_name = _("Матрица")
