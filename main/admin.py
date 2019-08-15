@@ -90,3 +90,4 @@ class TSAdmin(admin.ModelAdmin):
     list_display = ('gos_num', 'marka', 'type', 'total_days', 'in_work', 'in_rem', 'day_off',
                     'month', 'year', 'field', 'kip', 'ktg')
     search_fields = ('gos_num',)
+    list_filter = ('field',)
