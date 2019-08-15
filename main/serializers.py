@@ -64,3 +64,11 @@ class FieldBalanceCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = FieldBalance
         fields = ['field', 'transport_balance', 'transport_brutto', 'transport_netto', 'transport_density']
+
+
+class TSSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TS
+        fields = ['gos_num', 'marka', 'type', 'total_days', 'in_work', 'in_rem', 'day_off',
+                  'month', 'year', 'field', 'kip', 'ktg']

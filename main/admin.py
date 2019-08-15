@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
 from main import models
-from main.models import Field, Well, WellMatrix, FieldBalance, Depression
+from main.models import Field, Well, WellMatrix, TS, Depression
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -85,9 +85,8 @@ class DepressionAdmin(admin.ModelAdmin):
     search_fields = ('well',)
 
 
-# @admin.register(FieldBalance)
-# class FieldBalanceAdmin(admin.ModelAdmin):
-#     list_display = ('field', 'transport_balance', 'ansagan_balance', 'transport_brutto', 'ansagan_brutto',
-#                     'transport_netto', 'ansagan_netto', 'transport_density', 'ansagan_density',
-#                     'agzu_fluid', 'agzu_oil', 'teh_rej_fluid', 'teh_rej_oil', 'timestamp')
-#     list_filter = ('field',)
+@admin.register(TS)
+class TSAdmin(admin.ModelAdmin):
+    list_display = ('gos_num', 'marka', 'type', 'total_days', 'in_work', 'in_rem', 'day_off',
+                    'month', 'year', 'field', 'kip', 'ktg')
+    search_fields = ('gos_num',)

@@ -20,7 +20,7 @@ from api.serializers import UserSerializer
 from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
-    FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer
+    FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer
 from django.core.mail import EmailMessage
 
 
@@ -255,6 +255,27 @@ class FieldViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericView
         Instantiates and returns the list of permissions that this view requires.
         """
         permission_classes = [IsAuthenticated]
-        if self.action == "add_lesson":
-            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+
+class TSViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('name',)
+    queryset = models.TS.objects.all()
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        return models.TS.objects.all()
+
+    def get_serializer_class(self):
+        return TSSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]

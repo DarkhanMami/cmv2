@@ -193,3 +193,25 @@ class FieldBalance(models.Model):
         verbose_name = _("Баланс по месторождению")
         verbose_name_plural = _("Баланс по месторождениям")
 
+
+class TS(models.Model):
+    gos_num = models.CharField(max_length=20, blank=False, null=False, unique=True, db_index=True, verbose_name=_('Гос номер'))
+    marka = models.CharField(max_length=50, verbose_name=_('Марка'))
+    type = models.CharField(max_length=50, verbose_name=_('Тип'))
+    total_days = models.IntegerField(default=30, verbose_name=_('Всего дней'))
+    in_work = models.IntegerField(default=30, verbose_name=_('В работу'))
+    in_rem = models.IntegerField(default=30, verbose_name=_('В ремонте'))
+    day_off = models.IntegerField(default=30, verbose_name=_('Выходной'))
+    month = models.IntegerField(default=30, verbose_name=_('Месяц'))
+    year = models.IntegerField(default=30, verbose_name=_('Год'))
+    field = models.CharField(max_length=50, verbose_name=_('ПСП'))
+    kip = models.FloatField(default=100, verbose_name=_('КИП'))
+    ktg = models.FloatField(default=100, verbose_name=_('КТГ'))
+
+    class Meta:
+        verbose_name = _("Транспортное средство")
+        verbose_name_plural = _("Транспортные средства")
+
+    def __str__(self):
+        return self.gos_num
+
