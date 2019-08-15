@@ -195,7 +195,7 @@ class FieldBalance(models.Model):
 
 
 class TS(models.Model):
-    gos_num = models.CharField(max_length=20, blank=False, null=False, unique=True, db_index=True, verbose_name=_('Гос номер'))
+    gos_num = models.CharField(max_length=20, blank=False, null=False, verbose_name=_('Гос номер'))
     marka = models.CharField(max_length=50, verbose_name=_('Марка'))
     type = models.CharField(max_length=50, verbose_name=_('Тип'))
     total_days = models.IntegerField(default=30, verbose_name=_('Всего дней'))
