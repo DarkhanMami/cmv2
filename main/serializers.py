@@ -72,3 +72,11 @@ class TSSerializer(serializers.ModelSerializer):
         model = TS
         fields = ['gos_num', 'marka', 'type', 'total_days', 'in_work', 'in_rem', 'day_off',
                   'month', 'year', 'field', 'kip', 'ktg']
+
+
+class ProdProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProdProfile
+        fields = ['well', 'well_pair', 'pre_fluid', 'post_fluid', 'pre_oil', 'post_oil', 'pre_obv', 'post_obv', 'effect']
+

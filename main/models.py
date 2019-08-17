@@ -215,3 +215,19 @@ class TS(models.Model):
     def __str__(self):
         return self.gos_num
 
+
+class ProdProfile(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='prof_wells')
+    well_pair = models.IntegerField(default=-1, verbose_name=_('Пара'))
+    pre_fluid = models.FloatField(default=0, verbose_name=_('Жидкость (До)'))
+    post_fluid = models.FloatField(default=0, verbose_name=_('Жидкость (После)'))
+    pre_oil = models.FloatField(default=0, verbose_name=_('Нефть (До)'))
+    post_oil = models.FloatField(default=0, verbose_name=_('Нефть (После)'))
+    pre_obv = models.FloatField(default=0, verbose_name=_('Нефть (До)'))
+    post_obv = models.FloatField(default=0, verbose_name=_('Нефть (После)'))
+    effect = models.FloatField(default=0, verbose_name=_('Эффект (нефть)'))
+
+    class Meta:
+        verbose_name = _("Профиль добычи")
+        verbose_name_plural = _("Профиль добычи")
+

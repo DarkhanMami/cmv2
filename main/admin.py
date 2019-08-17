@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
 from main import models
-from main.models import Field, Well, WellMatrix, TS, Depression
+from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -91,3 +91,9 @@ class TSAdmin(admin.ModelAdmin):
                     'month', 'year', 'field', 'kip', 'ktg')
     search_fields = ('gos_num',)
     list_filter = ('field',)
+
+
+@admin.register(ProdProfile)
+class ProdProfileAdmin(admin.ModelAdmin):
+    list_display = ('well', 'well_pair', 'pre_fluid', 'post_fluid', 'pre_oil', 'post_oil', 'pre_obv', 'post_obv', 'effect')
+    search_fields = ('well',)

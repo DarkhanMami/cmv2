@@ -85,6 +85,7 @@ ADMIN_REORDER = (
         'main.WellMatrix',
         'main.Depression',
         'main.TS',
+        'main.ProdProfile'
         # 'authtoken.Token'
     )},
 
