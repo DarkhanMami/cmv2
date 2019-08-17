@@ -223,8 +223,8 @@ class ProdProfile(models.Model):
     post_fluid = models.FloatField(default=0, verbose_name=_('Жидкость (После)'))
     pre_oil = models.FloatField(default=0, verbose_name=_('Нефть (До)'))
     post_oil = models.FloatField(default=0, verbose_name=_('Нефть (После)'))
-    pre_obv = models.FloatField(default=0, verbose_name=_('Нефть (До)'))
-    post_obv = models.FloatField(default=0, verbose_name=_('Нефть (После)'))
+    pre_obv = models.FloatField(default=0, verbose_name=_('Обводненность (До)'))
+    post_obv = models.FloatField(default=0, verbose_name=_('Обводненность (После)'))
     effect = models.FloatField(default=0, verbose_name=_('Эффект (нефть)'))
 
     class Meta:
