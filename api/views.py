@@ -14,7 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.authtoken.models import Token
-
+from rest_framework.decorators import action, api_view, permission_classes
+import pymysql
 from api import serializers
 from api.serializers import UserSerializer
 from main import models
@@ -301,3 +302,356 @@ class ProdProfileViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Gener
         """
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_2hour(request):
+    hour_data = dict()
+    hour_data['EMG'] = dict()
+    hour_data['EMG']['Общее'] = []
+    hour_data['EMG']['UAZ'] = []
+    hour_data['EMG']['PRORVA'] = []
+
+    conn = pymysql.connect(host='192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm', charset='utf8')
+    cur = conn.cursor()
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='8:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='8:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='10:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='10:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='12:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='12:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='14:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='14:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='16:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='16:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='18:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='18:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='20:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='20:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='22:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='22:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='0:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='0:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='2:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='2:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='4:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='4:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='6:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='6:00'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+
+    all_temp = []
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='UAZ' and time='7:59'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp.append(float(row_values[i]))
+        except:
+            temp.append(0)
+            all_temp.append(0)
+    hour_data['EMG']['UAZ'].append(temp)
+    temp = []
+    cur.execute("SELECT * FROM n_2hour where oil_field='PRORVA' and time='7:59'")
+    row_values = cur.fetchone()
+    for i in range(3, 16):
+        try:
+            float(row_values[i])
+            temp.append(float(row_values[i]))
+            all_temp[i - 3] += float(row_values[i])
+        except:
+            temp.append(0)
+    hour_data['EMG']['PRORVA'].append(temp)
+    hour_data['EMG']['Общее'].append(all_temp)
+    conn.close()
+    return Response(hour_data, status=status.HTTP_200_OK)
