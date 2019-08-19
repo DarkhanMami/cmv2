@@ -75,6 +75,7 @@ class TSSerializer(serializers.ModelSerializer):
 
 
 class ProdProfileSerializer(serializers.ModelSerializer):
+    well = WellSerializer(many=False, read_only=True)
 
     class Meta:
         model = ProdProfile
