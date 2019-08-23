@@ -12,6 +12,7 @@ router.register(r'depression', views.DepressionViewSet, base_name='depression')
 router.register(r'fields', views.FieldViewSet, base_name='fields')
 router.register(r'wells', views.WellViewSet, base_name='wells')
 router.register(r'ts', views.TSViewSet, base_name='ts')
+router.register(r'gsm', views.GSMViewSet, base_name='gsm')
 router.register(r'prodProfile', views.ProdProfileViewSet, base_name='prodProfile')
 
 

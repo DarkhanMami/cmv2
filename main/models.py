@@ -203,7 +203,7 @@ class TS(models.Model):
     in_rem = models.IntegerField(default=30, verbose_name=_('В ремонте'))
     day_off = models.IntegerField(default=30, verbose_name=_('Выходной'))
     month = models.IntegerField(default=30, verbose_name=_('Месяц'))
-    year = models.IntegerField(default=30, verbose_name=_('Год'))
+    year = models.IntegerField(default=2019, verbose_name=_('Год'))
     field = models.CharField(max_length=50, verbose_name=_('ПСП'))
     kip = models.FloatField(default=100, verbose_name=_('КИП'))
     ktg = models.FloatField(default=100, verbose_name=_('КТГ'))
@@ -211,6 +211,23 @@ class TS(models.Model):
     class Meta:
         verbose_name = _("Транспортное средство")
         verbose_name_plural = _("Транспортные средства")
+
+    def __str__(self):
+        return self.gos_num
+
+
+class GSM(models.Model):
+    gos_num = models.CharField(max_length=20, blank=False, null=False, verbose_name=_('Гос номер'))
+    type = models.CharField(max_length=50, verbose_name=_('Тип'))
+    year = models.IntegerField(default=2019, verbose_name=_('Год'))
+    field = models.CharField(max_length=50, verbose_name=_('ПСП'))
+    gsm_type = models.CharField(max_length=30, verbose_name=_('Тип ГСМ'))
+    sum = models.FloatField(default=0, verbose_name=_('Сумма во ВВ'))
+    quantity = models.FloatField(default=0, verbose_name=_('Количество'))
+
+    class Meta:
+        verbose_name = _("ГСМ")
+        verbose_name_plural = _("ГСМ")
 
     def __str__(self):
         return self.gos_num

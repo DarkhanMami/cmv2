@@ -74,6 +74,13 @@ class TSSerializer(serializers.ModelSerializer):
                   'month', 'year', 'field', 'kip', 'ktg']
 
 
+class GSMSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GSM
+        fields = ['gos_num', 'type', 'year', 'field', 'gsm_type', 'sum', 'quantity']
+
+
 class ProdProfileSerializer(serializers.ModelSerializer):
     well = WellSerializer(many=False, read_only=True)
 

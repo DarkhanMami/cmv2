@@ -21,7 +21,8 @@ from api.serializers import UserSerializer
 from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
-    FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer
+    FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
+    GSMSerializer
 from django.core.mail import EmailMessage
 
 
@@ -273,6 +274,29 @@ class TSViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet
 
     def get_serializer_class(self):
         return TSSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+
+class GSMViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('field',)
+    queryset = models.GSM.objects.all()
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        return models.GSM.objects.all()
+
+    def get_serializer_class(self):
+        return GSMSerializer
 
     def get_permissions(self):
         """
