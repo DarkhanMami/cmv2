@@ -220,7 +220,7 @@ class GSM(models.Model):
     gos_num = models.CharField(max_length=20, blank=False, null=False, verbose_name=_('Гос номер'))
     type = models.CharField(max_length=50, verbose_name=_('Тип'))
     year = models.IntegerField(default=2019, verbose_name=_('Год'))
-    month = models.CharField(max_length=15, verbose_name=_('Месяц'))
+    month = models.IntegerField(default=-1, verbose_name=_('Месяц'))
     field = models.CharField(max_length=50, verbose_name=_('ПСП'))
     gsm_type = models.CharField(max_length=30, verbose_name=_('Тип ГСМ'))
     sum = models.FloatField(default=0, verbose_name=_('Сумма во ВВ'))
