@@ -78,7 +78,7 @@ class GSMSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GSM
-        fields = ['gos_num', 'type', 'year', 'field', 'gsm_type', 'sum', 'quantity']
+        fields = ['gos_num', 'type', 'year', 'month', 'field', 'gsm_type', 'sum', 'quantity']
 
 
 class ProdProfileSerializer(serializers.ModelSerializer):

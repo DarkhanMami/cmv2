@@ -95,7 +95,7 @@ class TSAdmin(admin.ModelAdmin):
 
 @admin.register(GSM)
 class GSMAdmin(admin.ModelAdmin):
-    list_display = ('gos_num', 'type', 'year', 'field', 'gsm_type', 'sum', 'quantity')
+    list_display = ('gos_num', 'type', 'year', 'month', 'field', 'gsm_type', 'sum', 'quantity')
     search_fields = ('gos_num',)
     list_filter = ('field',)
 
