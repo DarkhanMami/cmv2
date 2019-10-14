@@ -108,5 +108,5 @@ class ProdProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Dynamogram)
 class DynamogramAdmin(admin.ModelAdmin):
-    list_display = ('well', 'x', 'y', 'timestamp')
+    list_display = ('well', 'timestamp')
     search_fields = ('well',)
