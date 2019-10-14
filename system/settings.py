@@ -86,7 +86,8 @@ ADMIN_REORDER = (
         'main.Depression',
         'main.TS',
         'main.GSM',
-        'main.ProdProfile'
+        'main.ProdProfile',
+        'main.Dynamogram'
         # 'authtoken.Token'
     )},
 

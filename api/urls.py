@@ -19,6 +19,8 @@ router.register(r'prodProfile', views.ProdProfileViewSet, base_name='prodProfile
 urlpatterns = [
     path('authenticate/', views.AuthView.as_view()),
     path('get_2hour/', views.get_2hour),
+    path('upload_dyn_data/', views.upload_dyn_data),
+    path('get_dyn_data/', views.get_dyn_data),
     path('', include(router.urls)),
 
     path('<int:pk>/', views.DetailUser.as_view()),

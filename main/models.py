@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-
+from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import gettext as _
 from tinymce.models import HTMLField
 
@@ -249,3 +249,13 @@ class ProdProfile(models.Model):
         verbose_name = _("Профиль добычи")
         verbose_name_plural = _("Профиль добычи")
 
+
+class Dynamogram(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='dyn_wells')
+    x = ArrayField(models.FloatField(), blank=True)
+    y = ArrayField(models.FloatField(), blank=True)
+    timestamp = models.DateTimeField(blank=False, verbose_name=_('Время замера'))
+
+    class Meta:
+        verbose_name = _("Динамограмма скважины")
+        verbose_name_plural = _("Динамограммы скважин")

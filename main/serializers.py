@@ -88,3 +88,10 @@ class ProdProfileSerializer(serializers.ModelSerializer):
         model = ProdProfile
         fields = ['well', 'well_pair', 'pre_fluid', 'post_fluid', 'pre_oil', 'post_oil', 'pre_obv', 'post_obv', 'effect']
 
+
+class DynamogramSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Dynamogram
+        fields = ['well', 'x', 'y', 'timestamp']
+

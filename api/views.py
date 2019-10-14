@@ -4,6 +4,8 @@ from django.conf import settings
 import urllib
 import json
 from django.db.models import Q
+import os
+from dyn import get_data
 
 from django.utils import timezone
 from django_filters import rest_framework as filters
@@ -22,7 +24,7 @@ from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
-    GSMSerializer
+    GSMSerializer, DynamogramSerializer
 from django.core.mail import EmailMessage
 
 
@@ -326,6 +328,46 @@ class ProdProfileViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Gener
         """
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+def upload_dyn_data(request):
+    try:
+        for well in models.Well.objects.all():
+            # well = models.Well.objects.get(name=request.data["well_name"])
+            # dir = 'data/' + well.name
+            dir = 'data/9030'
+            for x in os.walk(dir):
+                for day_folder in x[1]:
+                    for y in os.walk(x[0] + '/' + day_folder):
+                        timestamp = datetime.strptime(day_folder, '%Y_%m_%d')
+                        for hour_folder in y[1]:
+                            timestamp = timestamp + timedelta(hours=int(hour_folder))
+                            skv_files = os.listdir(y[0] + '/' + hour_folder)
+                            for skv_file in skv_files:
+                                data = get_data.ReadSKVFile(y[0] + '/' + hour_folder + '/' + skv_file)
+                                if len(data.x) > 0 and len(data.y) > 0:
+                                    models.Dynamogram.objects.create(well=well, timestamp=timestamp, x=data.x, y=data.y)
+                                    break
+                break
+
+        return Response({
+            "info": "Данные загружены"
+        })
+    except:
+        return Response({
+            "info": "Скважина не найдена"
+        })
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_dyn_data(request):
+    well = models.Well.objects.get(name=request.GET.get('well_name'))
+    dyn = models.Dynamogram.objects.filter(well=well).order_by('?').first()
+
+    return Response(DynamogramSerializer(dyn).data)
 
 
 @api_view(['GET'])
