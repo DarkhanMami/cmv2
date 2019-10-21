@@ -1,6 +1,8 @@
 import pymysql
 import datetime, traceback, smtplib
-from OpenOPC.src import OpenOPC
+import sys
+sys.path.append("/webapps/cmv2/OpenOPC/src/")
+import OpenOPC
 
 
 try:
