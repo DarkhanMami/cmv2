@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 import json
 from django.http import HttpResponse
-import all_tags.Moldabek.all_tags
+import os
 from django.db.models import Q
 
 
@@ -16,5 +16,5 @@ def index(request):
 
 
 def update_VMB_tags(request):
-    all_tags.Moldabek.all_tags.update()
+    os.system('python /webapps/cmv2/all_tags/Moldabek/all_tags.py')
     return HttpResponse("OK")
