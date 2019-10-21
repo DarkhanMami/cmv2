@@ -186,3 +186,4 @@ def saw_wave():
     sec = float(time.localtime()[5])
     T = (min + (sec/60.0)) % 10.0
     return (T/10.0) * 100.0
+    
