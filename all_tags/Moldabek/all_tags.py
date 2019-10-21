@@ -1,5 +1,6 @@
-import pymysql, OpenOPC
+import pymysql
 import datetime, traceback, smtplib
+from OpenOPC.src import OpenOPC
 
 
 def update():
@@ -56,7 +57,9 @@ def update():
         numberOfRetries = int(C.read())
         C.close()
         numberOfRetries = 0
-    except:
+    except Exception as e:
+        print(e)
+
         B = open("all_tags/Moldabek/log.txt", "a")
         C = open('all_tags/Moldabek/numberOfRetries.txt', 'r')
         numberOfRetries = int(C.read())
