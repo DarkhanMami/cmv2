@@ -132,3 +132,6 @@ yMOTArr[05]_worktime/60.0
 yMOTArr[06]_worktime/60.0
 yMOTArr[07]_worktime/60.0
 yMOTArr[08]_worktime/60.0
+yANAArr[04]_yDatVal
+yANAArr[05]_yDatVal
+yANAArr[26]_yDatVal
