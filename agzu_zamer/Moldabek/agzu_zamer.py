@@ -15,37 +15,37 @@ try:
     opc = OpenOPC.open_client('192.168.207.178')
 
     opc.connect(u'OPCServer.WinCC.1')
-
-    # try:
-    Data = opc.read(tags, group='test', timeout=100000)
-    # except:
-    # 	print('timeOut')
+    tmp = opc.read(tags, group='test', timeout=100000)
+    data = dict()
+    for i in tmp:
+        data[i[0]] = [i[1], i[2], i[3]]
     opc.remove('test')
-    for i in Data:
-        # print(i)
-        tag = i[0]
-        value = i[1]
-        quality = i[2]
-        update_date = i[3]
-        try:
-            update_date = datetime.datetime.strptime(update_date, '%m/%d/%y %H:%M:%S')  # 06/05/19 18:19:48
-        except:
-            update_date = datetime.datetime.now()
-        quan = cur.execute("SELECT * FROM n_wincctags where tag_key='" + tag + "' and oil_field = 'UAZ'")
-        if (quan == 0):
-            Sql = (
-                "INSERT INTO n_wincctags(oil_field, tag_key, tag_value, last_update) VALUES('UAZ','{0}','{1}',now())").format(
-                tag, value)
-            cur.execute(Sql)
-        else:
-            Sql = (
-                "UPDATE n_wincctags SET tag_value='{0}',last_update=now(),last_actual_update='{1}' WHERE tag_key='{2}' and oil_field='UAZ'").format(
-                value, update_date, tag)
-            cur.execute(Sql)
+    opc.close()
+    for i in range(0, 51):
+        tag_skv = 'KABBVM_MU' + str(i) + '.Code_SKV1'
+        tag_debit = 'KABBVM_MU' + str(i) + '.Debit'
+        if tag_skv in data:
+            skv = 'VMB_'
+            tmp = int(data[tag_skv][0])
+            update_date = data[tag_debit][2]
+            debit = data[tag_debit][0]
+            if tmp < 10:
+                skv += '000' + str(tmp)
+            elif 10 <= tmp < 100:
+                skv += '00' + str(tmp)
+            elif 100 <= tmp < 1000:
+                skv += '0' + str(tmp)
+            elif 1000 <= tmp:
+                skv += str(tmp)
+
+            try:
+                update_date = datetime.datetime.strptime(update_date, '%m/%d/%y %H:%M:%S')
+            except:
+                update_date = datetime.datetime.now()
+            cur.execute("update n_well_matrix set debit = " + str(debit) + "oil_field = 'VMB' and well = '" + skv + "'")
 
     conn.commit()
     conn.close()
-    opc.close()
     C = open('agzu_zamer/Moldabek/numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
@@ -62,7 +62,7 @@ except Exception as e:
     B.write('\n')
     print("Finished incorrectly")
     smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-    send_to = ['Y.Tlegenov@emg.kmgep.kz',]  #
+    send_to = ['Y.Tlegenov@emg.kmgep.kz',]
     smtpObj.ehlo()
     smtpObj.starttls()
     smtpObj.ehlo()
@@ -75,6 +75,6 @@ except Exception as e:
     C.close()
     smtpObj.close()
     B.close()
-    # conn.close()
-    # opc.close()
+    conn.close()
+    opc.close()
 
