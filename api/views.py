@@ -756,9 +756,8 @@ def update_imbalance(request):
             cur.execute("SELECT id FROM stations where code='" + well.name + "' limit 1")
             row_values = cur.fetchone()
             station_id = int(row_values[0])
-            print(station_id)
-            cur.execute("SELECT * FROM fc_data_last where reg='30005' and station_id='" + station_id
-                        + "' order by savetime desc limit 1")
+            cur.execute("SELECT * FROM fc_data_last where reg=30005 and station_id=" + station_id + " order by savetime desc")
+            print('check fc_data_last')
             row_values = cur.fetchone()
             print(row_values)
             imb.imbalance = float(row_values[2])
