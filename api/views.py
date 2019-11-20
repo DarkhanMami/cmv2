@@ -769,3 +769,7 @@ def update_imbalance(request):
 
         except:
             pass
+
+    return Response({
+        "info": "Данные загружены"
+    })
