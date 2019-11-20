@@ -21,6 +21,7 @@ urlpatterns = [
     path('get_2hour/', views.get_2hour),
     path('upload_dyn_data/', views.upload_dyn_data),
     path('get_dyn_data/', views.get_dyn_data),
+    path('update_imbalance/', views.update_imbalance),
 
     path('', include(router.urls)),
 
