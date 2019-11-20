@@ -720,3 +720,52 @@ def get_2hour(request):
     hour_data['EMG']['Общее'].append(all_temp)
     conn.close()
     return Response(hour_data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated, ))
+def update_imbalance(request):
+    wells = models.Well.objects.all()
+    for well in wells:
+        try:
+            field = well.field.name
+            if field == 'УАЗ' or field == 'Б.Жоламанова' or field == 'С.Котыртас' or field == 'Вос. Молдабек':
+                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                                       charset='utf8')
+                cur = conn.cursor()
+            elif field == 'Вос. Макат 2014' or field == 'М/р Алтыкуль' or field == 'Вос. Макат' or field == 'Ботахан':
+                conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                                       charset='utf8')
+                cur = conn.cursor()
+            elif field == 'Жанаталап' or field == 'ЮВН' or field == 'ЮВК' or field == 'ЮЗК' or \
+                    field == 'Салтанат Балгимбаева' or field == 'Гран':
+                conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                                       charset='utf8')
+                cur = conn.cursor()
+            else:
+                conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                                       charset='utf8')
+                cur = conn.cursor()
+            try:
+                imb = models.Imbalance.objects.get(well=well)
+            except:
+                imb = models.Imbalance.objects.create(well=well)
+
+            cur.execute("SELECT id FROM stations where code='" + well.name + "' limit 1")
+            row_values = cur.fetchone()
+            station_id = row_values[0]
+
+            cur.execute("SELECT * FROM fc_data_last where reg=30005 and station_id=" + station_id
+                        + " order by save_time limit 1")
+            row_values = cur.fetchone()
+            imb.imbalance = float(row_values[2])
+            imb.timestamp = datetime.strptime(row_values[3], '%Y_%m_%d %H:%M:%S')
+            cur.execute("SELECT avg_1997 FROM daily_data where station_id=" + station_id + " order by day limit 1")
+            row_values = cur.fetchone()
+            imb.avg_1997 = float(row_values[0])
+            imb.save()
+
+            conn.close()
+
+        except:
+            pass
