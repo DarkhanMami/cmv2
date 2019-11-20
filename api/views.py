@@ -729,6 +729,8 @@ def update_imbalance(request):
     for well in wells:
         try:
             field = well.field.name
+            print(field)
+            print(well.name)
             if field == 'УАЗ' or field == 'Б.Жоламанова' or field == 'С.Котыртас' or field == 'Вос. Молдабек':
                 conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
                                        charset='utf8')
@@ -767,7 +769,8 @@ def update_imbalance(request):
 
             conn.close()
 
-        except:
+        except Exception as e:
+            print(e)
             pass
 
     return Response({
