@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
 from main import models
-from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram
+from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -109,4 +109,10 @@ class ProdProfileAdmin(admin.ModelAdmin):
 @admin.register(Dynamogram)
 class DynamogramAdmin(admin.ModelAdmin):
     list_display = ('well', 'timestamp')
+    search_fields = ('well',)
+
+
+@admin.register(Imbalance)
+class ImbalanceAdmin(admin.ModelAdmin):
+    list_display = ('well', 'imbalance', 'avg_1997', 'timestamp')
     search_fields = ('well',)

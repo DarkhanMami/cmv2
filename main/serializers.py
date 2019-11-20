@@ -95,3 +95,11 @@ class DynamogramSerializer(serializers.ModelSerializer):
         model = Dynamogram
         fields = ['well', 'x', 'y', 'timestamp']
 
+
+class ImbalanceSerializer(serializers.ModelSerializer):
+    well = WellSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Imbalance
+        fields = ['well', 'imbalance', 'avg_1997', 'timestamp']
+

@@ -121,13 +121,23 @@ class Well(models.Model):
 
     production_type = models.CharField(choices=PRODUCTION_TYPES, default=SGN, max_length=100, verbose_name=_("Технология добычи"))
 
-
     class Meta:
         verbose_name = _("Скважина")
         verbose_name_plural = _("Скважины")
 
     def __str__(self):
         return self.name
+
+
+class Imbalance(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='imb_wells')
+    imbalance = models.FloatField(default=0, verbose_name=_('Неуравновешенность'))
+    avg_1997 = models.FloatField(default=0, verbose_name=_('Заполнения насоса'))
+    timestamp = models.DateTimeField(blank=False, verbose_name=_('Дата опроса'))
+
+    class Meta:
+        verbose_name = _("Неуравновешенность")
+        verbose_name_plural = _("Неуравновешенность")
 
 
 class WellMatrix(models.Model):
