@@ -748,10 +748,6 @@ def update_imbalance(request):
                 conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
                                        charset='utf8')
                 cur = conn.cursor()
-            try:
-                imb = models.Imbalance.objects.get(well=well)
-            except:
-                imb = models.Imbalance.objects.create(well=well)
 
             cur.execute("SELECT id FROM stations where code='" + well.name + "' limit 1")
             row_values = cur.fetchone()
@@ -760,6 +756,10 @@ def update_imbalance(request):
             print('check fc_data_last')
             row_values = cur.fetchone()
             print(row_values)
+            try:
+                imb = models.Imbalance.objects.get(well=well)
+            except:
+                imb = models.Imbalance.objects.create(well=well)
             imb.imbalance = float(row_values[2])
             imb.timestamp = datetime.strptime(row_values[3], '%Y_%m_%d %H:%M:%S')
             cur.execute("SELECT avg_1997 FROM daily_data where station_id=" + station_id + " order by day limit 1")
