@@ -767,7 +767,7 @@ def update_imbalance(request):
             conn.close()
 
         except Exception as e:
-            print("----" + e)
+            print(e)
             pass
 
     return Response({
