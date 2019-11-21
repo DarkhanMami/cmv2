@@ -752,9 +752,7 @@ def update_imbalance(request):
             cur.execute("SELECT id FROM stations where code='" + well.name + "' limit 1")
             row_values = cur.fetchone()
             station_id = int(row_values[0])
-            print(station_id)
             cur.execute("SELECT * FROM fc_data_last where reg=30005 and station_id=" + str(station_id) + " order by savetime desc")
-            print('check fc_data_last')
             row_values = cur.fetchone()
             print(row_values)
             try:
@@ -762,7 +760,7 @@ def update_imbalance(request):
             except:
                 imb = models.Imbalance.objects.create(well=well)
             imb.imbalance = float(row_values[2])
-            imb.timestamp = datetime.strptime(row_values[3], '%Y_%m_%d %H:%M:%S')
+            imb.timestamp = row_values[3]
             cur.execute("SELECT avg_1997 FROM daily_data where station_id=" + str(station_id) + " order by day limit 1")
             row_values = cur.fetchone()
             print(row_values)
