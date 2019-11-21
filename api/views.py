@@ -761,7 +761,7 @@ def update_imbalance(request):
                 imb = models.Imbalance.objects.create(well=well)
             imb.imbalance = float(row_values[2])
             imb.timestamp = row_values[3]
-            cur.execute("SELECT avg_1997 FROM daily_data where station_id=" + str(station_id) + " order by day limit 1")
+            cur.execute("SELECT avg_1997 FROM daily_data where station_id=" + str(station_id) + " order by day desc limit 1")
             row_values = cur.fetchone()
             print(row_values)
             imb.avg_1997 = float(row_values[0])
