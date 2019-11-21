@@ -14,6 +14,7 @@ router.register(r'wells', views.WellViewSet, base_name='wells')
 router.register(r'ts', views.TSViewSet, base_name='ts')
 router.register(r'gsm', views.GSMViewSet, base_name='gsm')
 router.register(r'prodProfile', views.ProdProfileViewSet, base_name='prodProfile')
+router.register(r'imbalance', views.ImbalanceViewSet, base_name='imbalance')
 
 
 urlpatterns = [

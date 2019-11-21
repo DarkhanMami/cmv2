@@ -24,7 +24,7 @@ from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
-    GSMSerializer, DynamogramSerializer
+    GSMSerializer, DynamogramSerializer, ImbalanceSerializer
 from django.core.mail import EmailMessage
 
 
@@ -321,6 +321,28 @@ class ProdProfileViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Gener
 
     def get_serializer_class(self):
         return ProdProfileSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+
+class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    queryset = models.Imbalance.objects.all()
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        return models.Imbalance.objects.all()
+
+    def get_serializer_class(self):
+        return ImbalanceSerializer
 
     def get_permissions(self):
         """
