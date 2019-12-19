@@ -339,7 +339,7 @@ class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generic
         return {'request': self.request}
 
     def get_queryset(self):
-        return models.Imbalance.objects.all()
+        return models.Imbalance.objects.filter(imbalance__gt=0)
 
     def get_serializer_class(self):
         return ImbalanceSerializer
