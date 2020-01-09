@@ -24,6 +24,8 @@ try:
     for i in range(0, 51):
         tag_skv = 'KABBVM_MU' + str(i) + '.Code_SKV1'
         tag_debit = 'KABBVM_MU' + str(i) + '.Debit'
+        print(tag_skv)
+        print(tag_debit)
         if tag_skv in data:
             skv = 'VMB_'
             tmp = int(data[tag_skv][0])
@@ -42,7 +44,7 @@ try:
                 update_date = datetime.datetime.strptime(update_date, '%m/%d/%y %H:%M:%S')
             except:
                 update_date = datetime.datetime.now()
-            cur.execute("update n_well_matrix set debit = " + str(debit) + "oil_field = 'VMB' and well = '" + skv + "'")
+            cur.execute("update n_well_matrix set debit = " + str(debit) + " where oil_field = 'VMB' and well = '" + skv + "'")
 
     conn.commit()
     conn.close()
