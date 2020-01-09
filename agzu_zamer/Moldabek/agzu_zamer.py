@@ -9,7 +9,7 @@ try:
     conn = pymysql.connect('192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm')
     cur = conn.cursor()
 
-    A = open('agzu_zamer/Moldabek/tags.txt', 'r')
+    A = open('tags.txt', 'r')
     tags = A.read().splitlines()
     A.close()
     opc = OpenOPC.open_client('192.168.207.178')
@@ -46,15 +46,15 @@ try:
 
     conn.commit()
     conn.close()
-    C = open('agzu_zamer/Moldabek/numberOfRetries.txt', 'r')
+    C = open('numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
     numberOfRetries = 0
 except Exception as e:
     print(e)
 
-    B = open("agzu_zamer/Moldabek/log.txt", "a")
-    C = open('agzu_zamer/Moldabek/numberOfRetries.txt', 'r')
+    B = open("log.txt", "a")
+    C = open('numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
     B.write(str(datetime.datetime.now()))
@@ -70,7 +70,7 @@ except Exception as e:
     if numberOfRetries > 20:
         smtpObj.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(VMB) is unavailable')
         numberOfRetries = 0
-    C = open('agzu_zamer/Moldabek/numberOfRetries.txt', 'w')
+    C = open('numberOfRetries.txt', 'w')
     C.write(str(numberOfRetries + 1))
     C.close()
     smtpObj.close()
