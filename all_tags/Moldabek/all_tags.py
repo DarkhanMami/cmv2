@@ -9,7 +9,7 @@ try:
     conn = pymysql.connect('192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm')
     cur = conn.cursor()
 
-    A = open('/webapps/cmv2/all_tags/Moldabek/tags.txt', 'r')
+    A = open('tags.txt', 'r')
     tags = A.read().splitlines()
     A.close()
     opc = OpenOPC.open_client('192.168.207.178')
@@ -35,17 +35,17 @@ try:
             # print('Error')
             pass
             update_date = datetime.datetime.now()
-        quan = cur.execute("SELECT * FROM n_wincctags where tag_key='" + tag + "' and oil_field = 'UAZ'")
+        quan = cur.execute("SELECT * FROM n_wincctags where tag_key='" + tag + "' and oil_field = 'VMB'")
         if (quan == 0):
             Sql = (
-                "INSERT INTO n_wincctags(oil_field, tag_key, tag_value, last_update) VALUES('UAZ','{0}','{1}',now())").format(
+                "INSERT INTO n_wincctags(oil_field, tag_key, tag_value, last_update) VALUES('VMB','{0}','{1}',now())").format(
                 tag, value)
             # print(Sql)
             # if(quality=='Good'):
             cur.execute(Sql)
         else:
             Sql = (
-                "UPDATE n_wincctags SET tag_value='{0}',last_update=now(),last_actual_update='{1}' WHERE tag_key='{2}' and oil_field='UAZ'").format(
+                "UPDATE n_wincctags SET tag_value='{0}',last_update=now(),last_actual_update='{1}' WHERE tag_key='{2}' and oil_field='VMB'").format(
                 value, update_date, tag)
             # print(Sql)
             # if(quality=='Good'):
@@ -54,15 +54,15 @@ try:
     conn.commit()
     conn.close()
     opc.close()
-    C = open('/webapps/cmv2/all_tags/Moldabek/numberOfRetries.txt', 'r')
+    C = open('numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
     numberOfRetries = 0
 except Exception as e:
     print(e)
 
-    B = open("/webapps/cmv2/all_tags/Moldabek/log.txt", "a")
-    C = open('/webapps/cmv2/all_tags/Moldabek/numberOfRetries.txt', 'r')
+    B = open("log.txt", "a")
+    C = open('numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
     # print(numberOfRetries)
@@ -78,9 +78,9 @@ except Exception as e:
     smtpObj.ehlo()
     smtpObj.login("noreply@dlc.kz", "Emb@2019")
     if (numberOfRetries > 20):
-        smtpObj.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(UAZ) is unavailable')
+        smtpObj.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(VMB) is unavailable')
         numberOfRetries = 0
-    C = open('/webapps/cmv2/all_tags/Moldabek/numberOfRetries.txt', 'w')
+    C = open('numberOfRetries.txt', 'w')
     C.write(str(numberOfRetries + 1))
     C.close()
     smtpObj.close()
