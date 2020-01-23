@@ -3,4 +3,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('update_VMB_tags/', views.update_VMB_tags),
+    path('update_Prorva_tags/', views.update_Prorva_tags),
 ]

@@ -1,0 +1,44 @@
+2019-10-17 18:52:57.351971Traceback (most recent call last):
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/connections.py", line 583, in connect
+    **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/socket.py", line 722, in create_connection
+    raise err
+  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/socket.py", line 713, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darik/linux/CM_v2/system/all_tags/Moldabek/all_tags.py", line 7, in update
+    conn = pymysql.connect('localhost', port=3306, user='root', passwd='1234', db='emg-cm')
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/connections.py", line 325, in __init__
+    self.connect()
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/connections.py", line 630, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on 'localhost' ([Errno 61] Connection refused)")
+
+2019-10-17 18:53:21.543537Traceback (most recent call last):
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/connections.py", line 583, in connect
+    **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/socket.py", line 722, in create_connection
+    raise err
+  File "/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/socket.py", line 713, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/darik/linux/CM_v2/system/all_tags/Moldabek/all_tags.py", line 7, in update
+    conn = pymysql.connect('localhost', port=3306, user='root', passwd='1234', db='emg-cm')
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/__init__.py", line 94, in Connect
+    return Connection(*args, **kwargs)
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/connections.py", line 325, in __init__
+    self.connect()
+  File "/Users/darik/linux/Moodle/env/lib/python3.6/site-packages/pymysql/connections.py", line 630, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on 'localhost' ([Errno 61] Connection refused)")
+

@@ -744,8 +744,7 @@ def get_2hour(request):
     return Response(hour_data, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
-@permission_classes((IsAuthenticated, ))
+@api_view(['GET'])
 def update_imbalance(request):
     wells = models.Well.objects.all()
     for well in wells:
