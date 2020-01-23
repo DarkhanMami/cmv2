@@ -9,7 +9,7 @@ try:
     conn = pymysql.connect('192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm')
     cur = conn.cursor()
 
-    A = open('all_tags/Prorva/ZPV/tags.txt', 'r')
+    A = open('/webapps/cmv2/all_tags/Prorva/ZPV/tags.txt', 'r')
     tags = A.read().splitlines()
     A.close()
     opc = OpenOPC.open_client('192.168.206.98')
@@ -54,15 +54,15 @@ try:
     conn.commit()
     conn.close()
     opc.close()
-    C = open('all_tags/Prorva/ZPV/numberOfRetries.txt', 'r')
+    C = open('/webapps/cmv2/all_tags/Prorva/ZPV/numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
     numberOfRetries = 0
 except Exception as e:
     print(e)
 
-    B = open("all_tags/Prorva/ZPV/log.txt", "a")
-    C = open('all_tags/Prorva/ZPV/numberOfRetries.txt', 'r')
+    B = open("/webapps/cmv2/all_tags/Prorva/ZPV/log.txt", "a")
+    C = open('/webapps/cmv2/all_tags/Prorva/ZPV/numberOfRetries.txt', 'r')
     numberOfRetries = int(C.read())
     C.close()
     # print(numberOfRetries)
@@ -80,7 +80,7 @@ except Exception as e:
     if (numberOfRetries > 20):
         smtpObj.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(ZPV) is unavailable')
         numberOfRetries = 0
-    C = open('all_tags/Prorva/ZPV/numberOfRetries.txt', 'w')
+    C = open('/webapps/cmv2/all_tags/Prorva/ZPV/numberOfRetries.txt', 'w')
     C.write(str(numberOfRetries + 1))
     C.close()
     smtpObj.close()
