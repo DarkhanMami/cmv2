@@ -19,6 +19,7 @@ try:
     data = dict()
     for i in tmp:
         data[i[0]] = [i[1], i[2], i[3]]
+    print(data)
     opc.remove('test')
     opc.close()
     for i in range(0, 51):
@@ -37,8 +38,6 @@ try:
                 skv += '0' + str(tmp)
             elif 1000 <= tmp:
                 skv += str(tmp)
-            print(skv)
-            print(debit)
 
             try:
                 update_date = datetime.datetime.strptime(update_date, '%m/%d/%y %H:%M:%S')
