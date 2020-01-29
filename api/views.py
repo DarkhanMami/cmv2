@@ -773,10 +773,10 @@ def update_imbalance(request):
             station_id = int(row_values[0])
             cur.execute("SELECT * FROM fc_data_last where reg=30005 and station_id=" + str(station_id) + " order by savetime desc")
             row_values = cur.fetchone()
-            print(well)
             try:
                 imb = models.Imbalance.objects.filter(well__name=well)
                 print("get")
+        
             except:
                 imb = models.Imbalance.objects.create(well=well)
                 print("create")
