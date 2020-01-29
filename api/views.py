@@ -775,10 +775,14 @@ def update_imbalance(request):
             row_values = cur.fetchone()
             try:
                 imb = models.Imbalance.objects.get(well=well)
-                imb_history = models.ImbalanceHistory.objects.create(imb=imb.id,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
+                print(imb)
+                imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
+                print(imb_history)
                 imb_history.save()
+        
             except:
                 imb = models.Imbalance.objects.create(well=well)
+                print("create")
             try:
                 imb.imbalance = float(row_values[2])
             except:
