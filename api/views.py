@@ -774,8 +774,8 @@ def update_imbalance(request):
             cur.execute("SELECT * FROM fc_data_last where reg=30005 and station_id=" + str(station_id) + " order by savetime desc")
             row_values = cur.fetchone()
             try:
-                imb = models.Imbalance.objects.filter(well__name=well)
-                imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
+                imb = models.Imbalance.objects.get(well=well)
+                imb_history = models.ImbalanceHistory.objects.create(imb=imb.id,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
                 print(imb_history)
                 imb_history.save(force_insert=True)
             except:
