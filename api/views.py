@@ -776,8 +776,8 @@ def update_imbalance(request):
             try:
                 imb = models.Imbalance.objects.get(well=well)
                 print("get")
-                # imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
-                # imb_history.save()
+                imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
+                imb_history.save()
             except:
                 imb = models.Imbalance.objects.create(well=well)
                 print("create")
