@@ -775,7 +775,7 @@ def update_imbalance(request):
             row_values = cur.fetchone()
             print(well)
             try:
-                imb = models.Imbalance.objects.get(well_name=well)
+                imb = models.Imbalance.objects.filter(well__name=well)
                 print("get")
             except:
                 imb = models.Imbalance.objects.create(well=well)
