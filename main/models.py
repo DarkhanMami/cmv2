@@ -139,6 +139,17 @@ class Imbalance(models.Model):
         verbose_name = _("Неуравновешенность")
         verbose_name_plural = _("Неуравновешенность")
 
+class ImbalanceHistory(models.Model):
+    imb = models.ForeignKey(Imbalance, blank=False, null=False, on_delete=models.CASCADE, related_name='imb')
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='imb_wells_history')
+    imbalance = models.FloatField(default=0, verbose_name=_('Неуравновешенность'))
+    avg_1997 = models.FloatField(default=0, verbose_name=_('Заполнения насоса'))
+    timestamp = models.DateTimeField(blank=True, null=True, verbose_name=_('Дата опроса'))
+
+
+    class Meta:
+        verbose_name = _("Неуравновешенность история")
+        verbose_name_plural = _("Неуравновешенность история")
 
 class WellMatrix(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='wells')

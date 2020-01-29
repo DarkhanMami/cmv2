@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
 from main import models
-from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance
+from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance,ImbalanceHistory
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -111,8 +111,17 @@ class DynamogramAdmin(admin.ModelAdmin):
     list_display = ('well', 'timestamp')
     search_fields = ('well',)
 
+class ImbalanceHistoryAdmin(admin.StackedInline):
+    model = ImbalanceHistory
+    extra = 0
+    # readonly_fields = []
+
+    # This will help you to disable delete functionaliyt
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
 @admin.register(Imbalance)
 class ImbalanceAdmin(admin.ModelAdmin):
     list_display = ('well', 'imbalance', 'avg_1997', 'timestamp')
     search_fields = ('well',)
+    inlines =[ ImbalanceHistoryAdmin,]
