@@ -777,9 +777,9 @@ def update_imbalance(request):
                 imb = models.Imbalance.objects.filter(well__name=well)
                 imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
                 print(imb_history)
-                imb_history.save()
-
+                imb_history.save(force_insert=True)
             except:
+                print("create")
                 imb = models.Imbalance.objects.create(well=well)
             try:
                 imb.imbalance = float(row_values[2])
