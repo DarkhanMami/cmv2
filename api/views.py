@@ -777,8 +777,8 @@ def update_imbalance(request):
                 imb = models.Imbalance.objects.get(well=well.pk)
                 print("get")
             except:
-                print("create")
                 imb = models.Imbalance.objects.create(well=well)
+                print("create")
             try:
                 imb.imbalance = float(row_values[2])
             except:
