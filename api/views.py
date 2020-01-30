@@ -813,7 +813,7 @@ def update_imbalance(request):
             except:
                 imb.avg_1997 = 0
             imb.save()
-            if imb.imbalance > 7 and 80 > imb.imbalance:
+            if imb.imbalance >= 7 and 80 >= imb.imbalance:
                 imbalance_history_all.count +=  1 
              
             conn.close()
