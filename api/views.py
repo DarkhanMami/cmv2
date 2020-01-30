@@ -24,7 +24,7 @@ from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
-    GSMSerializer, DynamogramSerializer, ImbalanceSerializer
+    GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer
 from django.core.mail import EmailMessage
 
 
@@ -329,7 +329,6 @@ class ProdProfileViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Gener
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
-
 class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
     filter_backends = (filters.DjangoFilterBackend,)
@@ -351,6 +350,15 @@ class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generic
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+    @action(methods=['get'], detail=True)
+    def history(self, request, *args, **kwargs):
+        imbalance = self.get_object()
+        results = []
+        for history in models.ImbalanceHistory.objects.filter(imb=imbalance):
+            results.append(
+              ImbalanceHistorySerializer(history).data
+            )
+        return Response(results)
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -775,8 +783,9 @@ def update_imbalance(request):
             row_values = cur.fetchone()
             try:
                 imb = models.Imbalance.objects.get(well=well)
-                imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
-                imb_history.save()
+                if not imb.timestamp == row_values[3]:
+                    imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
+                    imb_history.save()
             except:
                 imb = models.Imbalance.objects.create(well=well)
             try:
