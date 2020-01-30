@@ -24,7 +24,7 @@ from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
-    GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer
+    GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer,ImbalanceHistoryAllSerializer
 from django.core.mail import EmailMessage
 
 
@@ -45,6 +45,10 @@ class ListUser(generics.ListCreateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
 
+
+class ImbalanceHistoryAll(generics.ListAPIView):
+    queryset = models.ImbalanceHistoryAll.objects.all()
+    serializer_class = ImbalanceHistoryAllSerializer
 
 class DetailUser(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
@@ -755,6 +759,14 @@ def get_2hour(request):
 @api_view(['GET'])
 def update_imbalance(request):
     wells = models.Well.objects.all()
+    t = timezone.now()
+    try:
+        imbalance_history_all = models.ImbalanceHistoryAll.objects.get(timestamp__year = t.year, timestamp__month = t.month, timestamp__day = t.day,)
+        imbalance_history_all.count = 0
+        imbalance_history_all.timestamp=timezone.now()
+        imbalance_history_all.percent = 0
+    except:
+        imbalance_history_all = models.ImbalanceHistoryAll.objects.create(timestamp=timezone.now())
     for well in wells:
         try:
             field = well.field.name
@@ -783,7 +795,8 @@ def update_imbalance(request):
             row_values = cur.fetchone()
             try:
                 imb = models.Imbalance.objects.get(well=well)
-                if not imb.timestamp == row_values[3]:
+                timestamp = imb.timestamp + timedelta(hours=6)
+                if not row_values[3].strftime("%Y-%m-%d %H:%M:%S") == timestamp.strftime("%Y-%m-%d %H:%M:%S"):
                     imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
                     imb_history.save()
             except:
@@ -800,12 +813,14 @@ def update_imbalance(request):
             except:
                 imb.avg_1997 = 0
             imb.save()
-
+            imbalance_history_all.count +=  1 
+             
             conn.close()
-
         except Exception as e:
             pass
-
+    imbalance_history_all.percent = (imbalance_history_all.count / models.Well.objects.all().count())*100
+    imbalance_history_all.save()
     return Response({
         "info": "Данные загружены"
     })
+

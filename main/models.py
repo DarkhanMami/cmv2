@@ -151,6 +151,14 @@ class ImbalanceHistory(models.Model):
         verbose_name = _("Неуравновешенность история")
         verbose_name_plural = _("Неуравновешенность история")
 
+class ImbalanceHistoryAll(models.Model):
+    count = models.IntegerField(default=0, verbose_name=_('Число скважен'))
+    percent = models.FloatField(default=0, verbose_name=_('Процент от кольичесво скважен'))
+    timestamp = models.DateTimeField(blank=True, null=True, verbose_name=_('Дата'))
+    class Meta:
+        verbose_name = _("Неуравновешенность история всех скважен дня")
+        verbose_name_plural = _("Неуравновешенность история всех скважен дней")
+
 class WellMatrix(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='wells')
 

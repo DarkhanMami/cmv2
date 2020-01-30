@@ -104,7 +104,11 @@ class ImbalanceSerializer(serializers.ModelSerializer):
         fields = ['id','well', 'imbalance', 'avg_1997', 'timestamp']
 
 class ImbalanceHistorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Imbalance
         fields = [ 'imbalance', 'avg_1997', 'timestamp']
+
+class ImbalanceHistoryAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImbalanceHistoryAll
+        fields = [ 'count', 'percent', 'timestamp']
