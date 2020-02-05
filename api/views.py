@@ -24,7 +24,7 @@ from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
-    GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer,ImbalanceHistoryAllSerializer
+    GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer,ImbalanceHistoryAllSerializer,SumWellInFieldSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum,Avg
 
@@ -49,6 +49,9 @@ class ListUser(generics.ListCreateAPIView):
 class ImbalanceHistoryAll(generics.ListAPIView):
     queryset = models.ImbalanceHistoryAll.objects.all()
     serializer_class = ImbalanceHistoryAllSerializer
+class SumWellInFieldSerializerAll(generics.ListAPIView):
+    queryset = models.SumWellInField.objects.all()
+    serializer_class = SumWellInFieldSerializer
 
 class DetailUser(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
@@ -67,7 +70,7 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     def get_queryset(self):
         # if self.request.user.type == User.CLIENT:
         #     return models.Application.objects.filter(user=self.request.user)
-        return models.WellMatrix.objects.all()
+        return models.WellMatrix.objects.filter(timestamp=timezone.now())
 
     def get_serializer_class(self):
         if self.action == 'create_wellmatrix':
@@ -769,21 +772,19 @@ def update_imbalance(request):
         imbalance_history_all = models.ImbalanceHistoryAll.objects.create(timestamp=timezone.now())
     for well in wells:
         try:
-            field = well.field.name
-            if field == 'УАЗ' or field == 'Б.Жоламанова' or field == 'С.Котыртас' or field == 'Вос. Молдабек':
+            if well.server == "192.168.241.2":
                 conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
+                        charset='utf8')
                 cur = conn.cursor()
-            elif field == 'Вос. Макат 2014' or field == 'М/р Алтыкуль' or field == 'Вос. Макат' or field == 'Ботахан':
+            elif well.server == "192.168.243.2":
                 conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
                                        charset='utf8')
                 cur = conn.cursor()
-            elif field == 'Жанаталап' or field == 'ЮВН' or field == 'ЮВК' or field == 'ЮЗК' or \
-                    field == 'Салтанат Балгимбаева' or field == 'Гран':
+            elif well.server == "192.168.236.2":
                 conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
                                        charset='utf8')
                 cur = conn.cursor()
-            else:
+            elif well.server == "192.168.128.2":
                 conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
                                        charset='utf8')
                 cur = conn.cursor()
@@ -923,13 +924,9 @@ def update_sum_well(request):
             sum_well_in_field.well_stop = well_matrix["well_stop__sum"]
             sum_well_in_field.performance = well_matrix["performance__avg"]
             sum_well_in_field.save()
-            return Response({
-                "message": "OK!"
-            })
-        return Response({
-            "message": "ВЫ делали историю за сегодня по сумме скважин по месторождению!"
-        })
-
+    return Response({
+        "message": "OK!"
+    })
 
 @api_view(['GET'])
 def update_matrix(request):
