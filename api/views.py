@@ -336,6 +336,7 @@ class ProdProfileViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Gener
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+
 class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
     filter_backends = (filters.DjangoFilterBackend,)
@@ -366,6 +367,7 @@ class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generic
               ImbalanceHistorySerializer(history).data
             )
         return Response(results)
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
@@ -826,6 +828,7 @@ def update_imbalance(request):
         "info": "Данные загружены"
     })
 
+
 def update_well(wells,server):
     err_wells_server = list()
     for w in wells:
@@ -856,6 +859,8 @@ def update_well(wells,server):
         except:
             err_wells_server.append(w[0])
     return err_wells_server
+
+
 @api_view(['GET'])
 def update_wells(request):
     err_sdmo_server = list()
@@ -896,8 +901,7 @@ def update_wells(request):
         "info": "SUCCESS",
         "err_wells": err_wells_server_all,
         "err_sdmo_servers":err_sdmo_server   
-    })            
-
+    })
 
 
 # 11:50 or 11:30
@@ -927,6 +931,7 @@ def update_sum_well(request):
     return Response({
         "message": "OK!"
     })
+
 
 @api_view(['GET'])
 def update_matrix(request):
@@ -973,7 +978,7 @@ def update_matrix(request):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
                     well_matrix.well_stop = row_values[2]/60
-                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
@@ -1004,7 +1009,7 @@ def update_matrix(request):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
                     well_matrix.well_stop = row_values[2]/60
-                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
@@ -1034,7 +1039,7 @@ def update_matrix(request):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
                     well_matrix.well_stop = row_values[2]/60
-                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
@@ -1064,7 +1069,7 @@ def update_matrix(request):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
                     well_matrix.well_stop = row_values[2]/60
-                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
