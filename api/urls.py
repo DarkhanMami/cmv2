@@ -23,6 +23,9 @@ urlpatterns = [
     path('upload_dyn_data/', views.upload_dyn_data),
     path('get_dyn_data/', views.get_dyn_data),
     path('update_imbalance/', views.update_imbalance),
+    path('update_wells/', views.update_wells),
+    path('update_matrix/', views.update_matrix),
+    path('update_sum_well/', views.update_sum_well),
     path('imbalance_history_all/', views.ImbalanceHistoryAll.as_view()),
     path('', include(router.urls)),
 

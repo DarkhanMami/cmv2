@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
 
 from main import models
-from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance,ImbalanceHistory,ImbalanceHistoryAll
+from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance,ImbalanceHistory,ImbalanceHistoryAll,SumWellInField
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -67,15 +67,15 @@ class FieldAdmin(admin.ModelAdmin):
 
 @admin.register(Well)
 class WellAdmin(admin.ModelAdmin):
-    list_display = ('field', 'name', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'production_type')
+    list_display = ('field', 'name','well_id', 'production_type','server',)
     search_fields = ('name',)
     list_filter = ('field',)
 
 
 @admin.register(WellMatrix)
 class WellMatrixAdmin(admin.ModelAdmin):
-    list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'shortage_isu', 'shortage_prs', 'shortage_wait',
-                    'well_stop', 'oil_loss', 'active', 'has_isu', 'performance', 'brigade_num', 'ts_num')
+    list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'shortage_isu', 'shortage_prs', 'shortage_wait',
+                    'well_stop',  'active', 'has_isu', 'performance', 'brigade_num', 'ts_num')
     search_fields = ('well',)
 
 
@@ -130,3 +130,10 @@ class ImbalanceAdmin(admin.ModelAdmin):
 @admin.register(ImbalanceHistoryAll)
 class ImbalanceHistoryAllAdmin(admin.ModelAdmin):
     list_display = ('count', 'percent','timestamp')
+
+
+@admin.register(SumWellInField)
+class SumWellInFieldAdmin(admin.ModelAdmin):
+    list_display = ('field',)
+
+

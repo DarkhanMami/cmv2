@@ -108,12 +108,22 @@ class Field(models.Model):
 class Well(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True, db_index=True, verbose_name=_('Название'))
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='fields')
-    teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
-    teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
-    teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+    well_id = models.IntegerField(default=0, verbose_name=_('id well'))
+    server1 = "192.168.241.2"
+    server2 = "192.168.243.2"
+    server3 = "192.168.236.2"
+    server4 = "192.168.128.2" 
+    SERVERS = (
+        (server1, _('192.168.241.2')),
+        (server2, _('192.168.243.2')),
+        (server3, _('192.168.236.2')),
+        (server4, _('192.168.128.2')),
+    )
+
+    server = models.CharField(choices=SERVERS,default=server1, max_length=15, verbose_name=_("Сервер"))
 
     SGN = "ШГН"
-    EVN = "ЭВН"
+    EVN = "ЭВН" 
     PRODUCTION_TYPES = (
         (SGN, _('ШГН')),
         (EVN, _('ЭВН')),
@@ -165,21 +175,23 @@ class WellMatrix(models.Model):
     filling = models.FloatField(default=0, verbose_name=_('Заполнение насоса'))
     fluid_agzu = models.FloatField(default=0, verbose_name=_('Жидкость (АГЗУ)'))
     fluid_isu = models.FloatField(default=0, verbose_name=_('Жидкость (ИСУ)'))
-
     shortage_isu = models.FloatField(default=0, verbose_name=_('Недобор (ИСУ)'))
     shortage_prs = models.FloatField(default=0, verbose_name=_('Недобор (ПРС)'))
     shortage_wait = models.FloatField(default=0, verbose_name=_('Недобор (Ожид.тех)'))
+    teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
+    teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
+    teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
 
     brigade_num = models.IntegerField(default=0, verbose_name=_('Номер бригады'))
     ts_num = models.CharField(max_length=20, blank=True, default="", verbose_name=_('Номер ТС'))
 
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
-    oil_loss = models.FloatField(default=0, verbose_name=_('Потери'))
 
     active = models.BooleanField(default=False, verbose_name=_('Активный'))
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
     has_isu = models.BooleanField(default=False, verbose_name=_('Оснащен ИСУ'))
 
+    timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
     class Meta:
         verbose_name = _("Матрица")
         verbose_name_plural = _("Матрица")
@@ -288,3 +300,25 @@ class Dynamogram(models.Model):
     class Meta:
         verbose_name = _("Динамограмма скважины")
         verbose_name_plural = _("Динамограммы скважин")
+
+
+class SumWellInField(models.Model):
+    field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='well_in_fields')
+
+    filling = models.FloatField(default=0, verbose_name=_('Заполнение насоса'))
+    fluid_agzu = models.FloatField(default=0, verbose_name=_('Жидкость (АГЗУ)'))
+    fluid_isu = models.FloatField(default=0, verbose_name=_('Жидкость (ИСУ)'))
+
+    shortage_isu = models.FloatField(default=0, verbose_name=_('Недобор (ИСУ)'))
+    shortage_prs = models.FloatField(default=0, verbose_name=_('Недобор (ПРС)'))
+    shortage_wait = models.FloatField(default=0, verbose_name=_('Недобор (Ожид.тех)'))
+
+    teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
+    teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
+    teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+
+
+    well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
+    performance = models.FloatField(default=100, verbose_name=_('Производительность'))
+  
+    timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))

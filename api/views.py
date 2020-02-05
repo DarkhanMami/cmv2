@@ -26,7 +26,7 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
     GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer,ImbalanceHistoryAllSerializer
 from django.core.mail import EmailMessage
-
+from django.db.models import Sum,Avg
 
 class AuthView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -825,3 +825,266 @@ def update_imbalance(request):
         "info": "Данные загружены"
     })
 
+def update_well(wells,server):
+    err_wells_server = list()
+    for w in wells:
+        try: 
+            conn = pymysql.connect(host='192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm',
+                    charset='utf8')
+            cur = conn.cursor()
+            cur.execute("SELECT oil_field FROM n_well_matrix where well='" + w[0] + "'")
+            row_values = cur.fetchone()
+            if row_values is not None:
+                print(w[0])
+                print(row_values)
+                try:
+                    field = models.Field.objects.get(name=row_values[0])
+                except:
+                    field = models.Field.objects.create(name=row_values[0])
+                try:
+                    well = models.Well.objects.get(name=w[0],field=field)
+                    print("get")
+                except:
+                    well = models.Well.objects.create(name=w[0],field=field)
+                    print("create")
+                well.well_id = w[1]
+                well.server = server
+                well.save()
+            else:
+                err_wells_server.append(w[0])
+        except:
+            err_wells_server.append(w[0])
+    return err_wells_server
+@api_view(['GET'])
+def update_wells(request):
+    err_sdmo_server = list()
+    err_wells_server_all = list()
+    try:
+        conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                        charset='utf8')
+        cur = conn.cursor()
+        cur.execute("SELECT code,id FROM sdmo.stations")
+        err_wells_server_all += update_well(cur.fetchall(),'192.168.241.2')
+    except:
+        err_sdmo_server.append('192.168.241.2')
+    try:
+        conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                                       charset='utf8')
+        cur = conn.cursor()
+        cur.execute("SELECT code,id  FROM sdmo.stations")
+        err_wells_server_all += update_well(cur.fetchall(),'192.168.243.2')
+    except:
+        err_sdmo_server.append('192.168.243.2')
+    try:
+        conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                            charset='utf8')
+        cur = conn.cursor()
+        cur.execute("SELECT code,id  FROM sdmo.stations")
+        err_wells_server_all += update_well(cur.fetchall(),'192.168.236.2')
+    except:
+        err_sdmo_server.append('192.168.236.2')
+    try:
+        conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                            charset='utf8')
+        cur = conn.cursor()
+        cur.execute("SELECT code,id  FROM sdmo.stations")
+        err_wells_server_all += update_well(cur.fetchall(),'192.168.236.2')
+    except:
+        err_sdmo_server.append('192.168.236.2')
+    return Response({
+        "info": "SUCCESS",
+        "err_wells": err_wells_server_all,
+        "err_sdmo_servers":err_sdmo_server   
+    })            
+
+
+
+# 11:50 or 11:30
+@api_view(['GET'])
+def update_sum_well(request):     
+    for field in models.Field.objects.all(): 
+        try:
+            sum_well_in_field = models.SumWellInField.objects.get(field=field, timestamp=timezone.now())
+        except:
+            sum_well_in_field = models.SumWellInField.objects.create(field=field, timestamp=timezone.now())
+            well_matrix = models.WellMatrix.objects.filter(timestamp=timezone.now(),well__field=field).aggregate(
+                Avg('filling'),Sum('fluid_agzu'),Sum('fluid_isu'),Sum('shortage_isu'),Sum('shortage_prs'),
+                Sum('shortage_wait'),Sum('teh_rej_fluid'),Sum('teh_rej_oil'),Avg('teh_rej_water'),Sum('well_stop'),
+                Avg('performance'))
+            sum_well_in_field.filling  = well_matrix["filling__avg"] 
+            sum_well_in_field.fluid_agzu = well_matrix["fluid_agzu__sum"]
+            sum_well_in_field.fluid_isu = well_matrix["fluid_isu__sum"]
+            sum_well_in_field.shortage_isu = well_matrix["shortage_isu__sum"]
+            sum_well_in_field.shortage_prs = well_matrix["shortage_prs__sum"]
+            sum_well_in_field.shortage_wait = well_matrix["shortage_wait__sum"]
+            sum_well_in_field.teh_rej_fluid = well_matrix["teh_rej_fluid__sum"]
+            sum_well_in_field.teh_rej_oil = well_matrix["teh_rej_oil__sum"]
+            sum_well_in_field.teh_rej_water = well_matrix["teh_rej_water__avg"]
+            sum_well_in_field.well_stop = well_matrix["well_stop__sum"]
+            sum_well_in_field.performance = well_matrix["performance__avg"]
+            sum_well_in_field.save()
+            return Response({
+                "message": "OK!"
+            })
+        return Response({
+            "message": "ВЫ делали историю за сегодня по сумме скважин по месторождению!"
+        })
+
+
+@api_view(['GET'])
+def update_matrix(request):
+    wells = models.Well.objects.all()
+    err_emgcm_data = list()
+    err_sdmo_data = list()
+    # err_sdmo_server_all = list()
+    for well in wells:
+        try:
+            well_matrix = models.WellMatrix.objects.get(timestamp=timezone.now(),well=well)
+            print("get")
+        except:
+            well_matrix = models.WellMatrix.objects.create(timestamp=timezone.now(),well=well)
+            print("create")
+        try: 
+            conn = pymysql.connect(host='192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm',
+                    charset='utf8')
+            cur = conn.cursor()
+            cur.execute("SELECT zamer,tr_fluid,tr_oil,tr_water FROM n_well_matrix where well='" + well.name + "'")
+            row_values = cur.fetchone()
+            if (row_values[0] is not None) and (row_values[1] is not None) and (row_values[2] is not None) and (row_values[3] is not None):
+                well_matrix.fluid_agzu = row_values[0]
+                well_matrix.teh_rej_fluid = row_values[1]
+                well_matrix.teh_rej_oil = row_values[2]
+                well_matrix.teh_rej_water = row_values[3]
+            else:
+                well_matrix.fluid_agzu = 0
+                well_matrix.teh_rej_fluid = 0
+                well_matrix.teh_rej_oil = 0
+                well_matrix.teh_rej_water = 0
+                err_emgcm_data.append(well.name)
+        except:
+            err_emgcm_data.append(well.name)
+        if well.server == "192.168.241.2":
+            print("server1")
+            try:
+                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                        charset='utf8')
+                cur = conn.cursor()
+                cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
+                print(well.well_id)
+                row_values = cur.fetchone()
+                if (row_values[0] is not  None ) and (row_values[1] is not None ) and (row_values[2] is not  None ) :
+                    well_matrix.filling = row_values[0]
+                    well_matrix.fluid_isu = row_values[1]
+                    well_matrix.well_stop = row_values[2]/60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+ 
+                else:
+                    err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                    well_matrix.filling = 0 
+                    well_matrix.fluid_isu = 0
+                    well_matrix.well_stop =0
+                    well_matrix.shortage_isu =0  
+            except:
+                # err_sdmo_server.append('192.168.241.2')
+                err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                well_matrix.filling = 0
+                well_matrix.fluid_isu =0
+                well_matrix.well_stop =0
+                well_matrix.shortage_isu =0
+        # ============================================================================
+        elif well.server == "192.168.243.2":
+            print("server2")
+            try:
+                conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                        charset='utf8')
+                
+                cur = conn.cursor()
+                cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
+                
+                row_values = cur.fetchone()
+                print(row_values)
+                if (row_values[0] is not  None ) and (row_values[1] is not None ) and (row_values[2] is not  None ) :
+                    well_matrix.filling = row_values[0]
+                    well_matrix.fluid_isu = row_values[1]
+                    well_matrix.well_stop = row_values[2]/60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+ 
+                else:
+                    err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                    well_matrix.filling = 0 
+                    well_matrix.fluid_isu = 0
+                    well_matrix.well_stop =0
+                    well_matrix.shortage_isu =0  
+            except:
+                # err_sdmo_server.append('192.168.241.2')
+                err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                well_matrix.filling = 0
+                well_matrix.fluid_isu =0
+                well_matrix.well_stop =0
+                well_matrix.shortage_isu =0
+        # ============================================================================
+        elif well.server == "192.168.236.2":
+            print("server3")
+            try:
+                conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                        charset='utf8')
+                cur = conn.cursor()
+                cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
+                
+                row_values = cur.fetchone()
+                print(row_values)
+                if (row_values[0] is not  None ) and (row_values[1] is not None ) and (row_values[2] is not  None ) :
+                    well_matrix.filling = row_values[0]
+                    well_matrix.fluid_isu = row_values[1]
+                    well_matrix.well_stop = row_values[2]/60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+ 
+                else:
+                    err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                    well_matrix.filling = 0 
+                    well_matrix.fluid_isu = 0
+                    well_matrix.well_stop =0
+                    well_matrix.shortage_isu =0  
+            except:
+                # err_sdmo_server.append('192.168.241.2')
+                err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                well_matrix.filling = 0
+                well_matrix.fluid_isu =0
+                well_matrix.well_stop =0
+                well_matrix.shortage_isu =0
+        # ============================================================================
+        elif well.server == "192.168.128.2":
+            print("server4")
+            try:
+                conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                        charset='utf8')
+                cur = conn.cursor()
+                cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
+                
+                row_values = cur.fetchone()
+                print(row_values)
+                if (row_values[0] is not  None ) and (row_values[1] is not None ) and (row_values[2] is not  None ) :
+                    well_matrix.filling = row_values[0]
+                    well_matrix.fluid_isu = row_values[1]
+                    well_matrix.well_stop = row_values[2]/60
+                    well_matrix.shortage_isu = well_matrix.well_stop*well_matrix.teh_rej_oil/24*60
+ 
+                else:
+                    err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                    well_matrix.filling = 0 
+                    well_matrix.fluid_isu = 0
+                    well_matrix.well_stop =0
+                    well_matrix.shortage_isu =0  
+            except:
+                # err_sdmo_server.append('192.168.241.2')
+                err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
+                well_matrix.filling = 0
+                well_matrix.fluid_isu =0
+                well_matrix.well_stop =0
+                well_matrix.shortage_isu =0
+        well_matrix.save()
+    return Response({
+        "info": "SUCCESS",
+        "err_staition_teh_rej_null": err_emgcm_data,
+        "err_sdmo_data":err_sdmo_data  
+    })   
