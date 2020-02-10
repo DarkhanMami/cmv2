@@ -49,9 +49,12 @@ class ListUser(generics.ListCreateAPIView):
 class ImbalanceHistoryAll(generics.ListAPIView):
     queryset = models.ImbalanceHistoryAll.objects.all()
     serializer_class = ImbalanceHistoryAllSerializer
+
+
 class SumWellInFieldSerializerAll(generics.ListAPIView):
     queryset = models.SumWellInField.objects.all()
     serializer_class = SumWellInFieldSerializer
+
 
 class DetailUser(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
