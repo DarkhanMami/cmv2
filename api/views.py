@@ -766,9 +766,10 @@ def update_imbalance(request):
     wells = models.Well.objects.all()
     t = timezone.now()
     try:
-        imbalance_history_all = models.ImbalanceHistoryAll.objects.get(timestamp__year = t.year, timestamp__month = t.month, timestamp__day = t.day,)
+        imbalance_history_all = models.ImbalanceHistoryAll.objects.get(timestamp__year=t.year, timestamp__month=t.month,
+                                                                       timestamp__day=t.day)
         imbalance_history_all.count = 0
-        imbalance_history_all.timestamp=timezone.now()
+        imbalance_history_all.timestamp = timezone.now()
         imbalance_history_all.percent = 0
     except:
         imbalance_history_all = models.ImbalanceHistoryAll.objects.create(timestamp=timezone.now())
@@ -776,7 +777,7 @@ def update_imbalance(request):
         try:
             if well.server == "192.168.241.2":
                 conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                        charset='utf8')
+                                       charset='utf8')
                 cur = conn.cursor()
             elif well.server == "192.168.243.2":
                 conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
@@ -798,10 +799,14 @@ def update_imbalance(request):
             row_values = cur.fetchone()
             try:
                 imb = models.Imbalance.objects.get(well=well)
-                timestamp = imb.timestamp + timedelta(hours=6)
-                if not row_values[3].strftime("%Y-%m-%d %H:%M:%S") == timestamp.strftime("%Y-%m-%d %H:%M:%S"):
-                    imb_history = models.ImbalanceHistory.objects.create(imb=imb,well=imb.well,imbalance=imb.imbalance,avg_1997=imb.avg_1997,timestamp=imb.timestamp)
-                    imb_history.save()
+                try:
+                    timestamp = imb.timestamp + timedelta(hours=6)
+                    if not row_values[3].strftime("%Y-%m-%d %H:%M:%S") == timestamp.strftime("%Y-%m-%d %H:%M:%S"):
+                        imb_history = models.ImbalanceHistory.objects.create(imb=imb, well=imb.well, imbalance=imb.imbalance,
+                                                                             avg_1997=imb.avg_1997, timestamp=imb.timestamp)
+                        imb_history.save()
+                except:
+                    pass
             except:
                 imb = models.Imbalance.objects.create(well=well)
             try:
@@ -817,19 +822,19 @@ def update_imbalance(request):
                 imb.avg_1997 = 0
             imb.save()
             if imb.imbalance >= 7 and 80 >= imb.imbalance:
-                imbalance_history_all.count +=  1 
+                imbalance_history_all.count += 1
              
             conn.close()
         except Exception as e:
             pass
-    imbalance_history_all.percent = (imbalance_history_all.count / models.Well.objects.all().count())*100
+    imbalance_history_all.percent = (imbalance_history_all.count / models.Well.objects.all().count()) * 100
     imbalance_history_all.save()
     return Response({
         "info": "Данные загружены"
     })
 
 
-def update_well(wells,server):
+def update_well(wells, server):
     err_wells_server = list()
     for w in wells:
         try: 
