@@ -108,7 +108,9 @@ class Field(models.Model):
 class Well(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False, unique=True, db_index=True, verbose_name=_('Название'))
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='fields')
-    well_id = models.IntegerField(default=0, verbose_name=_('id well'))
+    well_id = models.IntegerField(default=0, verbose_name=_('sdmo_id'))
+    tbd_id = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('tbd_id'))
+
     server1 = "192.168.241.2"
     server2 = "192.168.243.2"
     server3 = "192.168.236.2"
