@@ -48,6 +48,14 @@ class WellMatrixCreateSerializer(serializers.ModelSerializer):
         fields = ['well', ]
 
 
+class WellEventsSerializer(serializers.ModelSerializer):
+    well = WellSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = WellEvents
+        fields = ['well', 'event_type', 'event', 'beg', 'end']
+
+
 class FieldBalanceSerializer(serializers.ModelSerializer):
     field = FieldSerializer(many=False, read_only=True)
 

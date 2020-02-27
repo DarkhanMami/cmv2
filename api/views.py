@@ -24,9 +24,10 @@ from main import models
 from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
-    GSMSerializer, DynamogramSerializer, ImbalanceSerializer,ImbalanceHistorySerializer,ImbalanceHistoryAllSerializer,SumWellInFieldSerializer
+    GSMSerializer, DynamogramSerializer, ImbalanceSerializer, ImbalanceHistorySerializer, ImbalanceHistoryAllSerializer, \
+    SumWellInFieldSerializer, WellEventsSerializer
 from django.core.mail import EmailMessage
-from django.db.models import Sum,Avg
+from django.db.models import Sum, Avg
 
 class AuthView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -113,6 +114,38 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
                                                                                   "timestamp": dt})
             return Response(self.get_serializer(wellmatrix, many=False).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('well',)
+    queryset = models.WellEvents.objects.all()[:100]
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        return models.WellEvents.objects.all()[:100]
+
+    def get_serializer_class(self):
+        return WellEventsSerializer
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    @action(methods=['get'], detail=False)
+    def get_by_well(self, request, *args, **kwargs):
+        well = models.Well.objects.get(name=request.GET.get("well"))
+        result = models.WellEvents.objects.filter(well=well).order_by('-beg')[:100]
+        return Response(WellEventsSerializer(result, many=True).data)
+
+    @action(methods=['get'], detail=False)
+    def get_by_field(self, request, *args, **kwargs):
+        field = models.Field.objects.get(name=request.GET.get("field"))
+        result = models.WellEvents.objects.filter(well__field=field).order_by('-beg')[:100]
+        return Response(WellEventsSerializer(result, many=True).data)
 
 
 class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):

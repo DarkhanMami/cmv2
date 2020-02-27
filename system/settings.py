@@ -83,6 +83,7 @@ ADMIN_REORDER = (
 
     {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
         'main.WellMatrix',
+        'main.WellEvents',
         'main.Depression',
         'main.TS',
         'main.GSM',

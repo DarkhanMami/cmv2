@@ -201,6 +201,31 @@ class WellMatrix(models.Model):
         verbose_name_plural = _("Матрица")
 
 
+class WellEvents(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='event_wells')
+
+    PRS = "ПРС"
+    KRS = "КРС"
+    TRS = "ТРС"
+    OTHER = "Прочее"
+
+    EVENT_CHOICES = (
+        (PRS, _('ПРС')),
+        (KRS, _('КРС')),
+        (TRS, _('ТРС')),
+        (OTHER, _('Прочее')),
+    )
+
+    event_type = models.CharField(choices=EVENT_CHOICES, default=OTHER, max_length=20, verbose_name=_('Тип события'))
+    event = models.CharField(max_length=200, verbose_name=_('Событие'))
+    beg = models.DateTimeField(blank=False, verbose_name=_('Начало события'))
+    end = models.DateTimeField(blank=False, verbose_name=_('Конец события'))
+
+    class Meta:
+        verbose_name = _("Журнал события")
+        verbose_name_plural = _("Журнал событий")
+
+
 class Depression(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='depression_wells')
 
