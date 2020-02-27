@@ -29,6 +29,7 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 
+
 class AuthView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
@@ -1136,4 +1137,13 @@ def update_matrix(request):
         "info": "SUCCESS",
         "err_staition_teh_rej_null": err_emgcm_data,
         "err_sdmo_data":err_sdmo_data  
-    })   
+    })
+
+
+@api_view(['GET'])
+def update_events(request):
+
+
+    return Response({
+        "info": "Данные загружены"
+    })
