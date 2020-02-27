@@ -27,7 +27,7 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
     GSMSerializer, DynamogramSerializer, ImbalanceSerializer, ImbalanceHistorySerializer, ImbalanceHistoryAllSerializer, \
     SumWellInFieldSerializer, WellEventsSerializer
 from django.core.mail import EmailMessage
-from django.db.models import Sum, Avgapt-get install python3 python-dev python3-dev
+from django.db.models import Sum, Avg
 
 class AuthView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
