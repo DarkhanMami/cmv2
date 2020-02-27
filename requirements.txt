@@ -6,6 +6,8 @@ cffi==1.13.1
 chardet==3.0.4
 cloudpayments==1.5.1
 constantly==15.1.0
+cryptography==2.8
+cx-Oracle==7.3.0
 Django==2.1
 django-cors-headers==2.4.0
 django-filter==2.0.0
