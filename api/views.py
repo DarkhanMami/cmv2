@@ -28,6 +28,7 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
     SumWellInFieldSerializer, WellEventsSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
+import cx_Oracle
 
 class AuthView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -1141,6 +1142,11 @@ def update_matrix(request):
 
 @api_view(['GET'])
 def update_events(request):
+    con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl')
+    cur = con.cursor()
+
+    con.close()
+
     return Response({
         "info": "Данные загружены"
     })
