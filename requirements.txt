@@ -14,7 +14,7 @@ django-filter==2.0.0
 django-modeladmin-reorder==0.3.1
 django-rest-auth==0.9.3
 django-tinymce==2.8.0
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 hyperlink==19.0.0
 idna==2.8
 incremental==17.5.0
