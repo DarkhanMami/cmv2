@@ -20,7 +20,7 @@ class WellSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Well
-        fields = ['name', 'field','well_id','server', 'production_type']
+        fields = ['name', 'field', 'well_id', 'tbd_id', 'server', 'production_type']
 
 
 class WellMatrixSerializer(serializers.ModelSerializer):
