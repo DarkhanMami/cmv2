@@ -68,7 +68,7 @@ class FieldAdmin(admin.ModelAdmin):
 
 @admin.register(Well)
 class WellAdmin(admin.ModelAdmin):
-    list_display = ('field', 'name', 'well_id', 'tbd_id', 'production_type','server',)
+    list_display = ('field', 'name', 'well_id', 'tbd_id', 'production_type', 'server', 'has_isu')
     search_fields = ('name',)
     list_filter = ('field',)
 

@@ -124,6 +124,8 @@ class Well(models.Model):
 
     server = models.CharField(choices=SERVERS,default=server1, max_length=15, verbose_name=_("Сервер"))
 
+    has_isu = models.BooleanField(default= False, verbose_name=_("Оснащен ИСУ"))
+
     SGN = "ШГН"
     EVN = "ЭВН" 
     PRODUCTION_TYPES = (
