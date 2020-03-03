@@ -118,6 +118,7 @@ class DynamogramAdmin(admin.ModelAdmin):
     list_display = ('well', 'timestamp')
     search_fields = ('well',)
 
+
 class ImbalanceHistoryAdmin(admin.StackedInline):
     model = ImbalanceHistory
     extra = 0
@@ -126,6 +127,7 @@ class ImbalanceHistoryAdmin(admin.StackedInline):
     # This will help you to disable delete functionaliyt
     # def has_delete_permission(self, request, obj=None):
     #     return False
+
 
 @admin.register(Imbalance)
 class ImbalanceAdmin(admin.ModelAdmin):
