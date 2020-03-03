@@ -91,7 +91,7 @@ ADMIN_REORDER = (
         'main.Dynamogram',
         'main.Imbalance',
         'main.ImbalanceHistoryAll',
-        'main.SumWellInField'
+        'main.SumWellInField',
         'main.FieldMatrix'
         # 'authtoken.Token'
     )},
