@@ -127,4 +127,10 @@ class ImbalanceHistoryAllSerializer(serializers.ModelSerializer):
 class SumWellInFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = SumWellInField
-        fields = '__all__' 
+        fields = '__all__'
+
+
+class FieldMatrixSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FieldMatrix
+        fields = '__all__'

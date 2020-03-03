@@ -354,3 +354,24 @@ class SumWellInField(models.Model):
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
   
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
+
+
+class FieldMatrix(models.Model):
+    field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='matrix_fields')
+
+    filling = models.FloatField(default=0, verbose_name=_('Заполнение насоса'))
+    fluid_agzu = models.FloatField(default=0, verbose_name=_('Жидкость (АГЗУ)'))
+    fluid_isu = models.FloatField(default=0, verbose_name=_('Жидкость (ИСУ)'))
+
+    shortage_isu = models.FloatField(default=0, verbose_name=_('Недобор (ИСУ)'))
+    shortage_prs = models.FloatField(default=0, verbose_name=_('Недобор (ПРС)'))
+    shortage_wait = models.FloatField(default=0, verbose_name=_('Недобор (Ожид.тех)'))
+
+    teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
+    teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
+    teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+
+    well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
+    performance = models.FloatField(default=100, verbose_name=_('Производительность'))
+
+    timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))

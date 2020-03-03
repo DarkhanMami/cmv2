@@ -25,7 +25,7 @@ from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
     GSMSerializer, DynamogramSerializer, ImbalanceSerializer, ImbalanceHistorySerializer, ImbalanceHistoryAllSerializer, \
-    SumWellInFieldSerializer, WellEventsSerializer
+    SumWellInFieldSerializer, WellEventsSerializer, FieldMatrixSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
@@ -56,6 +56,11 @@ class ImbalanceHistoryAll(generics.ListAPIView):
 class SumWellInFieldSerializerAll(generics.ListAPIView):
     queryset = models.SumWellInField.objects.all()
     serializer_class = SumWellInFieldSerializer
+
+
+class FieldMatrixSerializerAll(generics.ListAPIView):
+    queryset = models.FieldMatrix.objects.all()
+    serializer_class = FieldMatrixSerializer
 
 
 class DetailUser(generics.RetrieveUpdateDestroyAPIView):
