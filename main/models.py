@@ -350,7 +350,6 @@ class SumWellInField(models.Model):
     teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
     teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
 
-
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
   

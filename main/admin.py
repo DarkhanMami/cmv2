@@ -141,6 +141,6 @@ class ImbalanceHistoryAllAdmin(admin.ModelAdmin):
 
 @admin.register(SumWellInField)
 class SumWellInFieldAdmin(admin.ModelAdmin):
-    list_display = ('field',)
+    list_display = ('field', 'timestamp')
 
 
