@@ -988,6 +988,34 @@ def update_sum_well(request):
 
 
 @api_view(['GET'])
+def update_field_matrix(request):
+    for field in models.Field.objects.all():
+        try:
+            field_matrix = models.FieldMatrix.objects.get(field=field, timestamp=timezone.now())
+        except:
+            field_matrix = models.FieldMatrix.objects.create(field=field, timestamp=timezone.now())
+            well_matrix = models.WellMatrix.objects.filter(timestamp=timezone.now(), well__field=field).aggregate(
+                Avg('filling'), Sum('fluid_agzu'), Sum('fluid_isu'), Sum('shortage_isu'), Sum('shortage_prs'),
+                Sum('shortage_wait'), Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'), Sum('well_stop'),
+                Avg('performance'))
+            field_matrix.filling = well_matrix["filling__avg"]
+            field_matrix.fluid_agzu = well_matrix["fluid_agzu__sum"]
+            field_matrix.fluid_isu = well_matrix["fluid_isu__sum"]
+            field_matrix.shortage_isu = well_matrix["shortage_isu__sum"]
+            field_matrix.shortage_prs = well_matrix["shortage_prs__sum"]
+            field_matrix.shortage_wait = well_matrix["shortage_wait__sum"]
+            field_matrix.teh_rej_fluid = well_matrix["teh_rej_fluid__sum"]
+            field_matrix.teh_rej_oil = well_matrix["teh_rej_oil__sum"]
+            field_matrix.teh_rej_water = well_matrix["teh_rej_water__avg"]
+            field_matrix.well_stop = well_matrix["well_stop__sum"]
+            field_matrix.performance = well_matrix["performance__avg"]
+            field_matrix.save()
+    return Response({
+        "message": "OK!"
+    })
+
+
+@api_view(['GET'])
 def update_matrix(request):
     wells = models.Well.objects.all()
     err_emgcm_data = list()

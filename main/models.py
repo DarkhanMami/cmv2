@@ -356,8 +356,8 @@ class SumWellInField(models.Model):
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
     class Meta:
-        verbose_name = _("Матрица месторождении (ИСУ)")
-        verbose_name_plural = _("Матрица месторождений (ИСУ)")
+        verbose_name = _("Баланс месторождении (ИСУ)")
+        verbose_name_plural = _("Баланс месторождений (ИСУ)")
 
 
 class FieldMatrix(models.Model):
@@ -381,5 +381,5 @@ class FieldMatrix(models.Model):
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
     class Meta:
-        verbose_name = _("Матрица месторождении")
-        verbose_name_plural = _("Матрица месторождений")
+        verbose_name = _("Баланс месторождении")
+        verbose_name_plural = _("Баланс месторождений")
