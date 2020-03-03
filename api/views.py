@@ -960,9 +960,10 @@ def update_sum_well(request):
             sum_well_in_field = models.SumWellInField.objects.get(field=field, timestamp=timezone.now())
         except:
             sum_well_in_field = models.SumWellInField.objects.create(field=field, timestamp=timezone.now())
-            well_matrix = models.WellMatrix.objects.filter(timestamp=timezone.now(),well__field=field).aggregate(
-                Avg('filling'),Sum('fluid_agzu'),Sum('fluid_isu'),Sum('shortage_isu'),Sum('shortage_prs'),
-                Sum('shortage_wait'),Sum('teh_rej_fluid'),Sum('teh_rej_oil'),Avg('teh_rej_water'),Sum('well_stop'),
+            well_matrix = models.WellMatrix.objects.filter(timestamp=timezone.now(), well__field=field,
+                                                           well__has_isu=True).aggregate(
+                Avg('filling'), Sum('fluid_agzu'), Sum('fluid_isu'), Sum('shortage_isu'), Sum('shortage_prs'),
+                Sum('shortage_wait'), Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'), Sum('well_stop'),
                 Avg('performance'))
             sum_well_in_field.filling  = well_matrix["filling__avg"] 
             sum_well_in_field.fluid_agzu = well_matrix["fluid_agzu__sum"]
