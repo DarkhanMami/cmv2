@@ -92,6 +92,7 @@ ADMIN_REORDER = (
         'main.Imbalance',
         'main.ImbalanceHistoryAll',
         'main.SumWellInField'
+        'main.FieldMatrix'
         # 'authtoken.Token'
     )},
 

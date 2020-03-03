@@ -355,6 +355,10 @@ class SumWellInField(models.Model):
   
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
+    class Meta:
+        verbose_name = _("Матрица месторождении (ИСУ)")
+        verbose_name_plural = _("Матрица месторождений (ИСУ)")
+
 
 class FieldMatrix(models.Model):
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='matrix_fields')
@@ -375,3 +379,7 @@ class FieldMatrix(models.Model):
     performance = models.FloatField(default=100, verbose_name=_('Производительность'))
 
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
+
+    class Meta:
+        verbose_name = _("Матрица месторождении")
+        verbose_name_plural = _("Матрица месторождений")
