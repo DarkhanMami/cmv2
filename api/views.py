@@ -973,8 +973,7 @@ def update_sum_well(request):
             well_matrix = models.WellMatrix.objects.filter(timestamp=timezone.now(), well__field=field,
                                                            well__has_isu=True).aggregate(
                 Avg('filling'), Sum('fluid_agzu'), Sum('fluid_isu'), Sum('shortage_isu'), Sum('shortage_prs'),
-                Sum('shortage_wait'), Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'), Sum('well_stop'),
-                Avg('performance'))
+                Sum('shortage_wait'), Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'), Sum('well_stop'))
             sum_well_in_field.filling  = well_matrix["filling__avg"] 
             sum_well_in_field.fluid_agzu = well_matrix["fluid_agzu__sum"]
             sum_well_in_field.fluid_isu = well_matrix["fluid_isu__sum"]
@@ -985,7 +984,6 @@ def update_sum_well(request):
             sum_well_in_field.teh_rej_oil = well_matrix["teh_rej_oil__sum"]
             sum_well_in_field.teh_rej_water = well_matrix["teh_rej_water__avg"]
             sum_well_in_field.well_stop = well_matrix["well_stop__sum"]
-            sum_well_in_field.performance = well_matrix["performance__avg"]
             sum_well_in_field.save()
     return Response({
         "message": "OK!"
@@ -1001,8 +999,7 @@ def update_field_matrix(request):
             field_matrix = models.FieldMatrix.objects.create(field=field, timestamp=timezone.now())
             well_matrix = models.WellMatrix.objects.filter(timestamp=timezone.now(), well__field=field).aggregate(
                 Avg('filling'), Sum('fluid_agzu'), Sum('fluid_isu'), Sum('shortage_isu'), Sum('shortage_prs'),
-                Sum('shortage_wait'), Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'), Sum('well_stop'),
-                Avg('performance'))
+                Sum('shortage_wait'), Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'), Sum('well_stop'))
             field_matrix.filling = well_matrix["filling__avg"]
             field_matrix.fluid_agzu = well_matrix["fluid_agzu__sum"]
             field_matrix.fluid_isu = well_matrix["fluid_isu__sum"]
@@ -1013,7 +1010,6 @@ def update_field_matrix(request):
             field_matrix.teh_rej_oil = well_matrix["teh_rej_oil__sum"]
             field_matrix.teh_rej_water = well_matrix["teh_rej_water__avg"]
             field_matrix.well_stop = well_matrix["well_stop__sum"]
-            field_matrix.performance = well_matrix["performance__avg"]
             field_matrix.save()
     return Response({
         "message": "OK!"

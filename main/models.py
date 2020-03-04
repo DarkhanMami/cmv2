@@ -194,10 +194,6 @@ class WellMatrix(models.Model):
 
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
 
-    active = models.BooleanField(default=False, verbose_name=_('Активный'))
-    performance = models.FloatField(default=100, verbose_name=_('Производительность'))
-    has_isu = models.BooleanField(default=False, verbose_name=_('Оснащен ИСУ'))
-
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
     class Meta:
@@ -351,7 +347,6 @@ class SumWellInField(models.Model):
     teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
 
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
-    performance = models.FloatField(default=100, verbose_name=_('Производительность'))
   
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
@@ -376,7 +371,6 @@ class FieldMatrix(models.Model):
     teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
 
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
-    performance = models.FloatField(default=100, verbose_name=_('Производительность'))
 
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 

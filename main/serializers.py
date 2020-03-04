@@ -28,8 +28,8 @@ class WellMatrixSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WellMatrix
-        fields = ['well', 'filling', 'fluid_agzu','teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water','fluid_isu', 'shortage_isu', 'shortage_prs', 'shortage_wait',
-                    'well_stop',  'active', 'has_isu', 'performance', 'brigade_num', 'ts_num','timestamp']
+        fields = ['well', 'filling', 'fluid_agzu','teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'fluid_isu',
+                  'shortage_isu', 'shortage_prs', 'shortage_wait', 'well_stop', 'brigade_num', 'ts_num', 'timestamp']
 
 
 class DepressionSerializer(serializers.ModelSerializer):
