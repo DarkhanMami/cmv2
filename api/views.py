@@ -132,13 +132,13 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('well',)
-    queryset = models.WellEvents.objects.all()[:100]
+    queryset = models.WellEvents.objects.all().order_by('-beg')[:100]
 
     def get_serializer_context(self):
         return {'request': self.request}
 
     def get_queryset(self):
-        return models.WellEvents.objects.all()[:100]
+        return models.WellEvents.objects.all().order_by('-beg')[:100]
 
     def get_serializer_class(self):
         return WellEventsSerializer
