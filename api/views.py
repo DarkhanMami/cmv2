@@ -1177,7 +1177,7 @@ def update_matrix(request):
 
 @api_view(['GET'])
 def update_events(request):
-    con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl')
+    con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl', encoding='UTF-8', nencoding='UTF-8')
     cur = con.cursor()
     wells = models.Well.objects.all()
     for well in wells:
@@ -1207,8 +1207,7 @@ def update_events(request):
             if work_type:
                 event = work_type[1]
 
-        obj, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
-                                                               beg=beg, end=end)
+            models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event, beg=beg, end=end)
 
     con.close()
 
