@@ -207,13 +207,13 @@ class WellEvents(models.Model):
     PRS = "ПРС"
     KRS = "КРС"
     TRS = "ТРС"
-    OTHER = "Прочее"
+    OTHER = "Прочие простои"
 
     EVENT_CHOICES = (
         (PRS, _('ПРС')),
         (KRS, _('КРС')),
         (TRS, _('ТРС')),
-        (OTHER, _('Прочее')),
+        (OTHER, _('Прочие простои')),
     )
 
     event_type = models.CharField(choices=EVENT_CHOICES, default=OTHER, max_length=20, verbose_name=_('Тип события'))

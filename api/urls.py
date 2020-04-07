@@ -28,6 +28,7 @@ urlpatterns = [
     path('update_matrix/', views.update_matrix),
     path('update_sum_well/', views.update_sum_well),
     path('update_field_matrix/', views.update_field_matrix),
+    path('update_events/', views.update_events),
     path('imbalance_history_all/', views.ImbalanceHistoryAll.as_view()),
     path('sum_well_in_field/', views.SumWellInFieldSerializerAll.as_view()),
     path('', include(router.urls)),

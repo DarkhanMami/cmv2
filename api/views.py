@@ -1179,6 +1179,36 @@ def update_matrix(request):
 def update_events(request):
     con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl')
     cur = con.cursor()
+    wells = models.Well.objects.all()
+    for well in wells:
+        cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
+                    + " and DBEG > to_date('2018-12-31','yyyy-MM-dd')")
+        transfers = cur.fetchall()
+        for transfer in transfers:
+            beg_id = transfer[0]
+            beg = transfer[4]
+            rem_name = transfer[5]
+            if int(transfer[2] == 1):
+                rem_type = 'КРС'
+            elif int(transfer[2] == 2):
+                rem_type = 'ТРС'
+            elif int(transfer[2] == 3):
+                rem_type = 'ПРС'
+            else:
+                rem_type = 'Прочие простои'
+
+            cur.execute("SELECT * FROM WELL_REPAIR_ACT_RETURN where WELL_REPAIR_ACT_TRANSFER_ID=" + beg_id)
+            act_return = cur.fetchone()
+            if act_return:
+                end = act_return[2]
+
+            cur.execute("SELECT * FROM REPAIR_WORK_TYPE where ID=" + rem_name)
+            work_type = cur.fetchone()
+            if work_type:
+                event = work_type[1]
+
+        obj, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
+                                                               beg=beg, end=end)
 
     con.close()
 
