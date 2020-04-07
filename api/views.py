@@ -30,6 +30,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
 
+
 class AuthView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
