@@ -1197,12 +1197,12 @@ def update_events(request):
             else:
                 rem_type = 'Прочие простои'
 
-            cur.execute("SELECT * FROM WELL_REPAIR_ACT_RETURN where WELL_REPAIR_ACT_TRANSFER_ID=" + beg_id)
+            cur.execute("SELECT * FROM WELL_REPAIR_ACT_RETURN where WELL_REPAIR_ACT_TRANSFER_ID=" + str(beg_id))
             act_return = cur.fetchone()
             if act_return:
                 end = act_return[2]
 
-            cur.execute("SELECT * FROM REPAIR_WORK_TYPE where ID=" + rem_name)
+            cur.execute("SELECT * FROM REPAIR_WORK_TYPE where ID=" + str(rem_name))
             work_type = cur.fetchone()
             if work_type:
                 event = work_type[1]
