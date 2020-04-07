@@ -84,6 +84,7 @@ class WellMatrixAdmin(admin.ModelAdmin):
 class WellEventsAdmin(admin.ModelAdmin):
     list_display = ('well', 'event_type', 'event', 'beg', 'end')
     search_fields = ('well__name',)
+    list_filter = ('well__field',)
 
 
 @admin.register(Depression)
