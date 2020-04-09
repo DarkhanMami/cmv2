@@ -50,7 +50,7 @@ class ListUser(generics.ListCreateAPIView):
 
 
 class ImbalanceHistoryAll(generics.ListAPIView):
-    queryset = models.ImbalanceHistoryAll.objects.all()
+    queryset = models.ImbalanceHistoryAll.objects.all().order_by('timestamp')
     serializer_class = ImbalanceHistoryAllSerializer
 
 
