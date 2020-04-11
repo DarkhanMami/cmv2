@@ -1145,7 +1145,9 @@ def update_events(request):
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
                     + " and DBEG > to_date('2018-12-31','yyyy-MM-dd')")
         transfers = cur.fetchall()
+        rem_count = 0
         for transfer in transfers:
+            rem_count += 1
             beg_id = transfer[0]
             beg = transfer[4]
             rem_name = transfer[5]
@@ -1169,6 +1171,9 @@ def update_events(request):
                 event = work_type[1]
 
             models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event, beg=beg, end=end)
+
+        well.rem_count = rem_count
+        well.save()
 
     con.close()
 
