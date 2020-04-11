@@ -1190,7 +1190,7 @@ def update_events(request):
                             + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')")
                 oil = cur.fetchone()
                 if oil:
-                    shortage_prs += oil * hours / 24
+                    shortage_prs += oil[0] * hours / 24
 
         well.rem_count = rem_count
         well.well_stop_prs = well_stop
