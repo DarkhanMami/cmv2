@@ -1143,9 +1143,12 @@ def update_events(request):
     wells = models.Well.objects.all()
     for well in wells:
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
-                    + " and DBEG > to_date('2018-12-31','yyyy-MM-dd')")
+                    + " and DBEG > to_date('2019-12-31','yyyy-MM-dd')")
         transfers = cur.fetchall()
         rem_count = 0
+        well_stop = 0
+        shortage_prs = 0
+
         for transfer in transfers:
             rem_count += 1
             beg_id = transfer[0]
@@ -1165,6 +1168,14 @@ def update_events(request):
             if act_return:
                 end = act_return[2]
 
+            hours = 0
+            if end > beg:
+                diff = end - end
+                days, seconds = diff.days, diff.seconds
+                hours = days * 24 + seconds // 3600
+
+            well_stop += hours / 24
+
             cur.execute("SELECT * FROM REPAIR_WORK_TYPE where ID=" + str(rem_name))
             work_type = cur.fetchone()
             if work_type:
@@ -1173,6 +1184,7 @@ def update_events(request):
             models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event, beg=beg, end=end)
 
         well.rem_count = rem_count
+        well.well_stop_prs = well_stop
         well.save()
 
     con.close()
