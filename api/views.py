@@ -1186,8 +1186,8 @@ def update_events(request):
                                                                    beg=beg, end=end)
             if created:
                 cur.execute("SELECT OIL FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
-                            + " and DBEG < to_date('" + datetime.strptime(beg, '%Y-%m-%d') + "','yyyy-MM-dd')"
-                            + " and DEND > to_date('" + datetime.strptime(beg, '%Y-%m-%d') + "','yyyy-MM-dd')")
+                            + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
+                            + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')")
                 oil = cur.fetchone()
                 if oil:
                     shortage_prs += oil * hours / 24
