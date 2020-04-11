@@ -1144,6 +1144,7 @@ def update_events(request):
     for well in wells:
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
                     + " and DBEG > to_date('2019-12-31','yyyy-MM-dd')")
+
         transfers = cur.fetchall()
         rem_count = 0
         well_stop = 0
@@ -1181,10 +1182,18 @@ def update_events(request):
             if work_type:
                 event = work_type[1]
 
-            models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event, beg=beg, end=end)
+            got, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
+                                                                   beg=beg, end=end)
+            if created:
+                cur.execute("SELECT OIL FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
+                            + " and DBEG < " + beg + " and DEND > " + beg)
+                oil = cur.fetchone()
+                if oil:
+                    shortage_prs += oil * hours / 24
 
         well.rem_count = rem_count
         well.well_stop_prs = well_stop
+        well.shortage_prs += shortage_prs
         well.save()
 
     con.close()
