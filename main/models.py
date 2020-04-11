@@ -118,6 +118,7 @@ class Well(models.Model):
     brigade_num = models.IntegerField(default=0, verbose_name=_('Номер бригады'))
     ts_num = models.CharField(max_length=20, blank=True, default="", verbose_name=_('Номер ТС'))
     well_stop = models.FloatField(default=0, verbose_name=_('Остановы'))
+    well_stop_prs = models.FloatField(default=0, verbose_name=_('Остановы (ПРС)'))
 
     server1 = "192.168.241.2"
     server2 = "192.168.243.2"

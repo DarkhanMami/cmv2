@@ -1053,21 +1053,17 @@ def update_matrix(request):
                 if (row_values[0] is not None) and (row_values[1] is not None) and (row_values[2] is not None):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
-                    well.well_stop = row_values[2] / 60
-                    well.shortage_isu = well.well_stop * well_matrix.teh_rej_oil / 24 / 60
+                    well.well_stop += row_values[2] / 60
+                    well.shortage_isu += well.well_stop * well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                     well_matrix.filling = 0 
                     well_matrix.fluid_isu = 0
-                    well.well_stop = 0
-                    well.shortage_isu = 0
             except:
                 err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                 well_matrix.filling = 0
                 well_matrix.fluid_isu = 0
-                well.well_stop = 0
-                well.shortage_isu = 0
         elif well.server == "192.168.243.2":
             try:
                 conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
@@ -1078,22 +1074,17 @@ def update_matrix(request):
                 if (row_values[0] is not  None) and (row_values[1] is not None) and (row_values[2] is not None):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
-                    well.well_stop = row_values[2] / 60
-                    well.shortage_isu = well.well_stop * well_matrix.teh_rej_oil / 24 / 60
+                    well.well_stop += row_values[2] / 60
+                    well.shortage_isu += well.well_stop * well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                     well_matrix.filling = 0 
                     well_matrix.fluid_isu = 0
-                    well.well_stop = 0
-                    well.shortage_isu = 0
             except:
-                # err_sdmo_server.append('192.168.241.2')
                 err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                 well_matrix.filling = 0
                 well_matrix.fluid_isu = 0
-                well.well_stop = 0
-                well.shortage_isu = 0
         elif well.server == "192.168.236.2":
             try:
                 conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
@@ -1104,21 +1095,17 @@ def update_matrix(request):
                 if (row_values[0] is not None) and (row_values[1] is not None) and (row_values[2] is not None):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
-                    well.well_stop = row_values[2] / 60
-                    well.shortage_isu = well.well_stop * well_matrix.teh_rej_oil / 24 / 60
+                    well.well_stop += row_values[2] / 60
+                    well.shortage_isu += well.well_stop * well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                     well_matrix.filling = 0 
                     well_matrix.fluid_isu = 0
-                    well.well_stop = 0
-                    well.shortage_isu = 0
             except:
                 err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                 well_matrix.filling = 0
                 well_matrix.fluid_isu = 0
-                well.well_stop = 0
-                well.shortage_isu = 0
         elif well.server == "192.168.128.2":
             try:
                 conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
@@ -1129,21 +1116,17 @@ def update_matrix(request):
                 if (row_values[0] is not None) and (row_values[1] is not None) and (row_values[2] is not None):
                     well_matrix.filling = row_values[0]
                     well_matrix.fluid_isu = row_values[1]
-                    well.well_stop = row_values[2] / 60
-                    well.shortage_isu = well.well_stop * well_matrix.teh_rej_oil / 24 / 60
+                    well.well_stop += row_values[2] / 60
+                    well.shortage_isu += well.well_stop * well_matrix.teh_rej_oil / 24 / 60
  
                 else:
                     err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                     well_matrix.filling = 0 
                     well_matrix.fluid_isu = 0
-                    well.well_stop = 0
-                    well.shortage_isu = 0
             except:
                 err_sdmo_data.append('NAME:'+str(well.name)+' ID:'+str(well.well_id))
                 well_matrix.filling = 0
                 well_matrix.fluid_isu = 0
-                well.well_stop = 0
-                well.shortage_isu = 0
         well_matrix.save()
         well.save()
     return Response({
