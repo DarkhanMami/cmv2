@@ -68,15 +68,16 @@ class FieldAdmin(admin.ModelAdmin):
 
 @admin.register(Well)
 class WellAdmin(admin.ModelAdmin):
-    list_display = ('field', 'name', 'well_id', 'tbd_id', 'production_type', 'server', 'has_isu')
+    list_display = ('field', 'name', 'well_id', 'tbd_id', 'production_type', 'server', 'has_isu',
+                    'shortage_isu', 'shortage_prs', 'shortage_wait', 'well_stop', 'brigade_num', 'ts_num')
     search_fields = ('name',)
     list_filter = ('field',)
 
 
 @admin.register(WellMatrix)
 class WellMatrixAdmin(admin.ModelAdmin):
-    list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'shortage_isu', 'shortage_prs', 'shortage_wait',
-                    'well_stop', 'brigade_num', 'ts_num', 'timestamp')
+    list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water',
+                    'timestamp')
     search_fields = ('well',)
 
 
