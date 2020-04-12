@@ -299,6 +299,11 @@ class WellViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewS
         wells = models.Well.objects.filter(field=field)
         return Response(WellSerializer(wells, many=True).data)
 
+    @action(methods=['get'], detail=False)
+    def get_with_events(self, request, *args, **kwargs):
+        wells = models.Well.objects.filter(rem_count__gt=0)
+        return Response(WellSerializer(wells, many=True).data)
+
 
 class FieldViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
