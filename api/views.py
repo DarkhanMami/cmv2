@@ -55,12 +55,12 @@ class ImbalanceHistoryAll(generics.ListAPIView):
 
 
 class SumWellInFieldSerializerAll(generics.ListAPIView):
-    queryset = models.SumWellInField.objects.all()
+    queryset = models.SumWellInField.objects.all().order_by('timestamp')
     serializer_class = SumWellInFieldSerializer
 
 
 class FieldMatrixSerializerAll(generics.ListAPIView):
-    queryset = models.FieldMatrix.objects.all()
+    queryset = models.FieldMatrix.objects.all().order_by('timestamp')
     serializer_class = FieldMatrixSerializer
 
 
