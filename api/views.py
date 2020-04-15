@@ -1205,7 +1205,7 @@ def update_events(request):
                 got.save()
 
         cur.execute("SELECT * FROM GTM where WELL_ID=" + str(well.tbd_id)
-                    + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd')")
+                    + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd') and DEND > to_date('2020-01-01', 'yyyy-MM-dd')")
 
         transfers = cur.fetchall()
         rem_count = 0
