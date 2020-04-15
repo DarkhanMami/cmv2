@@ -220,7 +220,7 @@ class WellEvents(models.Model):
     event_type = models.CharField(choices=EVENT_CHOICES, default=OTHER, max_length=20, verbose_name=_('Тип события'))
     event = models.CharField(max_length=200, verbose_name=_('Событие'))
     beg = models.DateTimeField(blank=False, verbose_name=_('Начало события'))
-    end = models.DateTimeField(blank=True, verbose_name=_('Конец события'))
+    end = models.DateTimeField(blank=True, null=True, verbose_name=_('Конец события'))
 
     class Meta:
         verbose_name = _("Журнал события")
