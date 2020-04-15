@@ -71,19 +71,18 @@ ADMIN_REORDER = (
     #     'main.VideoGallery',
     # )},
 
-    {'app': 'main', 'label': 'Основное меню', 'models': (
-        'main.User',
-        # 'main.Feedback',
-    )},
+    # {'app': 'main', 'label': 'Основное меню', 'models': (
+    #     'main.User',
+    #     # 'main.Feedback',
+    # )},
 
     {'app': 'main', 'label': 'Справочники', 'models': (
+        'main.User',
         'main.Field',
         'main.Well',
     )},
 
-    {'app': 'main', 'label': 'Диспетчерское меню', 'models': (
-        'main.WellMatrix',
-        'main.WellEvents',
+    {'app': 'main', 'label': 'Меню ИСУ', 'models': (
         'main.Depression',
         # 'main.TS',
         # 'main.GSM',
@@ -92,10 +91,17 @@ ADMIN_REORDER = (
         'main.Imbalance',
         'main.ImbalanceHistoryAll',
         'main.SumWellInField',
-        'main.FieldMatrix'
         # 'authtoken.Token'
     )},
 
+    {'app': 'main', 'label': 'Меню ГТМ', 'models': (
+        'main.WellMatrix',
+        'main.WellEvents',
+        # 'main.TS',
+        # 'main.GSM',
+        'main.FieldMatrix'
+        # 'authtoken.Token'
+    )},
 )
 
 
