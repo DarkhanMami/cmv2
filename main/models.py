@@ -208,12 +208,14 @@ class WellEvents(models.Model):
     PRS = "ПРС"
     KRS = "КРС"
     TRS = "ТРС"
+    GTM = "ГТМ"
     OTHER = "Прочие простои"
 
     EVENT_CHOICES = (
         (PRS, _('ПРС')),
         (KRS, _('КРС')),
         (TRS, _('ТРС')),
+        (GTM, _('ГТМ')),
         (OTHER, _('Прочие простои')),
     )
 
