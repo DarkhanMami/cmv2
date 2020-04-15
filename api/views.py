@@ -1227,10 +1227,13 @@ def update_events(request):
 
             well_stop += hours / 24
 
-            cur.execute("SELECT * FROM GTM_TYPE where ID=" + str(rem_name))
-            work_type = cur.fetchone()
-            if work_type:
-                event = work_type[1]
+            if rem_name:
+                cur.execute("SELECT * FROM GTM_TYPE where ID=" + str(rem_name))
+                work_type = cur.fetchone()
+                if work_type:
+                    event = work_type[1]
+            else:
+                event = '----'
 
             got, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
                                                                    beg=beg)
