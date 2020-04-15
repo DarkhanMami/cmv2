@@ -159,6 +159,11 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
         result = models.WellEvents.objects.filter(well__field=field).order_by('-beg')[:100]
         return Response(WellEventsSerializer(result, many=True).data)
 
+    @action(methods=['get'], detail=False)
+    def get_events_count(self, request, *args, **kwargs):
+        return Response({'gtm': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).count(),
+                         'all': models.WellEvents.objects.all().count()})
+
 
 class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
