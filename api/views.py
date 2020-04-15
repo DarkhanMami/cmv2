@@ -1190,8 +1190,8 @@ def update_events(request):
             got, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
                                                                    beg=beg)
             if created:
-                created.end = end
-                created.save()
+                got.end = end
+                got.save()
                 cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
                             + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
                             + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
@@ -1200,7 +1200,7 @@ def update_events(request):
                 if oil:
                     shortage_prs += oil[6] * hours / 24
 
-            if got and got.beg > got.end:
+            if (not created) and (got.beg > got.end):
                 got.end = end
                 got.save()
 
