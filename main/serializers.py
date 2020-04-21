@@ -12,7 +12,7 @@ class EmptySerializer(serializers.Serializer):
 class FieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = Field
-        fields = ['name']
+        fields = ['name', 'pk']
 
 
 class WellSerializer(serializers.ModelSerializer):
