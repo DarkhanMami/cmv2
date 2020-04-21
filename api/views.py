@@ -155,14 +155,19 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['get'], detail=False)
     def get_by_field(self, request, *args, **kwargs):
-        field = models.Field.objects.get(name=request.GET.get("field"))
+        field = models.Field.objects.get(pk=request.GET.get("field"))
         result = models.WellEvents.objects.filter(well__field=field).order_by('-beg')[:100]
         return Response(WellEventsSerializer(result, many=True).data)
 
     @action(methods=['get'], detail=False)
     def get_events_count(self, request, *args, **kwargs):
-        return Response({'gtm': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).count(),
-                         'all': models.WellEvents.objects.all().count()})
+        data = dict()
+        data[0] = {'gtm': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).count(),
+                   'all': models.WellEvents.objects.all().count()}
+        for field in models.Field.objects.all():
+            data[field.pk] = {'gtm': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').count(),
+                              'all': models.WellEvents.objects.filter(well__field=field).count()}
+        return Response(data)
 
 
 class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
