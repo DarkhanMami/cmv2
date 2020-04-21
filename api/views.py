@@ -1153,7 +1153,7 @@ def update_events(request):
     wells = models.Well.objects.all()
     for well in wells:
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
-                    + " and DBEG > to_date('2019-12-31', 'yyyy-MM-dd')")
+                    + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd')")
 
         transfers = cur.fetchall()
         rem_count = 0
@@ -1213,9 +1213,6 @@ def update_events(request):
                     + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd') and DEND > to_date('2020-01-01', 'yyyy-MM-dd')")
 
         transfers = cur.fetchall()
-        rem_count = 0
-        well_stop = 0
-        shortage_prs = 0
 
         for transfer in transfers:
             rem_count += 1
@@ -1248,7 +1245,7 @@ def update_events(request):
                 cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
                             + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
                             + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
-                            + " and DBEG > to_date('2019-01-01','yyyy-MM-dd')")
+                            + " and DBEG > to_date('2020-01-01','yyyy-MM-dd')")
                 oil = cur.fetchone()
                 if oil:
                     shortage_prs += oil[6] * hours / 24
