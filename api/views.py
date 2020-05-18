@@ -163,10 +163,14 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     def get_events_count(self, request, *args, **kwargs):
         data = dict()
         data[0] = {'gtm': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).count(),
-                   'all': models.WellEvents.objects.all().count()}
+                   'all': models.WellEvents.objects.all().count(),
+                   'gtm_wells': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).distinct('well').count(),
+                   'all_wells': models.WellEvents.objects.all().distinct('well').count()}
         for field in models.Field.objects.all():
             data[field.pk] = {'gtm': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').count(),
-                              'all': models.WellEvents.objects.filter(well__field=field).count()}
+                              'all': models.WellEvents.objects.filter(well__field=field).count(),
+                              'gtm_wells': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').distinct('well').count(),
+                              'all_wells': models.WellEvents.objects.filter(well__field=field).distinct('well').count()}
         return Response(data)
 
 
