@@ -6,7 +6,7 @@ cffi==1.13.1
 chardet==3.0.4
 cloudpayments==1.5.1
 constantly==15.1.0
-Django==2.1
+Django==2.2.13
 django-cors-headers==2.4.0
 django-filter==2.0.0
 django-modeladmin-reorder==0.3.1
