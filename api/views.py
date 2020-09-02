@@ -29,6 +29,7 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
+import pyodbc
 
 
 class AuthView(ObtainAuthToken):
@@ -1270,6 +1271,14 @@ def update_events(request):
 
     con.close()
 
+    return Response({
+        "info": "Данные загружены"
+    })
+
+
+@api_view(['GET'])
+def update_prs(request):
+    conn = pyodbc.connect('Driver={SQL Server};Server=s92.168.17.110;Database=database_name;Trusted_Connection=yes;')
     return Response({
         "info": "Данные загружены"
     })
