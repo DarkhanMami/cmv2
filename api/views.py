@@ -1278,7 +1278,8 @@ def update_events(request):
 
 @api_view(['GET'])
 def update_prs(request):
-    conn = pyodbc.connect('Driver={SQL Server};Server=s92.168.17.110;Database=database_name;Trusted_Connection=yes;')
+    conn = pyodbc.connect('Driver={ODBC Driver 13 for SQL Server};Server=92.168.17.110;'
+                          'Database=toucan;Trusted_Connection=yes;')
     return Response({
         "info": "Данные загружены"
     })
