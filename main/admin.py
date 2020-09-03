@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
-    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix
+    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -64,6 +64,11 @@ admin.site.unregister(Group)
 @admin.register(Field)
 class FieldAdmin(admin.ModelAdmin):
     list_display = ('name',)
+
+
+@admin.register(PrsDevice)
+class PrsDeviceAdmin(admin.ModelAdmin):
+    list_display = ('num',)
 
 
 @admin.register(Well)

@@ -153,6 +153,17 @@ class Well(models.Model):
         return self.name
 
 
+class PrsDevice(models.Model):
+    num = models.IntegerField(blank=False, null=False, unique=True, db_index=True, verbose_name=_('Номер'))
+
+    class Meta:
+        verbose_name = _("Прибор ПРС")
+        verbose_name_plural = _("Приборы ПРС")
+
+    def __str__(self):
+        return str(self.num)
+
+
 class Imbalance(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='imb_wells')
     imbalance = models.FloatField(default=0, verbose_name=_('Неуравновешенность'))

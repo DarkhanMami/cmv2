@@ -15,6 +15,12 @@ class FieldSerializer(serializers.ModelSerializer):
         fields = ['name', 'pk']
 
 
+class PrsDeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrsDevice
+        fields = ['num']
+
+
 class WellSerializer(serializers.ModelSerializer):
     field = FieldSerializer(many=False, read_only=True)
 

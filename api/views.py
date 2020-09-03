@@ -1278,8 +1278,37 @@ def update_events(request):
 
 @api_view(['GET'])
 def update_prs(request):
-    conn = pyodbc.connect('Driver={ODBC Driver 13 for SQL Server};Server=92.168.17.110;'
-                          'Database=toucan;Trusted_Connection=yes;')
+    server = '192.168.17.110'
+    database = 'toucan'
+    username = 'sa'
+    password = 'Sql**'
+    conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database
+                          + ';UID=' + username + ';PWD=' + password)
+    tempDate = datetime.now().strftime('%Y-%m-%d')
+    first = "select distinct DEVICEID from toucan.dbo.MEASURE where (ONDATETIME between '" \
+            + tempDate + " 00:00:00' and '" + tempDate + " 23:59:59') order by DEVICEID"
+
+    th = "select ONDATETIME, PVALUE from [toucan_export2].[dbo].[POINT] where ([ONDATETIME] between '" \
+         + tempDate + " 00:00:00' and '" + tempDate + " 23:59:59') and (PID=512) and ([DEVICEID]="
+
+    measure = "select * from [toucan_export2].[dbo].[MEASURE] where ([ONDATETIME] between '" \
+              + tempDate + " 00:00:00' and '" + tempDate + " 23:59:59') and ([DEVICEID]="
+
+    description = "select * from [toucan].[dbo].[DIRECTORY] where [NAME]="
+
+    cursor = conn.cursor()
+    cursor.execute(first)
+    devices = cursor.fetchall()
+
+    for item in devices:
+        device = item[0]
+        query = th + str(device) + ")"
+        query2 = measure + str(device) + ")"
+        q_desc = description + str(device)
+        cursor.execute(query2)
+        measures = cursor.fetchall()
+
+
     return Response({
         "info": "Данные загружены"
     })

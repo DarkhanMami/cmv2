@@ -102,6 +102,9 @@ ADMIN_REORDER = (
         'main.FieldMatrix'
         # 'authtoken.Token'
     )},
+    {'app': 'main', 'label': 'Меню ПРС', 'models': (
+        'main.PrsDevice',
+    )},
 )
 
 
