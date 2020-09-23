@@ -32,6 +32,7 @@ urlpatterns = [
     path('imbalance_history_all/', views.ImbalanceHistoryAll.as_view()),
     path('sum_well_in_field/', views.SumWellInFieldSerializerAll.as_view()),
     path('field_matrix/', views.FieldMatrixSerializerAll.as_view()),
+    path('constants/', views.Constant.as_view()),
     path('', include(router.urls)),
 
     path('<int:pk>/', views.DetailUser.as_view()),

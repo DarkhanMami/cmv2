@@ -206,6 +206,7 @@ class WellMatrix(models.Model):
     teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
     teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
     teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+    kpn = models.FloatField(default=1, verbose_name=_('Коэф. подачи насоса'))
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
     class Meta:
@@ -379,3 +380,13 @@ class FieldMatrix(models.Model):
     class Meta:
         verbose_name = _("Баланс месторождении")
         verbose_name_plural = _("Баланс месторождений")
+
+
+class Constant(models.Model):
+    name = models.CharField(max_length=50, blank=False, null=False, unique=True, verbose_name=_('Значение'))
+    min = models.FloatField(default=0, verbose_name=_('Минимум'))
+    max = models.FloatField(default=0, verbose_name=_('Максимум'))
+
+    class Meta:
+        verbose_name = _("Уставка")
+        verbose_name_plural = _("Уставки")

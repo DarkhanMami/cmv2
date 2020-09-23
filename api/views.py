@@ -25,7 +25,7 @@ from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
     GSMSerializer, DynamogramSerializer, ImbalanceSerializer, ImbalanceHistorySerializer, ImbalanceHistoryAllSerializer, \
-    SumWellInFieldSerializer, WellEventsSerializer, FieldMatrixSerializer
+    SumWellInFieldSerializer, WellEventsSerializer, FieldMatrixSerializer, ConstantSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
@@ -48,6 +48,11 @@ class AuthView(ObtainAuthToken):
 class ListUser(generics.ListCreateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
+
+
+class Constant(generics.ListAPIView):
+    queryset = models.Constant.objects.all()
+    serializer_class = ConstantSerializer
 
 
 class ImbalanceHistoryAll(generics.ListAPIView):
@@ -112,21 +117,6 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
         field = models.Field.objects.get(name=request.GET.get("field"))
         result = models.WellMatrix.objects.filter(well__field=field)
         return Response(WellMatrixSerializer(result, many=True).data)
-
-    @action(methods=['post'], detail=False)
-    def create_wellmatrix(self, request, *args, **kwargs):
-        serializer = WellMatrixCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            well = models.Well.objects.get(name=request.data["well"])
-            dt = datetime.now()
-            wellmatrix = WellMatrix.objects.update_or_create(well=well, defaults={"fluid": request.data["fluid"],
-                                                                                  "teh_rej_fluid": request.data["teh_rej_fluid"],
-                                                                                  "teh_rej_oil": request.data["teh_rej_oil"],
-                                                                                  "teh_rej_water": request.data["teh_rej_water"],
-                                                                                  "gas": request.data["gas"],
-                                                                                  "timestamp": dt})
-            return Response(self.get_serializer(wellmatrix, many=False).data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):

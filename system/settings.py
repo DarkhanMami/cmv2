@@ -80,6 +80,7 @@ ADMIN_REORDER = (
         'main.User',
         'main.Field',
         'main.Well',
+        'main.Constant',
     )},
 
     {'app': 'main', 'label': 'Меню ИСУ', 'models': (

@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
-    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice
+    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -82,7 +82,7 @@ class WellAdmin(admin.ModelAdmin):
 @admin.register(WellMatrix)
 class WellMatrixAdmin(admin.ModelAdmin):
     list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water',
-                    'timestamp')
+                    'kpn', 'timestamp')
     search_fields = ('well',)
 
 
@@ -156,6 +156,11 @@ class SumWellInFieldAdmin(admin.ModelAdmin):
 @admin.register(FieldMatrix)
 class FieldMatrixAdmin(admin.ModelAdmin):
     list_display = ('field', 'timestamp')
+
+
+@admin.register(Constant)
+class ConstantAdmin(admin.ModelAdmin):
+    list_display = ('name', 'min', 'max')
 
 
 
