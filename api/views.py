@@ -1338,7 +1338,7 @@ def update_prs(request):
 
 @api_view(['GET'])
 def update_kpn(request):
-    wells = models.Well.objects.filter(well__has_isu=True)
+    wells = models.Well.objects.filter(has_isu=True)
     for well in wells:
         data = models.WellMatrix.objects.filter(well=well).order_by('-timestamp')[:3]
         ind = 0
