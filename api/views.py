@@ -25,7 +25,7 @@ from main.models import WellMatrix
 from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, WellSerializer, FieldSerializer, \
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
     GSMSerializer, DynamogramSerializer, ImbalanceSerializer, ImbalanceHistorySerializer, ImbalanceHistoryAllSerializer, \
-    SumWellInFieldSerializer, WellEventsSerializer, FieldMatrixSerializer, ConstantSerializer
+    SumWellInFieldSerializer, WellEventsSerializer, FieldMatrixSerializer, ConstantSerializer, RecommendationSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
@@ -163,6 +163,38 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
                               'gtm_wells': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').distinct('well').count(),
                               'all_wells': models.WellEvents.objects.filter(well__field=field).distinct('well').count()}
         return Response(data)
+
+
+class RecommendationViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('well',)
+    queryset = models.Recommendation.objects.all().order_by('-timestamp')[:10]
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        return models.Recommendation.objects.all().order_by('-timestamp')[:10]
+
+    def get_serializer_class(self):
+        return RecommendationSerializer
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    @action(methods=['get'], detail=False)
+    def get_by_well(self, request, *args, **kwargs):
+        well = models.Well.objects.get(name=request.GET.get("well"))
+        result = models.Recommendation.objects.filter(well=well).order_by('-timestamp')[:10]
+        return Response(RecommendationSerializer(result, many=True).data)
+
+    @action(methods=['get'], detail=False)
+    def get_by_field(self, request, *args, **kwargs):
+        field = models.Field.objects.get(pk=request.GET.get("field"))
+        result = models.Recommendation.objects.filter(well__field=field).order_by('-timestamp')[:10]
+        return Response(RecommendationSerializer(result, many=True).data)
 
 
 class DepressionViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):

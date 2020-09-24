@@ -241,6 +241,16 @@ class WellEvents(models.Model):
         verbose_name_plural = _("Журнал событий")
 
 
+class Recommendation(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='rec_wells')
+    event = models.CharField(max_length=200, verbose_name=_('Рекомендация'))
+    timestamp = models.DateField(blank=False, auto_now_add=True, verbose_name=_('Дата рекомендации'))
+
+    class Meta:
+        verbose_name = _("Журнал рекомендации")
+        verbose_name_plural = _("Журнал рекомендаций")
+
+
 class Depression(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='depression_wells')
 

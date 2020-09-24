@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
-    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant
+    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant, Recommendation
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -89,6 +89,13 @@ class WellMatrixAdmin(admin.ModelAdmin):
 @admin.register(WellEvents)
 class WellEventsAdmin(admin.ModelAdmin):
     list_display = ('well', 'event_type', 'event', 'beg', 'end')
+    search_fields = ('well__name',)
+    list_filter = ('well__field',)
+
+
+@admin.register(Recommendation)
+class RecommendationAdmin(admin.ModelAdmin):
+    list_display = ('well', 'event', 'timestamp')
     search_fields = ('well__name',)
     list_filter = ('well__field',)
 

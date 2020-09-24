@@ -98,6 +98,7 @@ ADMIN_REORDER = (
     {'app': 'main', 'label': 'Меню ГТМ', 'models': (
         'main.WellMatrix',
         'main.WellEvents',
+        'main.Recommendation',
         # 'main.TS',
         # 'main.GSM',
         'main.FieldMatrix'

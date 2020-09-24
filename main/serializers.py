@@ -63,6 +63,14 @@ class WellEventsSerializer(serializers.ModelSerializer):
         fields = ['well', 'event_type', 'event', 'beg', 'end']
 
 
+class RecommendationSerializer(serializers.ModelSerializer):
+    well = WellSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Recommendation
+        fields = ['well', 'event', 'timestamp']
+
+
 class FieldBalanceSerializer(serializers.ModelSerializer):
     field = FieldSerializer(many=False, read_only=True)
 
