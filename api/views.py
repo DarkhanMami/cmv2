@@ -1348,7 +1348,7 @@ def update_kpn(request):
             ind = ind + 1
             teh += item.teh_rej_fluid
             isu += item.fluid_isu
-            if ind == 3 and teh != 0:
+            if ind == 3 and teh != 0 and isu != 0:
                 kpn = isu / teh
                 item.kpn = kpn
                 item.save()
