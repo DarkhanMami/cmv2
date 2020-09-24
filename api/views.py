@@ -1358,7 +1358,7 @@ def update_kpn(request):
                     has_event = models.WellEvents.objects.filter(well=well, event__contains='Смена насоса',
                                                                  end__gt=time_threshold).exists()
                     if kpn <= kpn_constant.max and not has_event:
-                        models.Recommendation.objects.create(well=well, event='Проверить на предмет утечек')
+                        models.Recommendation.objects.create(well=well, kpn=kpn, event='Проверить на предмет утечек')
 
     return Response({
         "info": "Данные обновлены"

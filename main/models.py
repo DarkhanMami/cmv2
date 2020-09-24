@@ -243,6 +243,7 @@ class WellEvents(models.Model):
 
 class Recommendation(models.Model):
     well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='rec_wells')
+    kpn = models.FloatField(default=1, verbose_name=_('Коэф. подачи насоса'))
     event = models.CharField(max_length=200, verbose_name=_('Рекомендация'))
     timestamp = models.DateField(blank=False, auto_now_add=True, verbose_name=_('Дата рекомендации'))
 

@@ -68,7 +68,7 @@ class RecommendationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recommendation
-        fields = ['well', 'event', 'timestamp']
+        fields = ['well', 'kpn', 'event', 'timestamp']
 
 
 class FieldBalanceSerializer(serializers.ModelSerializer):

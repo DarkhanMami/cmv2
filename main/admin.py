@@ -95,7 +95,7 @@ class WellEventsAdmin(admin.ModelAdmin):
 
 @admin.register(Recommendation)
 class RecommendationAdmin(admin.ModelAdmin):
-    list_display = ('well', 'event', 'timestamp')
+    list_display = ('well', 'kpn', 'event', 'timestamp')
     search_fields = ('well__name',)
     list_filter = ('well__field',)
 
