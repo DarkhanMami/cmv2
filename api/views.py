@@ -1302,3 +1302,34 @@ def update_prs(request):
     return Response({
         "info": "Данные загружены"
     })
+
+
+@api_view(['GET'])
+def update_kpn(request):
+    wells = models.Well.objects.filter(well__has_isu=True)
+    for well in wells:
+        data = models.WellMatrix.objects.filter(well=well).order_by('-timestamp')[:3]
+        ind = 0
+        isu = 0
+        teh = 0
+        for item in reversed(data):
+            ind = ind + 1
+            teh += item.teh_rej_fluid
+            isu += item.fluid_isu
+            if ind == 3:
+                kpn = isu / teh
+                item.kpn = kpn
+                item.save()
+                if well.production_type == models.Well.SGN:
+                    kpn_constant = models.Constant.objects.get(name='КПН')
+                    time_threshold = datetime.now() - timedelta(years=1)
+                    has_event = models.WellEvents.objects.filter(well=well, event__contains='Смена насоса',
+                                                                 end__gt=time_threshold).exists()
+                    if kpn <= kpn_constant.max and not has_event:
+                        pass
+
+
+
+    return Response({
+        "info": "Данные обновлены"
+    })
