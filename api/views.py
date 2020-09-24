@@ -1354,7 +1354,7 @@ def update_kpn(request):
                 item.save()
                 if well.production_type == models.Well.SGN:
                     kpn_constant = models.Constant.objects.get(name='КПН')
-                    time_threshold = datetime.now() - timedelta(years=1)
+                    time_threshold = datetime.now() - timedelta(days=365)
                     has_event = models.WellEvents.objects.filter(well=well, event__contains='Смена насоса',
                                                                  end__gt=time_threshold).exists()
                     if kpn <= kpn_constant.max and not has_event:
