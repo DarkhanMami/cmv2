@@ -1347,7 +1347,8 @@ def update_kpn(request):
         for item in reversed(data):
             ind = ind + 1
             teh += item.teh_rej_fluid
-            isu += item.fluid_isu
+            # isu += item.fluid_isu
+            isu += item.fluid_agzu
             if ind == 3 and teh != 0 and isu != 0:
                 kpn = isu / teh
                 item.kpn = kpn
