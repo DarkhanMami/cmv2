@@ -83,7 +83,8 @@ class WellAdmin(admin.ModelAdmin):
 class WellMatrixAdmin(admin.ModelAdmin):
     list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water',
                     'kpn', 'timestamp')
-    search_fields = ('well',)
+    search_fields = ('well__name',)
+    list_filter = ('well__field',)
 
 
 @admin.register(WellEvents)
