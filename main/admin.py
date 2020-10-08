@@ -98,7 +98,7 @@ class WellEventsAdmin(admin.ModelAdmin):
 @admin.register(Events)
 class EventsAdmin(admin.ModelAdmin):
     list_display = ('event', 'event_type', 'fact', 'plan', 'coef', 'price', 'effect')
-    list_filter = ('event_type', 'event',)
+    list_filter = ('event_type',)
 
     def has_delete_permission(self, request, obj=None):
         return False
