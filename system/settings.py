@@ -138,27 +138,27 @@ WSGI_APPLICATION = 'system.wsgi.application'
 
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lenn6UUAAAAAJQaQUt4aLxDGXY2PUbQuOLhYLJf'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'OPTIONS': {
-        'timeout': 40,
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'cmdb',
-#         'USER': 'cm_user',
-#         'PASSWORD': 'cm_pass',
-#         'HOST': 'localhost',
-#         'PORT': '',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     },
+#     'OPTIONS': {
+#         'timeout': 40,
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cmdb',
+        'USER': 'cm_user',
+        'PASSWORD': 'cm_pass',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 
 
