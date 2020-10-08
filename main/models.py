@@ -261,8 +261,8 @@ class Events(models.Model):
     )
 
     event_type = models.CharField(choices=EVENT_CHOICES, default=OTHER, max_length=20, verbose_name=_('Тип события'))
-    fact = models.FloatField(default=0, verbose_name=_('Факт кол-во'))
-    plan = models.FloatField(default=0, verbose_name=_('План кол-во'))
+    fact = models.IntegerField(default=0, verbose_name=_('Факт кол-во'))
+    plan = models.IntegerField(default=0, verbose_name=_('План кол-во'))
     coef = models.FloatField(default=0, verbose_name=_('Доля от общего кол-во'))
     price = models.FloatField(default=0, verbose_name=_('Цена'))
     effect = models.FloatField(default=0, verbose_name=_('Доп. добыча'))
