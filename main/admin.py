@@ -97,7 +97,7 @@ class WellEventsAdmin(admin.ModelAdmin):
 
 @admin.register(Events)
 class EventsAdmin(admin.ModelAdmin):
-    readonly_fields = ('event', 'event_type', 'fact', 'plan', 'coef', 'price', 'effect')
+    list_display = ('event', 'event_type', 'fact', 'plan', 'coef', 'price', 'effect')
     list_filter = ('event_type', 'event',)
 
     def has_delete_permission(self, request, obj=None):
