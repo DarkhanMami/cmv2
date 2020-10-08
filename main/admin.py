@@ -5,7 +5,8 @@ from django.contrib.auth.models import Group
 
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
-    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant, Recommendation
+    ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant, \
+    Recommendation, Events
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -82,7 +83,7 @@ class WellAdmin(admin.ModelAdmin):
 @admin.register(WellMatrix)
 class WellMatrixAdmin(admin.ModelAdmin):
     list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water',
-                    'kpn', 'timestamp')
+                    'park_fluid', 'park_oil', 'kpn', 'timestamp')
     search_fields = ('well__name',)
     list_filter = ('well__field',)
 
@@ -92,6 +93,15 @@ class WellEventsAdmin(admin.ModelAdmin):
     list_display = ('well', 'event_type', 'event', 'beg', 'end')
     search_fields = ('well__name',)
     list_filter = ('well__field',)
+
+
+@admin.register(Events)
+class EventsAdmin(admin.ModelAdmin):
+    readonly_fields = ('event', 'event_type', 'fact', 'plan', 'coef', 'price', 'effect')
+    list_filter = ('event_type', 'event',)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Recommendation)

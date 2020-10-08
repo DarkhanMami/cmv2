@@ -206,6 +206,8 @@ class WellMatrix(models.Model):
     teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
     teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
     teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+    park_fluid = models.FloatField(default=-1, verbose_name=_('Парковая жидкость'))
+    park_oil = models.FloatField(default=-1, verbose_name=_('Парковая нефть'))
     kpn = models.FloatField(default=1, verbose_name=_('Коэф. подачи насоса'))
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
@@ -239,6 +241,35 @@ class WellEvents(models.Model):
     class Meta:
         verbose_name = _("Журнал события")
         verbose_name_plural = _("Журнал событий")
+
+
+class Events(models.Model):
+    event = models.CharField(max_length=200, verbose_name=_('Событие'))
+
+    PRS = "ПРС"
+    KRS = "КРС"
+    TRS = "ТРС"
+    GTM = "ГТМ"
+    OTHER = "Прочие простои"
+
+    EVENT_CHOICES = (
+        (PRS, _('ПРС')),
+        (KRS, _('КРС')),
+        (TRS, _('ТРС')),
+        (GTM, _('ГТМ')),
+        (OTHER, _('Прочие простои')),
+    )
+
+    event_type = models.CharField(choices=EVENT_CHOICES, default=OTHER, max_length=20, verbose_name=_('Тип события'))
+    fact = models.FloatField(default=0, verbose_name=_('Факт кол-во'))
+    plan = models.FloatField(default=0, verbose_name=_('План кол-во'))
+    coef = models.FloatField(default=0, verbose_name=_('Доля от общего кол-во'))
+    price = models.FloatField(default=0, verbose_name=_('Цена'))
+    effect = models.FloatField(default=0, verbose_name=_('Доп. добыча'))
+
+    class Meta:
+        verbose_name = _("Статистика события")
+        verbose_name_plural = _("Статистика событий")
 
 
 class Recommendation(models.Model):
