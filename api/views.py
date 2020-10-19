@@ -154,11 +154,13 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     def get_events_count(self, request, *args, **kwargs):
         data = dict()
         data[0] = {'gtm': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).count(),
+                   'krs': models.WellEvents.objects.filter(event_type=models.WellEvents.KRS).count(),
                    'all': models.WellEvents.objects.all().count(),
                    'gtm_wells': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).distinct('well').count(),
                    'all_wells': models.WellEvents.objects.all().distinct('well').count()}
         for field in models.Field.objects.all():
             data[field.pk] = {'gtm': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').count(),
+                              'krs': models.WellEvents.objects.filter(well__field=field, event_type='КРС').count(),
                               'all': models.WellEvents.objects.filter(well__field=field).count(),
                               'gtm_wells': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').distinct('well').count(),
                               'all_wells': models.WellEvents.objects.filter(well__field=field).distinct('well').count()}
@@ -1364,3 +1366,16 @@ def update_kpn(request):
     return Response({
         "info": "Данные обновлены"
     })
+
+
+# for event in events:
+#     ...:     field = event.well.field.name
+#     ...:     well = event.well.name
+#     ...:     start_date = event.beg.strftime("%Y-%m-%d %H:%M:%S")
+#     ...:     end_date = event.end.strftime("%Y-%m-%d %H:%M:%S")
+#     ...:     t = event.event_type
+#     ...:     if event.event_type == WellEvents.GTM:
+#     ...:         t = 'gtm'
+#     ...:     work = event.event
+#     ...:     cur.execute("insert into n_last10 (oil_field, well, start_date, end_date, type, work, foreign_id) values ('"+field+"','"+w
+#     ...: ell+"','"+start_date+"','"+end_date+"','"+t+"','"+work+"',0)")
