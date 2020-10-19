@@ -22,6 +22,7 @@ router.register(r'imbalance', views.ImbalanceViewSet, base_name='imbalance')
 urlpatterns = [
     path('authenticate/', views.AuthView.as_view()),
     path('get_2hour/', views.get_2hour),
+    path('get_events_statistics/', views.get_events_statistics),
     path('upload_dyn_data/', views.upload_dyn_data),
     path('get_dyn_data/', views.get_dyn_data),
     path('update_imbalance/', views.update_imbalance),

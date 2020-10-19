@@ -169,7 +169,7 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['get'], detail=False)
     def get_events_statistics(self, request, *args, **kwargs):
-        events = models.Events.objects.all()
+        events = models.Events.objects.all().order_by('-fact')[:3]
         return Response(EventsSerializer(events, many=True).data)
 
 
@@ -1380,6 +1380,12 @@ def update_kpn(request):
     return Response({
         "info": "Данные обновлены"
     })
+
+
+@api_view(['GET'])
+def get_events_statistics(request):
+    events = models.Events.objects.all().order_by('-fact')[:3]
+    return Response(EventsSerializer(events, many=True).data)
 
 
 # for event in events:
