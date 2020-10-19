@@ -1382,12 +1382,6 @@ def update_kpn(request):
     })
 
 
-@api_view(['GET'])
-def get_events_statistics(request):
-    events = models.Events.objects.all().order_by('-fact')[:3]
-    return Response(EventsSerializer(events, many=True).data)
-
-
 # for event in events:
 #     ...:     field = event.well.field.name
 #     ...:     well = event.well.name
