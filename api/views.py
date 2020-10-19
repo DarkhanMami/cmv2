@@ -169,11 +169,7 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['get'], detail=False)
     def get_events_statistics(self, request, *args, **kwargs):
-        events = models.Events.objects.all().order_by('-fact')[3]
-        # for field in models.Field.objects.all():
-        #     data[field.pk] = {'1': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').count(),
-        #                       '2': models.WellEvents.objects.filter(well__field=field, event_type='КРС').count(),
-        #                       '3': models.WellEvents.objects.filter(well__field=field).count()}
+        events = models.Events.objects.all().order_by('-fact')[:3]
         return Response(EventsSerializer(events, many=True).data)
 
 
