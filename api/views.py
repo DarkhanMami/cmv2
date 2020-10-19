@@ -169,7 +169,7 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['get'], detail=False)
     def get_events_statistics(self, request, *args, **kwargs):
-        events = models.Events.objects.all().order_by('-fact')
+        events = models.Events.objects.all()
         return Response(EventsSerializer(events, many=True).data)
 
 
