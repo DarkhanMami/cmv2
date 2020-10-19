@@ -1294,6 +1294,14 @@ def update_events(request):
         well.save()
 
     con.close()
+    prod = models.Constant.objects.get(name='Дополнительная добыча').max
+    all_count = models.WellEvents.objects.all().count()
+    for event in models.Events.objects.all():
+        count = models.WellEvents.objects.filter(event=event.event).count()
+        event.fact = count
+        event.coef = count / all_count
+        event.effect = prod * event.coef
+        event.save()
 
     return Response({
         "info": "Данные загружены"
