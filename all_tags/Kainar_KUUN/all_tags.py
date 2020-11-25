@@ -5,7 +5,7 @@ from pymodbus.constants import Endian
 
 
 def update_tags():
-    c = ModbusClient(host="182.168.207.242", port=502, auto_open=True)
+    c = ModbusClient(host="192.168.207.242", port=502, auto_open=True)
 
     conn = pymysql.connect('192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm')
     cur = conn.cursor()
