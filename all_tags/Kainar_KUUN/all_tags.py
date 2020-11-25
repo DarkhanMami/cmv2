@@ -54,4 +54,7 @@ def update_tags():
             else:
                 sql = ("UPDATE n_wincctags SET tag_value='{0}',last_update=now() WHERE tag_key='{1}' and oil_field='Kainar_KUUN'").format(value, tag)
                 cur.execute(sql)
+
+    conn.commit()
+    conn.close()
     c.close()
