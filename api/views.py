@@ -29,8 +29,8 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
     ConstantSerializer, RecommendationSerializer, EventsSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
-# import cx_Oracle
-# import pyodbc
+import cx_Oracle
+import pyodbc
 
 
 class AuthView(ObtainAuthToken):
