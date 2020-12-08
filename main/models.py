@@ -432,3 +432,45 @@ class Constant(models.Model):
     class Meta:
         verbose_name = _("Уставка")
         verbose_name_plural = _("Уставки")
+
+
+class MailSettings(models.Model):
+    field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='mail_fields')
+
+    prod_decrease = "Снижение добычи"
+    well_perf = "Ухудшение работы скважины"
+    svod_isu = "Сводка по ИСУ"
+    other = "Прочее"
+    TYPES = (
+        (prod_decrease, _('Снижение добычи')),
+        (well_perf, _('Ухудшение работы скважины')),
+        (svod_isu, _('Сводка по ИСУ')),
+        (other, _('Прочее')),
+    )
+
+    type = models.CharField(choices=TYPES, default=other, max_length=30, verbose_name=_("Тип"))
+    body = models.CharField(max_length=600, verbose_name=_('Текст'))
+    freq = models.IntegerField(default=0, verbose_name=_('Периодичность'))
+
+    class Meta:
+        verbose_name = _("Настройка рассылки")
+        verbose_name_plural = _("Настройки рассылки")
+
+
+class MailUser(models.Model):
+    email = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Значение'))
+    name = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Имя'))
+    mail = models.ForeignKey(MailSettings, on_delete=models.CASCADE, related_name='mail_sets')
+
+    class Meta:
+        verbose_name = _("Пользователь рассылки")
+        verbose_name_plural = _("Пользователи рассылки")
+
+
+class MailHistory(models.Model):
+    mail = models.ForeignKey(MailSettings, on_delete=models.CASCADE, related_name='mails', verbose_name=_('Рассылка'))
+    timestamp = models.DateTimeField(blank=False, auto_now_add=True, verbose_name=_('Дата отправки'))
+
+    class Meta:
+        verbose_name = _("Рассылка")
+        verbose_name_plural = _("Рассылки")

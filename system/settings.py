@@ -108,6 +108,10 @@ ADMIN_REORDER = (
     {'app': 'main', 'label': 'Меню ПРС', 'models': (
         'main.PrsDevice',
     )},
+    {'app': 'main', 'label': 'Меню рассылки', 'models': (
+        'main.MailSettings',
+        'main.MailHistory',
+    )},
 )
 
 
@@ -138,15 +142,15 @@ WSGI_APPLICATION = 'system.wsgi.application'
 
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Lenn6UUAAAAAJQaQUt4aLxDGXY2PUbQuOLhYLJf'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     },
-#     'OPTIONS': {
-#         'timeout': 40,
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'OPTIONS': {
+        'timeout': 40,
+    }
+}
 
 
 DATABASES = {

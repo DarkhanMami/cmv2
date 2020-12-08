@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
     ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant, \
-    Recommendation, Events
+    Recommendation, Events, MailUser, MailSettings, MailHistory
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -161,12 +161,12 @@ class ImbalanceHistoryAdmin(admin.StackedInline):
 class ImbalanceAdmin(admin.ModelAdmin):
     list_display = ('well', 'imbalance', 'avg_1997', 'timestamp')
     search_fields = ('well',)
-    inlines =[ ImbalanceHistoryAdmin,]
+    inlines = [ImbalanceHistoryAdmin, ]
 
 
 @admin.register(ImbalanceHistoryAll)
 class ImbalanceHistoryAllAdmin(admin.ModelAdmin):
-    list_display = ('count', 'percent','timestamp')
+    list_display = ('count', 'percent', 'timestamp')
 
 
 @admin.register(SumWellInField)
@@ -182,6 +182,24 @@ class FieldMatrixAdmin(admin.ModelAdmin):
 @admin.register(Constant)
 class ConstantAdmin(admin.ModelAdmin):
     list_display = ('name', 'min', 'max')
+
+
+class MailUserAdmin(admin.StackedInline):
+    model = MailUser
+    extra = 3
+
+
+@admin.register(MailSettings)
+class MailSettingsAdmin(admin.ModelAdmin):
+    list_display = ('field', 'type', 'body', 'freq')
+    list_filter = ('field', 'type')
+    inlines = [MailUserAdmin, ]
+
+
+@admin.register(MailHistory)
+class MailHistoryAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'mail', 'timestamp')
+    list_filter = ('mail__field', 'mail__type')
 
 
 
