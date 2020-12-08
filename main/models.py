@@ -458,8 +458,8 @@ class MailSettings(models.Model):
 
 
 class MailUser(models.Model):
-    email = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Значение'))
-    name = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Имя'))
+    email = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Почта'))
+    name = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Ф.И.О.'))
     mail = models.ForeignKey(MailSettings, on_delete=models.CASCADE, related_name='mail_sets')
 
     class Meta:
