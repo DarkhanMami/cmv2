@@ -217,7 +217,7 @@ class MailSettingsAdmin(admin.ModelAdmin):
                     "",
                     text
                 ))
-                mail_sender.sendmail('noreply@dlc.kz', [send_to], body)
+                mail_sender.sendmail('noreply@dlc.kz', [send_to], body.encode('utf-8'))
 
     send_manually.short_description = "Отправить вручную"
 
