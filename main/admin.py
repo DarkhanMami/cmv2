@@ -218,6 +218,7 @@ class MailSettingsAdmin(admin.ModelAdmin):
                     text
                 ))
                 mail_sender.sendmail('noreply@dlc.kz', [send_to], body.encode('utf-8'))
+            MailHistory.objects.create(mail=mail_object)
 
     send_manually.short_description = "Отправить вручную"
 
