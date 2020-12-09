@@ -200,8 +200,7 @@ class MailSettingsAdmin(admin.ModelAdmin):
     def send_manually(self, request, queryset):
         mail_sender = smtplib.SMTP('smtp.gmail.com', 587)
         for mail_object in queryset:
-            print('!!!!!!!!!!!!!')
-            print(mail_object)
+            mail_users = MailUser.objects.filter(mail=mail_object)
             mail_object.inlines
             # send_to = ['Y.Tlegenov@emg.kmgep.kz', ]
             # mail_sender.ehlo()
