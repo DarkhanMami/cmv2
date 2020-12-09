@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import Group
+import smtplib
 
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
@@ -194,6 +195,21 @@ class MailSettingsAdmin(admin.ModelAdmin):
     list_display = ('field', 'type', 'body', 'freq')
     list_filter = ('field', 'type')
     inlines = [MailUserAdmin, ]
+    actions = ['send_manually']
+
+    def send_manually(self, request, queryset):
+        mail_sender = smtplib.SMTP('smtp.gmail.com', 587)
+        for mail_object in queryset:
+            print('!!!!!!!!!!!!!')
+            print(mail_object)
+            # send_to = ['Y.Tlegenov@emg.kmgep.kz', ]
+            # mail_sender.ehlo()
+            # mail_sender.starttls()
+            # mail_sender.ehlo()
+            # mail_sender.login("noreply@dlc.kz", "Emb@2019")
+            # mail_sender.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(VMB) is unavailable')
+
+    send_manually.short_description = "Отправить вручную"
 
 
 @admin.register(MailHistory)

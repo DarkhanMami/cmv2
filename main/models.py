@@ -449,7 +449,7 @@ class MailSettings(models.Model):
     )
 
     type = models.CharField(choices=TYPES, default=other, max_length=30, verbose_name=_("Тип"))
-    body = models.CharField(max_length=600, verbose_name=_('Текст'))
+    body = models.CharField(max_length=60, verbose_name=_('Тема письма'))
     freq = models.IntegerField(default=0, verbose_name=_('Периодичность'))
 
     class Meta:
