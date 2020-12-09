@@ -199,15 +199,25 @@ class MailSettingsAdmin(admin.ModelAdmin):
 
     def send_manually(self, request, queryset):
         mail_sender = smtplib.SMTP('smtp.gmail.com', 587)
+        mail_sender.ehlo()
+        mail_sender.starttls()
+        mail_sender.ehlo()
+        mail_sender.login("noreply@dlc.kz", "Emb@2019")
         for mail_object in queryset:
             mail_users = MailUser.objects.filter(mail=mail_object)
-            mail_object.inlines
-            # send_to = ['Y.Tlegenov@emg.kmgep.kz', ]
-            # mail_sender.ehlo()
-            # mail_sender.starttls()
-            # mail_sender.ehlo()
-            # mail_sender.login("noreply@dlc.kz", "Emb@2019")
-            # mail_sender.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(VMB) is unavailable')
+            for mail_user in mail_users:
+                send_to = mail_user.email
+                text = 'Уважаемый(ая) ' + mail_user.name + ', ' + '\n' \
+                       + 'Ручная отправка соообщения.' + '\n' + '\n' + '\n' \
+                       + 'С уважением, noreply@dlc.kz!'
+                body = "\r\n".join((
+                    "From: %s" % 'noreply@dlc.kz',
+                    "To: %s" % send_to,
+                    "Subject: %s" % mail_object.body + ': ' + mail_object.type,
+                    "",
+                    text
+                ))
+                mail_sender.sendmail('noreply@dlc.kz', [send_to], body)
 
     send_manually.short_description = "Отправить вручную"
 
