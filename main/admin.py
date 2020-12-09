@@ -202,6 +202,7 @@ class MailSettingsAdmin(admin.ModelAdmin):
         for mail_object in queryset:
             print('!!!!!!!!!!!!!')
             print(mail_object)
+            mail_object.inlines
             # send_to = ['Y.Tlegenov@emg.kmgep.kz', ]
             # mail_sender.ehlo()
             # mail_sender.starttls()
