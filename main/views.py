@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 import json
 from django.http import HttpResponse
 import os
-import all_tags
+import all_tags.UAZ_TM.all_tags
+import all_tags.Kainar_KUUN.all_tags
 
 
 @login_required(login_url='/admin/')
