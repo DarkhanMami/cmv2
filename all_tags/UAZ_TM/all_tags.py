@@ -21,10 +21,10 @@ def update_tags():
                 break
         if regs:
             decoder = BinaryPayloadDecoder.fromRegisters(regs, Endian.Big, wordorder=Endian.Big)
-            value = decoder.decode_32bit_float()
             if reg > 21:
                 value = decoder.decode_16bit_uint()
-
+            else:
+                value = decoder.decode_32bit_float()
 
             quan = cur.execute("SELECT * FROM n_wincctags where tag_key='" + tag + "' and oil_field = 'UAZ'")
             if quan == 0:
