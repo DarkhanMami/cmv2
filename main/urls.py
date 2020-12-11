@@ -6,4 +6,5 @@ urlpatterns = [
     path('update_Prorva_tags/', views.update_Prorva_tags),
     path('update_Kainar_KUUN_tags/', views.update_Kainar_KUUN_tags),
     path('update_UAZ_TM_tags/', views.update_UAZ_TM_tags),
+    path('update_UAZ_DRP_tags/', views.update_UAZ_DRP_tags),
 ]

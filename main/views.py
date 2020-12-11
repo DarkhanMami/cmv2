@@ -5,6 +5,7 @@ import json
 from django.http import HttpResponse
 import os
 import all_tags.UAZ_TM.all_tags
+import all_tags.UAZ_DRP.all_tags
 import all_tags.Kainar_KUUN.all_tags
 
 
@@ -38,4 +39,9 @@ def update_Kainar_KUUN_tags(request):
 
 def update_UAZ_TM_tags(request):
     all_tags.UAZ_TM.all_tags.update_tags()
+    return HttpResponse("OK")
+
+
+def update_UAZ_DRP_tags(request):
+    all_tags.UAZ_DRP.all_tags.update_tags()
     return HttpResponse("OK")
