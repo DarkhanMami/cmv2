@@ -12,8 +12,8 @@ def update_tags():
     cur = conn.cursor()
     c.open()
 
-    for tag in tags:
-        reg = tags[tag]
+    for tag in tags.tags:
+        reg = tags.tags[tag]
         regs = None
         for i in range(5):
             regs = c.read_holding_registers(reg, 2)
