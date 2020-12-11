@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 import json
 from django.http import HttpResponse
 import os
-from django.db.models import Q
-from all_tags.Kainar_KUUN.all_tags import update_tags
+import all_tags
+
 
 @login_required(login_url='/admin/')
 def index(request):
@@ -31,5 +31,10 @@ def update_Prorva_tags(request):
 
 
 def update_Kainar_KUUN_tags(request):
-    update_tags()
+    all_tags.Kainar_KUUN.all_tags.update_tags()
+    return HttpResponse("OK")
+
+
+def update_UAZ_TM_tags(request):
+    all_tags.UAZ_TM.all_tags.update_tags()
     return HttpResponse("OK")
