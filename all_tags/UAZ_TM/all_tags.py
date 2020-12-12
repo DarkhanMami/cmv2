@@ -21,7 +21,6 @@ def update_tags():
                 break
         if regs:
             decoder = BinaryPayloadDecoder.fromRegisters(regs, Endian.Big, wordorder=Endian.Big)
-            value = None
             if reg > 21:
                 value = decoder.decode_16bit_uint()
             else:

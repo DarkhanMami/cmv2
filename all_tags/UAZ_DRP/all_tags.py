@@ -2,7 +2,7 @@ import pymysql
 from pyModbusTCP.client import ModbusClient
 from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.constants import Endian
-from all_tags.UAZ_TM import tags
+from all_tags.UAZ_DRP import tags
 
 
 def update_tags():
