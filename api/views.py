@@ -58,7 +58,7 @@ class Constant(generics.ListAPIView):
 
 
 class ImbalanceHistoryAll(generics.ListAPIView):
-    queryset = models.ImbalanceHistoryAll.objects.all().order_by('timestamp')
+    queryset = models.ImbalanceHistoryAll.objects.all().order_by('timestamp')[:30]
     serializer_class = ImbalanceHistoryAllSerializer
 
 
