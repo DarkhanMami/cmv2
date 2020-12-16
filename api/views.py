@@ -1193,7 +1193,6 @@ def update_events(request):
     cur = con.cursor()
     wells = models.Well.objects.all()
     for well in wells:
-        well.shortage_prs = 0
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
                     + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd')")
 
