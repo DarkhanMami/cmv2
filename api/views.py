@@ -31,6 +31,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
 import pyodbc
+import smtplib
 
 
 class AuthView(ObtainAuthToken):
@@ -1379,6 +1380,43 @@ def update_kpn(request):
 
     return Response({
         "info": "Данные обновлены"
+    })
+
+
+@api_view(['GET'])
+def send_mails(request):
+    mail_sender = smtplib.SMTP('smtp.gmail.com', 587)
+    mail_sender.ehlo()
+    mail_sender.starttls()
+    mail_sender.ehlo()
+    mail_sender.login("noreply@dlc.kz", "Emba@2019")
+    dt = datetime.today()
+    prod_decrease_sets = models.MailSettings.objects.filter(type=models.MailSettings.prod_decrease)
+    for sett in prod_decrease_sets:
+        field = sett.field
+        recs = models.Recommendation.objects.filter(well__field=field, timestamp=dt)
+        wells = ''
+        for rec in recs:
+            wells += rec.well.name + ': ' + str(rec.kpn) + '\n' + '\n' + '\n'
+
+        mail_users = models.MailUser.objects.filter(mail=sett)
+        for mail_user in mail_users:
+            send_to = mail_user.email
+            text = 'Уважаемый(ая) ' + mail_user.name + ', ' + '\n' \
+                   + 'Просьба обратить внимание на следующие скважины с их КПН.' + '\n' + wells \
+                   + 'С уважением, noreply@dlc.kz!'
+            body = "\r\n".join((
+                "From: %s" % 'noreply@dlc.kz',
+                "To: %s" % send_to,
+                "Subject: %s" % sett.body + ': ' + sett.type,
+                "",
+                text
+            ))
+            mail_sender.sendmail('noreply@dlc.kz', [send_to], body.encode('utf-8'))
+        models.MailHistory.objects.create(mail=sett)
+
+    return Response({
+        "info": "Сообщения отправлены"
     })
 
 
