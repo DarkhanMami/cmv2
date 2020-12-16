@@ -225,7 +225,7 @@ class MailSettingsAdmin(admin.ModelAdmin):
 
 @admin.register(MailHistory)
 class MailHistoryAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'mail__type', 'timestamp')
+    list_display = ('pk', 'mail', 'timestamp')
     list_filter = ('mail__field', 'mail__type')
 
     def has_delete_permission(self, request, obj=None):

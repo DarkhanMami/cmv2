@@ -456,6 +456,9 @@ class MailSettings(models.Model):
         verbose_name = _("Настройка рассылки")
         verbose_name_plural = _("Настройки рассылки")
 
+    def __str__(self):
+        return self.type
+
 
 class MailUser(models.Model):
     email = models.CharField(max_length=50, blank=False, null=False, verbose_name=_('Почта'))
