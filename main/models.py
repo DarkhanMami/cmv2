@@ -457,7 +457,7 @@ class MailSettings(models.Model):
         verbose_name_plural = _("Настройки рассылки")
 
     def __str__(self):
-        return self.type
+        return self.field.name + ': ' + self.type
 
 
 class MailUser(models.Model):
