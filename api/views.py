@@ -1095,8 +1095,7 @@ def update_matrix(request):
 
         if well.server == "192.168.241.2":
             try:
-                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
+                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
                 cur = conn.cursor()
                 cur.execute("SELECT avg_1997, debit_theoretical, no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
                 row_values = cur.fetchone()
