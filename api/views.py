@@ -1401,7 +1401,7 @@ def send_mails(request):
         for rec in recs:
             wells += rec.well.name + ': ' + str(round(rec.kpn, 2)) + '\n'
 
-        all_recs_dt = models.WellMatrix.objects.all().order_by('-id')[0].timestamp
+        all_recs_dt = models.WellMatrix.objects.filter(well__field=field).order_by('-id')[0].timestamp
         all_recs = models.WellMatrix.objects.filter(well__field=field, timestamp=all_recs_dt)
         kpn_constant = models.Constant.objects.get(name='КПН')
 
