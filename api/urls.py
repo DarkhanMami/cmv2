@@ -31,6 +31,7 @@ urlpatterns = [
     path('update_field_matrix/', views.update_field_matrix),
     path('update_events/', views.update_events),
     path('update_kpn/', views.update_kpn),
+    path('send_mails/', views.send_mails),
     path('imbalance_history_all/', views.ImbalanceHistoryAll.as_view()),
     path('sum_well_in_field/', views.SumWellInFieldSerializerAll.as_view()),
     path('field_matrix/', views.FieldMatrixSerializerAll.as_view()),
