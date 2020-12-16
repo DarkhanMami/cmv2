@@ -63,7 +63,7 @@ class ImbalanceHistoryAll(generics.ListAPIView):
 
 
 class SumWellInFieldSerializerAll(generics.ListAPIView):
-    queryset = models.SumWellInField.objects.all().order_by('timestamp')
+    queryset = models.SumWellInField.objects.all().order_by('-timestamp')[:90]
     serializer_class = SumWellInFieldSerializer
 
 
