@@ -1391,8 +1391,8 @@ def send_mails(request):
     mail_sender.ehlo()
     mail_sender.login("noreply@dlc.kz", "Emba@2019")
     dt = datetime.today()
-    prod_decrease_sets = models.MailSettings.objects.filter(type=models.MailSettings.prod_decrease)
-    for sett in prod_decrease_sets:
+    well_perf_sets = models.MailSettings.objects.filter(type=models.MailSettings.well_perf)
+    for sett in well_perf_sets:
         field = sett.field
         recs = models.Recommendation.objects.filter(well__field=field, timestamp=dt)
         wells = ''
