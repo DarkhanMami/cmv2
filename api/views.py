@@ -1396,14 +1396,26 @@ def send_mails(request):
         field = sett.field
         recs = models.Recommendation.objects.filter(well__field=field, timestamp=dt)
         wells = ''
+        all_wells = ''
+
         for rec in recs:
-            wells += rec.well.name + ': ' + str(rec.kpn) + '\n'
+            wells += rec.well.name + ': ' + str(round(rec.kpn, 2)) + '\n'
+
+        all_recs_dt = models.WellMatrix.objects.all().order_by('-id')[0].timestamp
+        all_recs = models.WellMatrix.objects.filter(well__field=field, timestamp=all_recs_dt)
+        kpn_constant = models.Constant.objects.get(name='КПН')
+
+        for rec in all_recs:
+            if rec.kpn <= kpn_constant.max:
+                all_wells += rec.well.name + ': ' + str(round(rec.kpn, 2)) + '\n'
 
         mail_users = models.MailUser.objects.filter(mail=sett)
         for mail_user in mail_users:
             send_to = mail_user.email
             text = 'Уважаемый(ая) ' + mail_user.name + ', ' + '\n' \
-                   + 'Просьба обратить внимание на следующие скважины с их КПН.' + '\n' + '\n' + wells + '\n' + '\n' \
+                   + 'зафиксировано снижение производительности скважины.' + '\n' + '\n' \
+                   + 'КПН по скважинам:' + '\n' + all_wells + '\n' \
+                   + 'Из них, факт смены насоса был зафиксирован более года назад на:' + '\n' + wells + '\n' \
                    + 'С уважением, noreply@dlc.kz!'
             body = "\r\n".join((
                 "From: %s" % 'noreply@dlc.kz',
