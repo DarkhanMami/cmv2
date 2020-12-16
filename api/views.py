@@ -58,12 +58,12 @@ class Constant(generics.ListAPIView):
 
 
 class ImbalanceHistoryAll(generics.ListAPIView):
-    queryset = models.ImbalanceHistoryAll.objects.all().order_by('-timestamp')[:30]
+    queryset = models.ImbalanceHistoryAll.objects.all().order_by('timestamp')
     serializer_class = ImbalanceHistoryAllSerializer
 
 
 class SumWellInFieldSerializerAll(generics.ListAPIView):
-    queryset = models.SumWellInField.objects.all().order_by('-timestamp')[:180]
+    queryset = models.SumWellInField.objects.all().order_by('timestamp')
     serializer_class = SumWellInFieldSerializer
 
 
