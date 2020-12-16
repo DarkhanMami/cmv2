@@ -467,7 +467,7 @@ class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generic
     def history(self, request, *args, **kwargs):
         imbalance = self.get_object()
         results = []
-        for history in models.ImbalanceHistory.objects.filter(imb=imbalance):
+        for history in models.ImbalanceHistory.objects.filter(imb=imbalance).order_by('-timestamp')[:30]:
             results.append(
               ImbalanceHistorySerializer(history).data
             )
