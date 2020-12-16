@@ -111,7 +111,7 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     @action(methods=['get'], detail=False)
     def get_by_well(self, request, *args, **kwargs):
         well = models.Well.objects.get(name=request.GET.get("well"))
-        result = models.WellMatrix.objects.filter(well=well).order_by('-timestamp')[:60]
+        result = models.WellMatrix.objects.filter(well=well).order_by('-timestamp')
         return Response(WellMatrixSerializer(result, many=True).data)
 
     @action(methods=['get'], detail=False)
