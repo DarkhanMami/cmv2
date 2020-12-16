@@ -1235,6 +1235,15 @@ def update_events(request):
 
             got, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
                                                                    beg=beg)
+
+            if beg <= end:
+                daily_data = models.WellMatrix.objects.filter(well=well, timestamp__gte=beg, timestamp__lte=end)
+                for daily_item in daily_data:
+                    daily_item.fluid_agzu = 0
+                    daily_item.park_fluid = 0
+                    daily_item.save()
+
+
             if created:
                 got.end = end
                 got.save()
@@ -1280,6 +1289,14 @@ def update_events(request):
 
             got, created = models.WellEvents.objects.get_or_create(well=well, event_type=rem_type, event=event,
                                                                    beg=beg)
+
+            if beg <= end:
+                daily_data = models.WellMatrix.objects.filter(well=well, timestamp__gte=beg, timestamp__lte=end)
+                for daily_item in daily_data:
+                    daily_item.fluid_agzu = 0
+                    daily_item.park_fluid = 0
+                    daily_item.save()
+
             if created:
                 got.end = end
                 got.save()
