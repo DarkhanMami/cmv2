@@ -1243,8 +1243,9 @@ def update_events(request):
                     daily_item.park_fluid = 0
                     daily_item.save()
 
-
             if created:
+                if end.year > 2021:
+                    end = end.replace(year=2020)
                 got.end = end
                 got.save()
                 cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
@@ -1298,6 +1299,8 @@ def update_events(request):
                     daily_item.save()
 
             if created:
+                if end.year > 2021:
+                    end = end.replace(year=2020)
                 got.end = end
                 got.save()
                 cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
