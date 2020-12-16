@@ -1397,13 +1397,13 @@ def send_mails(request):
         recs = models.Recommendation.objects.filter(well__field=field, timestamp=dt)
         wells = ''
         for rec in recs:
-            wells += rec.well.name + ': ' + str(rec.kpn) + '\n' + '\n' + '\n'
+            wells += rec.well.name + ': ' + str(rec.kpn) + '\n'
 
         mail_users = models.MailUser.objects.filter(mail=sett)
         for mail_user in mail_users:
             send_to = mail_user.email
             text = 'Уважаемый(ая) ' + mail_user.name + ', ' + '\n' \
-                   + 'Просьба обратить внимание на следующие скважины с их КПН.' + '\n' + wells \
+                   + 'Просьба обратить внимание на следующие скважины с их КПН.' + '\n' + '\n' + wells + '\n' + '\n' \
                    + 'С уважением, noreply@dlc.kz!'
             body = "\r\n".join((
                 "From: %s" % 'noreply@dlc.kz',
