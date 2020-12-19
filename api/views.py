@@ -881,7 +881,7 @@ def update_imbalance(request):
     for well in wells:
         try:
             if well.server == "192.168.241.2":
-                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
+                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo',
                                        charset='utf8')
                 cur = conn.cursor()
             elif well.server == "192.168.243.2":
