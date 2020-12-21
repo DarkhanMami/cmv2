@@ -5,7 +5,6 @@ import json
 from django.http import HttpResponse
 import os
 import all_tags.UAZ_TM.all_tags
-import all_tags.UAZ_DRP.all_tags
 import all_tags.Kainar_KUUN.all_tags
 
 
