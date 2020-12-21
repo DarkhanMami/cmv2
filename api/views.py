@@ -976,7 +976,7 @@ def update_wells(request):
     err_sdmo_server = list()
     err_wells_server_all = list()
     try:
-        conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='123456', db='sdmo',
+        conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo',
                                charset='utf8')
         cur = conn.cursor()
         cur.execute("SELECT code,id FROM sdmo.stations")
