@@ -868,7 +868,7 @@ def get_2hour(request):
 
 @api_view(['GET'])
 def update_imbalance(request):
-    wells = models.Well.objects.all()
+    wells = models.Well.objects.filter(has_isu=True)
     t = timezone.now()
     try:
         imbalance_history_all = models.ImbalanceHistoryAll.objects.get(timestamp__year=t.year, timestamp__month=t.month,
