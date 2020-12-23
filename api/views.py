@@ -889,7 +889,6 @@ def update_imbalance(request):
                                        charset='utf8')
                 cur = conn.cursor()
             elif well.server == "192.168.236.2":
-                pass
                 conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
                                        charset='utf8')
                 cur = conn.cursor()
