@@ -870,6 +870,12 @@ def get_2hour(request):
 def update_imbalance(request):
     wells = models.Well.objects.filter(has_isu=True)
     t = timezone.now()
+    con1 = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
+    con2 = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    con3 = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    con4 = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+
+
     try:
         imbalance_history_all = models.ImbalanceHistoryAll.objects.get(timestamp__year=t.year, timestamp__month=t.month,
                                                                        timestamp__day=t.day)
@@ -881,22 +887,13 @@ def update_imbalance(request):
     for well in wells:
         try:
             if well.server == "192.168.241.2":
-                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con1.cursor()
             elif well.server == "192.168.243.2":
-                conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con2.cursor()
             elif well.server == "192.168.236.2":
-                conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con3.cursor()
             elif well.server == "192.168.128.2":
-                pass
-                conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con4.cursor()
 
             cur.execute("SELECT id FROM stations where code='" + well.name + "' limit 1")
             row_values = cur.fetchone()
