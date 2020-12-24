@@ -1068,6 +1068,15 @@ def update_matrix(request):
     err_emgcm_data = list()
     err_sdmo_data = list()
     # err_sdmo_server_all = list()
+    try:
+        con1 = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
+        con2 = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+        con3 = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+        con4 = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    except:
+        pass
+
+
     for well in wells:
         try:
             well_matrix = models.WellMatrix.objects.get(timestamp=timezone.now(), well=well)
@@ -1095,9 +1104,7 @@ def update_matrix(request):
 
         if well.server == "192.168.241.2":
             try:
-                conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con1.cursor()
                 cur.execute("SELECT avg_1997, debit_theoretical, no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
                 row_values = cur.fetchone()
 
@@ -1117,9 +1124,7 @@ def update_matrix(request):
                 well_matrix.fluid_isu = 0
         elif well.server == "192.168.243.2":
             try:
-                conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con2.cursor()
                 cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
                 row_values = cur.fetchone()
                 if (row_values[0] is not  None) and (row_values[1] is not None) and (row_values[2] is not None):
@@ -1138,9 +1143,7 @@ def update_matrix(request):
                 well_matrix.fluid_isu = 0
         elif well.server == "192.168.236.2":
             try:
-                conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con3.cursor()
                 cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
                 row_values = cur.fetchone()
                 if (row_values[0] is not None) and (row_values[1] is not None) and (row_values[2] is not None):
@@ -1159,9 +1162,7 @@ def update_matrix(request):
                 well_matrix.fluid_isu = 0
         elif well.server == "192.168.128.2":
             try:
-                conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                                       charset='utf8')
-                cur = conn.cursor()
+                cur = con4.cursor()
                 cur.execute("SELECT avg_1997,debit_theoretical,no_work FROM sdmo.daily_data where station_id='"+str(well.well_id)+"' order by day desc limit 1")
                 row_values = cur.fetchone()
                 if (row_values[0] is not None) and (row_values[1] is not None) and (row_values[2] is not None):

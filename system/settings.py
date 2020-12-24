@@ -90,6 +90,7 @@ ADMIN_REORDER = (
         'main.ProdProfile',
         'main.Dynamogram',
         'main.Imbalance',
+        'main.ImbalanceHistory',
         'main.ImbalanceHistoryAll',
         'main.SumWellInField',
         # 'authtoken.Token'
