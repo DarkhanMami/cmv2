@@ -929,8 +929,7 @@ def update_imbalance(request):
             imb.save()
             if imb.imbalance >= 7 and 80 >= imb.imbalance:
                 imbalance_history_all.count += 1
-             
-            conn.close()
+
         except Exception as e:
             pass
     imbalance_history_all.percent = (imbalance_history_all.count / models.Well.objects.all().count()) * 100
