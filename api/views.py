@@ -976,37 +976,36 @@ def update_wells(request):
     err_sdmo_server = list()
     err_wells_server_all = list()
     try:
-        conn = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo',
-                               charset='utf8')
-        cur = conn.cursor()
+        con1 = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
+        con2 = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+        con3 = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+        con4 = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    except:
+        pass
+    try:
+        cur = con1.cursor()
         cur.execute("SELECT code,id FROM sdmo.stations")
         err_wells_server_all += update_well(cur.fetchall(), '192.168.241.2')
     except:
         err_sdmo_server.append('192.168.241.2')
     try:
-        conn = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                               charset='utf8')
-        cur = conn.cursor()
+        cur = con2.cursor()
         cur.execute("SELECT code,id  FROM sdmo.stations")
         err_wells_server_all += update_well(cur.fetchall(), '192.168.243.2')
     except:
         err_sdmo_server.append('192.168.243.2')
     try:
-        conn = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                               charset='utf8')
-        cur = conn.cursor()
+        cur = con3.cursor()
         cur.execute("SELECT code,id  FROM sdmo.stations")
         err_wells_server_all += update_well(cur.fetchall(), '192.168.236.2')
     except:
         err_sdmo_server.append('192.168.236.2')
     try:
-        conn = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo',
-                               charset='utf8')
-        cur = conn.cursor()
+        cur = con4.cursor()
         cur.execute("SELECT code,id  FROM sdmo.stations")
-        err_wells_server_all += update_well(cur.fetchall(), '192.168.236.2')
+        err_wells_server_all += update_well(cur.fetchall(), '192.168.128.2')
     except:
-        err_sdmo_server.append('192.168.236.2')
+        err_sdmo_server.append('192.168.128.2')
     return Response({
         "info": "SUCCESS",
         "err_wells": err_wells_server_all,
