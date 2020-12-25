@@ -121,6 +121,9 @@ class Well(models.Model):
     well_stop_prs = models.FloatField(default=0, verbose_name=_('Остановы (ПРС)'))
     rem_count = models.IntegerField(default=0, verbose_name=_('Кол-во ремонтов'))
 
+    gzu = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('ГЗУ'))
+    horizon = models.CharField(max_length=30, blank=True, null=True, verbose_name=_('Горизонт'))
+
     server1 = "192.168.241.2"
     server2 = "192.168.243.2"
     server3 = "192.168.236.2"
