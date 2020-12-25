@@ -170,7 +170,12 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['get'], detail=False)
     def get_events_statistics(self, request, *args, **kwargs):
-        events = models.Events.objects.all().order_by('-fact')[:3]
+        id = request.GET.get("field")
+        if id == 0:
+            events = models.Events.objects.all().order_by('-fact')[:3]
+        else:
+            field = models.Field.objects.get(pk=id)
+            events = models.Events.objects.filter(field=field).order_by('-fact')[:3]
         return Response(EventsSerializer(events, many=True).data)
 
 
@@ -1342,12 +1347,20 @@ def update_events(request):
     con.close()
     prod = models.Constant.objects.get(name='Дополнительная добыча').max
     all_count = models.WellEvents.objects.all().count()
-    for event in models.Events.objects.all():
+    for event in models.Events.objects.filter(field=None):
         count = models.WellEvents.objects.filter(event=event.event).count()
         event.fact = count
         event.coef = count / all_count
         event.effect = prod * event.coef
         event.save()
+
+    for field in models.Field.objects.all():
+        for event in models.Events.objects.filter(field=field):
+            count = models.WellEvents.objects.filter(event=event.event, well__field=field).count()
+            event.fact = count
+            event.coef = count / all_count
+            event.effect = prod * event.coef
+            event.save()
 
     return Response({
         "info": "Данные загружены"
