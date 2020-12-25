@@ -942,6 +942,7 @@ def update_imbalance(request):
 def update_well(wells, server):
     err_wells_server = list()
     for w in wells:
+        skv = w[0]
         if w[0] and 'MLD' in w[0]:
             skv = w[0].replace('MLD', 'VMB')
         try: 
