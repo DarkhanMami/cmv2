@@ -255,6 +255,7 @@ class WellEvents(models.Model):
 
 
 class Events(models.Model):
+    field = models.ForeignKey(Field, blank=True, null=True, on_delete=models.CASCADE, related_name='event_fields')
     event = models.CharField(max_length=200, verbose_name=_('Событие'))
 
     PRS = "ПРС"
