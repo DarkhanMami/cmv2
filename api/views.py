@@ -933,12 +933,13 @@ def update_imbalance(request):
             except:
                 imb.avg_1997 = 0
             imb.save()
-            if imb.imbalance >= 7 and 80 >= imb.imbalance:
-                imbalance_history_all.count += 1
 
         except Exception as e:
             pass
-    imbalance_history_all.percent = (imbalance_history_all.count / models.Well.objects.all().count()) * 100
+
+    today = datetime.today() - timedelta(days=1)
+    imbalance_history_all.count = models.Imbalance.objects.filter(timestamp__gt=today, imbalance__gte=7, imbalance__lte=80).count()
+    imbalance_history_all.percent = (imbalance_history_all.count / models.Well.objects.filter(has_isu=True).count()) * 100
     imbalance_history_all.save()
     return Response({
         "info": "Данные загружены"
