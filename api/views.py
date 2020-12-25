@@ -878,7 +878,6 @@ def update_imbalance(request):
     except:
         pass
 
-
     try:
         imbalance_history_all = models.ImbalanceHistoryAll.objects.get(timestamp__year=t.year, timestamp__month=t.month,
                                                                        timestamp__day=t.day)
@@ -898,7 +897,11 @@ def update_imbalance(request):
             elif well.server == "192.168.128.2":
                 cur = con4.cursor()
 
-            cur.execute("SELECT id FROM stations where code='" + well.name + "' limit 1")
+            skv_name = well.name
+            if 'VMB' in skv_name:
+                skv_name = skv_name.replace('VMB', 'MLD')
+
+            cur.execute("SELECT id FROM stations where code='" + skv_name + "' limit 1")
             row_values = cur.fetchone()
             station_id = int(row_values[0])
             cur.execute("SELECT * FROM fc_data_last where reg=30005 and station_id=" + str(station_id) + " order by savetime desc")
