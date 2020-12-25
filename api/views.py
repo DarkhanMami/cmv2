@@ -943,33 +943,33 @@ def update_well(wells, server):
     err_wells_server = list()
     for w in wells:
         if w[0] and 'MLD' in w[0]:
-            w[0] = w[0].replace('MLD', 'VMB')
+            skv = w[0].replace('MLD', 'VMB')
         try: 
             conn = pymysql.connect(host='192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm',
                                    charset='utf8')
             cur = conn.cursor()
-            cur.execute("SELECT oil_field FROM n_well_matrix where well='" + w[0] + "'")
+            cur.execute("SELECT oil_field FROM n_well_matrix where well='" + skv + "'")
             row_values = cur.fetchone()
             if row_values is not None:
-                print(w[0])
+                print(skv)
                 print(row_values)
                 try:
                     field = models.Field.objects.get(name=row_values[0])
                 except:
                     field = models.Field.objects.create(name=row_values[0])
                 try:
-                    well = models.Well.objects.get(name=w[0],field=field)
+                    well = models.Well.objects.get(name=skv, field=field)
                     print("get")
                 except:
-                    well = models.Well.objects.create(name=w[0],field=field)
+                    well = models.Well.objects.create(name=skv, field=field)
                     print("create")
                 well.well_id = w[1]
                 well.server = server
                 well.save()
             else:
-                err_wells_server.append(w[0])
+                err_wells_server.append(skv)
         except:
-            err_wells_server.append(w[0])
+            err_wells_server.append(skv)
     return err_wells_server
 
 
