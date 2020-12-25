@@ -445,13 +445,13 @@ class ProdProfileViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Gener
 class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
     filter_backends = (filters.DjangoFilterBackend,)
-    queryset = models.Imbalance.objects.all()
+    queryset = models.Imbalance.objects.filter(timestamp=datetime.today(), imbalance__gte=7, imbalance__lte=80)
 
     def get_serializer_context(self):
         return {'request': self.request}
 
     def get_queryset(self):
-        return models.Imbalance.objects.filter(imbalance__gte=7, imbalance__lte=80)
+        return models.Imbalance.objects.filter(timestamp=datetime.today(), imbalance__gte=7, imbalance__lte=80)
 
     def get_serializer_class(self):
         return ImbalanceSerializer
