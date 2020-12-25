@@ -452,6 +452,7 @@ class ImbalanceViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generic
         return {'request': self.request}
 
     def get_queryset(self):
+        today = datetime.today() - timedelta(days=1)
         return models.Imbalance.objects.filter(timestamp__gt=today, imbalance__gte=7, imbalance__lte=80)
 
     def get_serializer_class(self):
