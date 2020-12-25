@@ -942,6 +942,8 @@ def update_imbalance(request):
 def update_well(wells, server):
     err_wells_server = list()
     for w in wells:
+        if 'MLD' in w[0]:
+            w[0] = w[0].replace('MLD', 'VMB')
         try: 
             conn = pymysql.connect(host='192.168.17.158', port=3306, user='root', passwd='1234', db='emg-cm',
                                    charset='utf8')
