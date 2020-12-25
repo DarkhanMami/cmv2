@@ -26,7 +26,7 @@ from main.serializers import WellMatrixCreateSerializer, WellMatrixSerializer, W
     FieldBalanceSerializer, FieldBalanceCreateSerializer, DepressionSerializer, TSSerializer, ProdProfileSerializer, \
     GSMSerializer, DynamogramSerializer, ImbalanceSerializer, ImbalanceHistorySerializer, \
     ImbalanceHistoryAllSerializer, SumWellInFieldSerializer, WellEventsSerializer, FieldMatrixSerializer, \
-    ConstantSerializer, RecommendationSerializer, EventsSerializer
+    ConstantSerializer, RecommendationSerializer, EventsSerializer, WattmetrogramSerializer
 from django.core.mail import EmailMessage
 from django.db.models import Sum, Avg
 import cx_Oracle
@@ -511,9 +511,16 @@ def upload_dyn_data(request):
 @permission_classes((IsAuthenticated, ))
 def get_dyn_data(request):
     well = models.Well.objects.get(name=request.GET.get('well_name'))
-    dyn = models.Dynamogram.objects.filter(well=well).order_by('?').first()
-
+    dyn = models.Dynamogram.objects.filter(well=well).order_by('-timestamp').first()
     return Response(DynamogramSerializer(dyn).data)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def get_watt_data(request):
+    well = models.Well.objects.get(name=request.GET.get('well_name'))
+    watt = models.Wattmetrogram.objects.filter(well=well).order_by('-timestamp').first()
+    return Response(WattmetrogramSerializer(watt).data)
 
 
 @api_view(['GET'])

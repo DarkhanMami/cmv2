@@ -399,6 +399,17 @@ class Dynamogram(models.Model):
         verbose_name_plural = _("Динамограммы скважин")
 
 
+class Wattmetrogram(models.Model):
+    well = models.ForeignKey(Well, blank=False, null=False, on_delete=models.CASCADE, related_name='watt_wells')
+    x = ArrayField(models.FloatField(), blank=True)
+    y = ArrayField(models.FloatField(), blank=True)
+    timestamp = models.DateTimeField(blank=False, verbose_name=_('Время замера'))
+
+    class Meta:
+        verbose_name = _("Ваттметрограмма скважины")
+        verbose_name_plural = _("Ваттметрограммы скважин")
+
+
 class SumWellInField(models.Model):
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='well_in_fields')
 

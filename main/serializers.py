@@ -119,6 +119,13 @@ class DynamogramSerializer(serializers.ModelSerializer):
         fields = ['well', 'x', 'y', 'timestamp']
 
 
+class WattmetrogramSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Wattmetrogram
+        fields = ['well', 'x', 'y', 'timestamp']
+
+
 class ImbalanceSerializer(serializers.ModelSerializer):
     well = WellSerializer(many=False, read_only=True)
 

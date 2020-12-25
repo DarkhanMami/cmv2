@@ -7,7 +7,7 @@ import smtplib
 from main import models
 from main.models import Field, Well, WellMatrix, TS, Depression, ProdProfile, GSM, Dynamogram, Imbalance, \
     ImbalanceHistory, ImbalanceHistoryAll, SumWellInField, WellEvents, FieldMatrix, PrsDevice, Constant, \
-    Recommendation, Events, MailUser, MailSettings, MailHistory
+    Recommendation, Events, MailUser, MailSettings, MailHistory, Wattmetrogram
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -144,6 +144,12 @@ class ProdProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Dynamogram)
 class DynamogramAdmin(admin.ModelAdmin):
+    list_display = ('well', 'timestamp')
+    search_fields = ('well',)
+
+
+@admin.register(Wattmetrogram)
+class WattmetrogramAdmin(admin.ModelAdmin):
     list_display = ('well', 'timestamp')
     search_fields = ('well',)
 
