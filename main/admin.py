@@ -162,6 +162,7 @@ class ImbalanceHistoryAdmin(admin.StackedInline):
 class ImbalanceAdmin(admin.ModelAdmin):
     list_display = ('well', 'imbalance', 'avg_1997', 'timestamp')
     search_fields = ('well',)
+    list_filter = ('well__field',)
     # inlines = [ImbalanceHistoryAdmin, ]
 
 
