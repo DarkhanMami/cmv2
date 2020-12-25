@@ -907,7 +907,8 @@ def update_imbalance(request):
                 imb = models.Imbalance.objects.get(well=well)
                 try:
                     timestamp = imb.timestamp + timedelta(hours=6)
-                    if not row_values[3].strftime("%Y-%m-%d %H:%M:%S") == timestamp.strftime("%Y-%m-%d %H:%M:%S"):
+                    # if not row_values[3].strftime("%Y-%m-%d %H:%M:%S") == timestamp.strftime("%Y-%m-%d %H:%M:%S"):
+                    if not row_values[3].strftime("%Y-%m-%d") == timestamp.strftime("%Y-%m-%d"):
                         imb_history = models.ImbalanceHistory.objects.create(imb=imb, well=imb.well, imbalance=imb.imbalance,
                                                                              avg_1997=imb.avg_1997, timestamp=imb.timestamp)
                         imb_history.save()
