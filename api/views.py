@@ -1107,7 +1107,6 @@ def update_matrix(request):
     except:
         pass
 
-
     for well in wells:
         try:
             well_matrix = models.WellMatrix.objects.get(timestamp=timezone.now(), well=well)
@@ -1492,6 +1491,37 @@ def send_mails(request):
     return Response({
         "info": "Сообщения отправлены"
     })
+
+
+@api_view(['GET'])
+def update_watt(request):
+    try:
+        con1 = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
+        # con2 = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+        # con3 = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+        # con4 = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    except:
+        pass
+    wells = models.Well.objects.filter(has_isu=True)
+    for well in wells:
+        if well.server == "192.168.241.2":
+            try:
+                cur = con1.cursor()
+                cur.execute("SELECT date,time,value FROM sdmo.osc_data where reg=1610 and station_id='" + str(well.well_id) + "' order by date desc limit 1")
+                row_values = cur.fetchone()
+                t = (datetime.min + row_values[1]).time()
+                dt = datetime.combine(row_values[0], t)
+                try:
+                    models.Wattmetrogram.objects.get(well=well, timestamp=dt)
+                except:
+                    models.Wattmetrogram.objects.create(well=well, y=row_values[2], timestamp=dt)
+            except:
+                pass
+
+    return Response({
+        "info": "SUCCESS"
+    })
+
 
 
 # for event in events:
