@@ -1537,24 +1537,27 @@ def update_tbd_data(request):
     cur = con.cursor()
     wells = models.Well.objects.all()
     for well in wells:
-        cur.execute("SELECT WELL_STATUS_TYPE_ID FROM WELL_STATUS where WELL_ID=" + str(well.tbd_id)
-                    + " and ROWNUM <= 1 order by DBEG desc")
+        try:
+            cur.execute("SELECT WELL_STATUS_TYPE_ID FROM WELL_STATUS where WELL_ID=" + str(well.tbd_id)
+                        + " and ROWNUM <= 1 order by DBEG desc")
 
-        row_values = cur.fetchone()
-        status_id = row_values[0]
-        cur.execute("SELECT NAME_RU FROM WELL_STATUS_TYPE where ID=" + str(status_id))
-        row_values = cur.fetchone()
-        status = row_values[0]
+            row_values = cur.fetchone()
+            status_id = row_values[0]
+            cur.execute("SELECT NAME_RU FROM WELL_STATUS_TYPE where ID=" + str(status_id))
+            row_values = cur.fetchone()
+            status = row_values[0]
 
-        cur.execute("SELECT LIQUID_VAL FROM LIQUID_PROD where WELL_ID=" + str(well.tbd_id)
-                    + " and ROWNUM <= 1 order by DBEG desc")
-        row_values = cur.fetchone()
-        tbd_fluid = row_values[0]
+            cur.execute("SELECT LIQUID_VAL FROM LIQUID_PROD where WELL_ID=" + str(well.tbd_id)
+                        + " and ROWNUM <= 1 order by DBEG desc")
+            row_values = cur.fetchone()
+            tbd_fluid = row_values[0]
 
-        well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
-        well_matrix.tbd_fluid = tbd_fluid
-        well_matrix.status = status
-        well_matrix.save()
+            well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
+            well_matrix.tbd_fluid = tbd_fluid
+            well_matrix.status = status
+            well_matrix.save()
+        except:
+            pass
 
     return Response({
         "info": "SUCCESS"
