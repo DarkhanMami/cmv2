@@ -89,7 +89,7 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     def get_queryset(self):
         # if self.request.user.type == User.CLIENT:
         #     return models.Application.objects.filter(user=self.request.user)
-        return models.WellMatrix.objects.filter(timestamp=timezone.now(), well__has_isu=True)
+        return models.WellMatrix.objects.filter(timestamp=timezone.now(), well__has_isu=True).order_by('well__gzu', 'well__horizon')
 
     def get_serializer_class(self):
         if self.action == 'create_wellmatrix':
