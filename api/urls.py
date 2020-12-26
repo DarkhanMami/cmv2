@@ -29,6 +29,7 @@ urlpatterns = [
     path('update_wells/', views.update_wells),
     path('update_matrix/', views.update_matrix),
     path('update_watt/', views.update_watt),
+    path('update_tbd_data/', views.update_tbd_data),
     path('update_sum_well/', views.update_sum_well),
     path('update_field_matrix/', views.update_field_matrix),
     path('update_events/', views.update_events),

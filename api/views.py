@@ -1531,6 +1531,34 @@ def update_watt(request):
     })
 
 
+@api_view(['GET'])
+def update_tbd_data(request):
+    con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl', encoding='UTF-8', nencoding='UTF-8')
+    cur = con.cursor()
+    wells = models.Well.objects.all()
+    for well in wells:
+        cur.execute("SELECT WELL_STATUS_TYPE_ID FROM WELL_STATUS where WELL_ID=" + str(well.tbd_id)
+                    + " and ROWNUM <= 1 order by DBEG desc")
+
+        row_values = cur.fetchone()
+        status_id = row_values[0]
+        cur.execute("SELECT NAME_RU FROM WELL_STATUS_TYPE where ID=" + str(status_id))
+        row_values = cur.fetchone()
+        status = row_values[0]
+
+        cur.execute("SELECT LIQUID_VAL FROM WELL_STATUS where WELL_ID=" + str(well.tbd_id)
+                    + " and ROWNUM <= 1 order by DBEG desc")
+        row_values = cur.fetchone()
+        tbd_fluid = row_values[0]
+
+        well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
+        well_matrix.tbd_fluid = tbd_fluid
+        well_matrix.status = status
+        well_matrix.save()
+
+    return Response({
+        "info": "SUCCESS"
+    })
 
 # for event in events:
 #     ...:     field = event.well.field.name
