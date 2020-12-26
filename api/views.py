@@ -1511,12 +1511,20 @@ def update_watt(request):
                 row_values = cur.fetchone()
                 t = (datetime.min + row_values[1]).time()
                 dt = datetime.combine(row_values[0], t)
+                arr = str(row_values[2]).split(',')
+
                 try:
                     models.Wattmetrogram.objects.get(well=well, timestamp=dt)
                 except:
-                    models.Wattmetrogram.objects.create(well=well, y=row_values[2], timestamp=dt)
+                    models.Wattmetrogram.objects.create(well=well, x=[], y=arr, timestamp=dt)
             except:
                 pass
+
+
+    try:
+        con1.close()
+    except:
+        pass
 
     return Response({
         "info": "SUCCESS"
