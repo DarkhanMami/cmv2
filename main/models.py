@@ -212,6 +212,8 @@ class WellMatrix(models.Model):
     park_fluid = models.FloatField(default=-1, verbose_name=_('Парковая жидкость'))
     park_oil = models.FloatField(default=-1, verbose_name=_('Парковая нефть'))
     kpn = models.FloatField(default=1, verbose_name=_('Коэф. подачи насоса'))
+    tbd_fluid = models.FloatField(default=-1, verbose_name=_('ТБД жидкость'))
+    status = models.CharField(blank=True, null=True, max_length=30, verbose_name=_('Статус'))
 
     # well_stop = models.FloatField(default=0, verbose_name=_('Остановы ИСУ'))
     # rotor_speed = models.FloatField(default=0, verbose_name=_('Скорость Ротора'))
@@ -219,7 +221,6 @@ class WellMatrix(models.Model):
     # pressure2 = models.FloatField(default=0, verbose_name=_('Давление (затруб)'))
     # pressure3 = models.FloatField(default=0, verbose_name=_('Давление (забой)'))
     # dyn_level = models.FloatField(default=0, verbose_name=_('Дин. уровень'))
-    # dyn_level_isu = models.FloatField(default=0, verbose_name=_('Дин. уровень (ИСУ)'))
     # el_consumption = models.FloatField(default=0, verbose_name=_('Потребление Эл.'))
     # hod_sut = models.FloatField(default=0, verbose_name=_('Ход. за сутки'))
 

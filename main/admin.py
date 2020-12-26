@@ -83,8 +83,8 @@ class WellAdmin(admin.ModelAdmin):
 
 @admin.register(WellMatrix)
 class WellMatrixAdmin(admin.ModelAdmin):
-    list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water',
-                    'park_fluid', 'park_oil', 'kpn', 'timestamp')
+    list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'tbd_fluid', 'teh_rej_fluid', 'teh_rej_oil',
+                    'teh_rej_water', 'park_fluid', 'park_oil', 'kpn', 'status', 'timestamp')
     search_fields = ('well__name',)
     list_filter = ('well__field',)
 
