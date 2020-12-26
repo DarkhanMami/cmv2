@@ -355,6 +355,16 @@ class WellViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewS
         wells = models.Well.objects.filter(rem_count__gt=0)
         return Response(WellSerializer(wells, many=True).data)
 
+    # @action(methods=['get'], detail=False)
+    # def get_with_gzu(self, request, *args, **kwargs):
+    #     id = request.GET.get("field")
+    #     if id == '0':
+    #         wells = models.Well.objects.filter
+    #     else:
+    #         field = models.Field.objects.get(pk=id)
+    #     wells = models.Well.objects.filter(rem_count__gt=0)
+    #     return Response(WellSerializer(wells, many=True).data)
+
 
 class FieldViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
