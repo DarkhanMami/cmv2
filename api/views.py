@@ -1546,7 +1546,7 @@ def update_tbd_data(request):
         row_values = cur.fetchone()
         status = row_values[0]
 
-        cur.execute("SELECT LIQUID_VAL FROM WELL_STATUS where WELL_ID=" + str(well.tbd_id)
+        cur.execute("SELECT LIQUID_VAL FROM LIQUID_PROD where WELL_ID=" + str(well.tbd_id)
                     + " and ROWNUM <= 1 order by DBEG desc")
         row_values = cur.fetchone()
         tbd_fluid = row_values[0]
