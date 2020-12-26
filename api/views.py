@@ -1502,7 +1502,7 @@ def update_watt(request):
         # con4 = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
     except:
         pass
-    wells = models.Well.objects.filter(has_isu=True)
+    wells = models.Well.objects.filter(has_isu=True, field__name='UAZ')
     for well in wells:
         if well.server == "192.168.241.2":
             try:
