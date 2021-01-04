@@ -91,22 +91,22 @@ def update_tags():
         skv4 = skv4 + '0' + str(tmp_skv)
 
     if skv4 == "UZV_007U":
-        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0103';");
+        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0103';")
     if skv4 == "UZV_0103":
-        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_007U';");
+        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_007U';")
     if skv4 == "UZV_0107":
-        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0111';");
+        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0111';")
     if skv4 == "UZV_0111":
-        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0107';");
+        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0107';")
     if skv4 == "UZV_003U":
-        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0108';");
+        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_0108';")
     if skv4 == "UZV_0108":
-        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_003U';");
+        cur.execute("update n_well_matrix set zamer = " + val4 + " where well = 'UZV_003U';")
 
-    cur.execute("update n_well_matrix set zamer = " + val1 + " where well = '" + skv1 + "';");
-    cur.execute("update n_well_matrix set zamer = " + val2 + " where well = '" + skv2 + "';");
-    cur.execute("update n_well_matrix set zamer = " + val3 + " where well = '" + skv3 + "';");
-    cur.execute("update n_well_matrix set zamer = " + val5 + " where well = '" + skv5 + "';");
+    cur.execute("update n_well_matrix set zamer = " + val1 + " where well = '" + skv1 + "';")
+    cur.execute("update n_well_matrix set zamer = " + val2 + " where well = '" + skv2 + "';")
+    cur.execute("update n_well_matrix set zamer = " + val3 + " where well = '" + skv3 + "';")
+    cur.execute("update n_well_matrix set zamer = " + val5 + " where well = '" + skv5 + "';")
 
     conn.commit()
     conn.close()
