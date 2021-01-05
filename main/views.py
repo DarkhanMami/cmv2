@@ -42,5 +42,5 @@ def update_UAZ_TM_tags(request):
 
 
 def update_UAZ_DRP_tags(request):
-    os.system('python /webapps/cmv2/all_tags/UAZ_DRP/all_tags.py')
+    os.system('ipython /webapps/cmv2/all_tags/UAZ_DRP/all_tags.py')
     return HttpResponse("OK")
