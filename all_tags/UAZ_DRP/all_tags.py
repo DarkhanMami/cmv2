@@ -18,11 +18,15 @@ try:
 
     # try:
     Data = opc.read(tags, group='test', timeout=100000)
-    # except:
-    # 	print('timeOut')
+    rgs_tags = ['РГС_1_Уровень', 'РГС_2_Уровень', 'РГС_3_Уровень', 'РГС_3_Уровень_подтоварной_жидкости',
+                'РГС_4_Уровень', 'РГС_4_Уровень_подтоварной_жидкости', 'РГС_1_Температура', 'РГС_2_Температура',
+                'РГС_3_Температура', 'РГС_4_Температура', 'РГС_1_Обьем', 'РГС_2_Обьем', 'РГС_3_Обьем', 'РГС_4_Обьем']
+
+    Data2 = opc.read(rgs_tags, group='test2', timeout=100000)
     opc.remove('test')
-    for i in Data:
-        # print(i)
+    opc.remove('test2')
+
+    for i in Data2:
         tag = i[0]
         if tag.decode('utf-8') == 'РГС_1_Уровень':
             tag = 'H1_UAZ'
@@ -56,12 +60,9 @@ try:
         value = i[1]
         quality = i[2]
         update_date = i[3]
-        # print(tag,update_date)
         try:
             update_date = datetime.datetime.strptime(update_date, '%m/%d/%y %H:%M:%S')  # 06/05/19 18:19:48
-        # print(update_date)
         except:
-            # print('Error')
             pass
             update_date = datetime.datetime.now()
         quan = cur.execute("SELECT * FROM n_wincctags where tag_key='" + tag + "' and oil_field = 'UAZ'")
@@ -69,15 +70,33 @@ try:
             Sql = (
                 "INSERT INTO n_wincctags(oil_field, tag_key, tag_value, last_update) VALUES('UAZ','{0}','{1}',now())").format(
                 tag, value)
-            # print(Sql)
-            # if(quality=='Good'):
             cur.execute(Sql)
         else:
             Sql = (
                 "UPDATE n_wincctags SET tag_value='{0}',last_update=now(),last_actual_update='{1}' WHERE tag_key='{2}' and oil_field='UAZ'").format(
                 value, update_date, tag)
-            # print(Sql)
-            # if(quality=='Good'):
+            cur.execute(Sql)
+
+    for i in Data:
+        tag = i[0]
+        value = i[1]
+        quality = i[2]
+        update_date = i[3]
+        try:
+            update_date = datetime.datetime.strptime(update_date, '%m/%d/%y %H:%M:%S')  # 06/05/19 18:19:48
+        except:
+            pass
+            update_date = datetime.datetime.now()
+        quan = cur.execute("SELECT * FROM n_wincctags where tag_key='" + tag + "' and oil_field = 'UAZ'")
+        if (quan == 0):
+            Sql = (
+                "INSERT INTO n_wincctags(oil_field, tag_key, tag_value, last_update) VALUES('UAZ','{0}','{1}',now())").format(
+                tag, value)
+            cur.execute(Sql)
+        else:
+            Sql = (
+                "UPDATE n_wincctags SET tag_value='{0}',last_update=now(),last_actual_update='{1}' WHERE tag_key='{2}' and oil_field='UAZ'").format(
+                value, update_date, tag)
             cur.execute(Sql)
 
     conn.commit()
