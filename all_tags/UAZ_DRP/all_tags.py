@@ -24,35 +24,35 @@ try:
     for i in Data:
         # print(i)
         tag = i[0]
-        if tag == 'РГС_1_Уровень':
+        if tag.decode('utf-8') == 'РГС_1_Уровень':
             tag = 'H1_UAZ'
-        if tag == 'РГС_2_Уровень':
+        if tag.decode('utf-8') == 'РГС_2_Уровень':
             tag = 'H2_UAZ'
-        if tag == 'РГС_3_Уровень':
+        if tag.decode('utf-8') == 'РГС_3_Уровень':
             tag = 'H3_UAZ'
-        if tag == 'РГС_3_Уровень_подтоварной_жидкости':
+        if tag.decode('utf-8') == 'РГС_3_Уровень_подтоварной_жидкости':
             tag = 'H3w_UAZ'
-        if tag == 'РГС_4_Уровень':
+        if tag.decode('utf-8') == 'РГС_4_Уровень':
             tag = 'H4_UAZ'
-        if tag == 'РГС_4_Уровень_подтоварной_жидкости':
+        if tag.decode('utf-8') == 'РГС_4_Уровень_подтоварной_жидкости':
             tag = 'H4w_UAZ'
-        if tag == 'РГС_1_Температура':
+        if tag.decode('utf-8') == 'РГС_1_Температура':
             tag = 'T1_UAZ'
-        if tag == 'РГС_2_Температура':
+        if tag.decode('utf-8') == 'РГС_2_Температура':
             tag = 'T2_UAZ'
-        if tag == 'РГС_3_Температура':
+        if tag.decode('utf-8') == 'РГС_3_Температура':
             tag = 'T3_UAZ'
-        if tag == 'РГС_4_Температура':
+        if tag.decode('utf-8') == 'РГС_4_Температура':
             tag = 'T4_UAZ'
-        if tag == 'РГС_1_Обьем':
+        if tag.decode('utf-8') == 'РГС_1_Обьем':
             tag = 'V1_UAZ'
-        if tag == 'РГС_2_Обьем':
+        if tag.decode('utf-8') == 'РГС_2_Обьем':
             tag = 'V2_UAZ'
-        if tag == 'РГС_3_Обьем':
+        if tag.decode('utf-8') == 'РГС_3_Обьем':
             tag = 'V3_UAZ'
-        if tag == 'РГС_4_Обьем':
+        if tag.decode('utf-8') == 'РГС_4_Обьем':
             tag = 'V4_UAZ'
-        
+
         value = i[1]
         quality = i[2]
         update_date = i[3]
