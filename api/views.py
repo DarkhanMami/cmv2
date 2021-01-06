@@ -69,7 +69,7 @@ class SumWellInFieldSerializerAll(generics.ListAPIView):
 
 
 class FieldMatrixSerializerAll(generics.ListAPIView):
-    dt = datetime(2020, 12, 1)
+    dt = datetime(2020, 12, 15)
     queryset = models.FieldMatrix.objects.filter(timestamp__gte=dt).order_by('timestamp')
     serializer_class = FieldMatrixSerializer
 
