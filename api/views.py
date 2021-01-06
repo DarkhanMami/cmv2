@@ -178,7 +178,7 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     def get_events_statistics(self, request, *args, **kwargs):
         id = request.GET.get("field")
         if id == '0':
-            events = models.Events.objects.all().order_by('-fact')[:3]
+            events = models.Events.objects.filter(field__isnull=True).order_by('-fact')[:3]
         else:
             field = models.Field.objects.get(pk=id)
             events = models.Events.objects.filter(field=field).order_by('-fact')[:3]
