@@ -1407,7 +1407,7 @@ def update_events(request):
     prod = models.Constant.objects.get(name='Дополнительная добыча').max
     all_count = models.WellEvents.objects.all().count()
     for event in models.Events.objects.filter(field=None):
-        count = models.WellEvents.objects.filter(beg_gte=filter_date, event=event.event).count()
+        count = models.WellEvents.objects.filter(beg__gte=filter_date, event=event.event).count()
         event.fact = count
         event.coef = count / all_count
         event.effect = prod * event.coef
@@ -1415,7 +1415,7 @@ def update_events(request):
 
     for field in models.Field.objects.all():
         for event in models.Events.objects.filter(field=field):
-            count = models.WellEvents.objects.filter(beg_gte=filter_date, event=event.event, well__field=field).count()
+            count = models.WellEvents.objects.filter(beg__gte=filter_date, event=event.event, well__field=field).count()
             event.fact = count
             event.coef = count / all_count
             event.effect = prod * event.coef
