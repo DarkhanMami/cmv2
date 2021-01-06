@@ -1262,6 +1262,7 @@ def update_events(request):
         rem_count = 0
         well_stop = 0
         shortage_prs = 0
+        end = datetime(2021, 1, 1)
 
         for transfer in transfers:
             rem_count += 1
@@ -1284,7 +1285,7 @@ def update_events(request):
 
             hours = 0
             if end.year > 2022:
-                end = end.replace(year=2020)
+                end = end.replace(year=2021)
 
             if end > beg:
                 diff = end - beg
@@ -1346,7 +1347,7 @@ def update_events(request):
 
             hours = 0
             if end.year > 2022:
-                end = end.replace(year=2020)
+                end = end.replace(year=2021)
 
             if end > beg:
                 diff = end - beg
