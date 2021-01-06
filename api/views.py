@@ -1059,11 +1059,23 @@ def update_sum_well(request):
                 Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'))
 
             sum_well_in_field.filling = well_matrix["filling__avg"]
+            if not sum_well_in_field.filling:
+                sum_well_in_field.filling = 0
             sum_well_in_field.fluid_agzu = well_matrix["fluid_agzu__sum"]
+            if not sum_well_in_field.fluid_agzu:
+                sum_well_in_field.fluid_agzu = 0
             sum_well_in_field.fluid_isu = well_matrix["fluid_isu__sum"]
+            if not sum_well_in_field.fluid_isu:
+                sum_well_in_field.fluid_isu = 0
             sum_well_in_field.teh_rej_fluid = well_matrix["teh_rej_fluid__sum"]
+            if not sum_well_in_field.teh_rej_fluid:
+                sum_well_in_field.teh_rej_fluid = 0
             sum_well_in_field.teh_rej_oil = well_matrix["teh_rej_oil__sum"]
+            if not sum_well_in_field.teh_rej_oil:
+                sum_well_in_field.teh_rej_oil = 0
             sum_well_in_field.teh_rej_water = well_matrix["teh_rej_water__avg"]
+            if not sum_well_in_field.teh_rej_water:
+                sum_well_in_field.teh_rej_water = 0
             sum_well_in_field.save()
     return Response({
         "message": "OK!"
@@ -1082,11 +1094,23 @@ def update_field_matrix(request):
                 Sum('teh_rej_fluid'), Sum('teh_rej_oil'), Avg('teh_rej_water'))
 
             field_matrix.filling = well_matrix["filling__avg"]
+            if not field_matrix.filling:
+                field_matrix.filling = 0
             field_matrix.fluid_agzu = well_matrix["fluid_agzu__sum"]
+            if not field_matrix.fluid_agzu:
+                field_matrix.fluid_agzu = 0
             field_matrix.fluid_isu = well_matrix["fluid_isu__sum"]
+            if not field_matrix.fluid_isu:
+                field_matrix.fluid_isu = 0
             field_matrix.teh_rej_fluid = well_matrix["teh_rej_fluid__sum"]
+            if not field_matrix.teh_rej_fluid:
+                field_matrix.teh_rej_fluid = 0
             field_matrix.teh_rej_oil = well_matrix["teh_rej_oil__sum"]
+            if not field_matrix.teh_rej_oil:
+                field_matrix.teh_rej_oil = 0
             field_matrix.teh_rej_water = well_matrix["teh_rej_water__avg"]
+            if not field_matrix.teh_rej_water:
+                field_matrix.teh_rej_water = 0
             field_matrix.save()
     return Response({
         "message": "OK!"
