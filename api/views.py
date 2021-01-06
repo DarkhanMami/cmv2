@@ -1253,7 +1253,7 @@ def update_events(request):
     filter_date = datetime(2021, 1, 1)
     con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl', encoding='UTF-8', nencoding='UTF-8')
     cur = con.cursor()
-    wells = models.Well.objects.all()
+    wells = models.Well.objects.filter(tbd_id__isnull=False)
     for well in wells:
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
                     + " and DBEG > to_date('2021-01-01', 'yyyy-MM-dd')")
