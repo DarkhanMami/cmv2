@@ -124,15 +124,17 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
 class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet):
 
+    filter_date = datetime(2021, 1, 1)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('well',)
-    queryset = models.WellEvents.objects.all().order_by('-beg')[:100]
+    queryset = models.WellEvents.objects.filter(beg__gte=filter_date).order_by('-beg')[:100]
 
     def get_serializer_context(self):
         return {'request': self.request}
 
     def get_queryset(self):
-        return models.WellEvents.objects.all().order_by('-beg')[:100]
+        filter_date = datetime(2021, 1, 1)
+        return models.WellEvents.objects.filter(beg__gte=filter_date).order_by('-beg')[:100]
 
     def get_serializer_class(self):
         return WellEventsSerializer
@@ -144,29 +146,32 @@ class WellEventsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
     @action(methods=['get'], detail=False)
     def get_by_well(self, request, *args, **kwargs):
         well = models.Well.objects.get(name=request.GET.get("well"))
-        result = models.WellEvents.objects.filter(well=well).order_by('-beg')[:100]
+        filter_date = datetime(2021, 1, 1)
+        result = models.WellEvents.objects.filter(beg__gte=filter_date, well=well).order_by('-beg')[:100]
         return Response(WellEventsSerializer(result, many=True).data)
 
     @action(methods=['get'], detail=False)
     def get_by_field(self, request, *args, **kwargs):
         field = models.Field.objects.get(pk=request.GET.get("field"))
-        result = models.WellEvents.objects.filter(well__field=field).order_by('-beg')[:100]
+        filter_date = datetime(2021, 1, 1)
+        result = models.WellEvents.objects.filter(beg__gte=filter_date, well__field=field).order_by('-beg')[:100]
         return Response(WellEventsSerializer(result, many=True).data)
 
     @action(methods=['get'], detail=False)
     def get_events_count(self, request, *args, **kwargs):
+        filter_date = datetime(2021, 1, 1)
         data = dict()
-        data[0] = {'gtm': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).count(),
-                   'krs': models.WellEvents.objects.filter(event_type=models.WellEvents.KRS).count(),
-                   'all': models.WellEvents.objects.all().count(),
-                   'gtm_wells': models.WellEvents.objects.filter(event_type=models.WellEvents.GTM).distinct('well').count(),
-                   'all_wells': models.WellEvents.objects.all().distinct('well').count()}
+        data[0] = {'gtm': models.WellEvents.objects.filter(beg__gte=filter_date, event_type=models.WellEvents.GTM).count(),
+                   'krs': models.WellEvents.objects.filter(beg__gte=filter_date, event_type=models.WellEvents.KRS).count(),
+                   'all': models.WellEvents.objects.filter(beg__gte=filter_date).count(),
+                   'gtm_wells': models.WellEvents.objects.filter(beg__gte=filter_date, event_type=models.WellEvents.GTM).distinct('well').count(),
+                   'all_wells': models.WellEvents.objects.filter(beg__gte=filter_date).distinct('well').count()}
         for field in models.Field.objects.all():
-            data[field.pk] = {'gtm': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').count(),
-                              'krs': models.WellEvents.objects.filter(well__field=field, event_type='КРС').count(),
-                              'all': models.WellEvents.objects.filter(well__field=field).count(),
-                              'gtm_wells': models.WellEvents.objects.filter(well__field=field, event_type='ГТМ').distinct('well').count(),
-                              'all_wells': models.WellEvents.objects.filter(well__field=field).distinct('well').count()}
+            data[field.pk] = {'gtm': models.WellEvents.objects.filter(beg__gte=filter_date, well__field=field, event_type='ГТМ').count(),
+                              'krs': models.WellEvents.objects.filter(beg__gte=filter_date, well__field=field, event_type='КРС').count(),
+                              'all': models.WellEvents.objects.filter(beg__gte=filter_date, well__field=field).count(),
+                              'gtm_wells': models.WellEvents.objects.filter(beg__gte=filter_date, well__field=field, event_type='ГТМ').distinct('well').count(),
+                              'all_wells': models.WellEvents.objects.filter(beg__gte=filter_date, well__field=field).distinct('well').count()}
         return Response(data)
 
     @action(methods=['get'], detail=False)
@@ -1245,12 +1250,13 @@ def update_matrix(request):
 
 @api_view(['GET'])
 def update_events(request):
+    filter_date = datetime(2021, 1, 1)
     con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl', encoding='UTF-8', nencoding='UTF-8')
     cur = con.cursor()
     wells = models.Well.objects.all()
     for well in wells:
         cur.execute("SELECT * FROM WELL_REPAIR_ACT_TRANSFER where WELL_ID=" + str(well.tbd_id)
-                    + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd')")
+                    + " and DBEG > to_date('2021-01-01', 'yyyy-MM-dd')")
 
         transfers = cur.fetchall()
         rem_count = 0
@@ -1308,7 +1314,7 @@ def update_events(request):
                 cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
                             + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
                             + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
-                            + " and DBEG > to_date('2020-01-01','yyyy-MM-dd')")
+                            + " and DBEG > to_date('2021-01-01','yyyy-MM-dd')")
                 oil = cur.fetchone()
                 if oil:
                     shortage_prs += oil[6] * hours / 24
@@ -1317,8 +1323,17 @@ def update_events(request):
                 got.end = end
                 got.save()
 
+            if (not created) and (got.beg <= got.end):
+                cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
+                            + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
+                            + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
+                            + " and DBEG > to_date('2021-01-01','yyyy-MM-dd')")
+                oil = cur.fetchone()
+                if oil:
+                    shortage_prs += oil[6] * hours / 24
+
         cur.execute("SELECT * FROM GTM where WELL_ID=" + str(well.tbd_id)
-                    + " and DBEG > to_date('2020-01-01', 'yyyy-MM-dd') and DEND > to_date('2020-01-01', 'yyyy-MM-dd')")
+                    + " and DBEG > to_date('2021-01-01', 'yyyy-MM-dd') and DEND > to_date('2021-01-01', 'yyyy-MM-dd')")
 
         transfers = cur.fetchall()
 
@@ -1364,7 +1379,7 @@ def update_events(request):
                 cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
                             + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
                             + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
-                            + " and DBEG > to_date('2020-01-01','yyyy-MM-dd')")
+                            + " and DBEG > to_date('2021-01-01','yyyy-MM-dd')")
                 oil = cur.fetchone()
                 if oil:
                     shortage_prs += oil[6] * hours / 24
@@ -1373,16 +1388,25 @@ def update_events(request):
                 got.end = end
                 got.save()
 
+            if (not created) and (got.beg <= got.end):
+                cur.execute("SELECT * FROM TECH_MODE where WELL_ID=" + str(well.tbd_id)
+                            + " and DBEG < to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
+                            + " and DEND > to_date('" + beg.strftime('%Y-%m-%d') + "','yyyy-MM-dd')"
+                            + " and DBEG > to_date('2021-01-01','yyyy-MM-dd')")
+                oil = cur.fetchone()
+                if oil:
+                    shortage_prs += oil[6] * hours / 24
+
         well.rem_count = rem_count
         well.well_stop_prs = well_stop
-        well.shortage_prs += shortage_prs
+        well.shortage_prs = shortage_prs
         well.save()
 
     con.close()
     prod = models.Constant.objects.get(name='Дополнительная добыча').max
     all_count = models.WellEvents.objects.all().count()
     for event in models.Events.objects.filter(field=None):
-        count = models.WellEvents.objects.filter(event=event.event).count()
+        count = models.WellEvents.objects.filter(beg_gte=filter_date, event=event.event).count()
         event.fact = count
         event.coef = count / all_count
         event.effect = prod * event.coef
@@ -1390,7 +1414,7 @@ def update_events(request):
 
     for field in models.Field.objects.all():
         for event in models.Events.objects.filter(field=field):
-            count = models.WellEvents.objects.filter(event=event.event, well__field=field).count()
+            count = models.WellEvents.objects.filter(beg_gte=filter_date, event=event.event, well__field=field).count()
             event.fact = count
             event.coef = count / all_count
             event.effect = prod * event.coef
