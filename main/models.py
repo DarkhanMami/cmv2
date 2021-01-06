@@ -418,13 +418,13 @@ class Wattmetrogram(models.Model):
 class SumWellInField(models.Model):
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='well_in_fields')
 
-    filling = models.FloatField(default=0, verbose_name=_('Заполнение насоса'))
-    fluid_agzu = models.FloatField(default=0, verbose_name=_('Жидкость (АГЗУ)'))
-    fluid_isu = models.FloatField(default=0, verbose_name=_('Жидкость (ИСУ)'))
+    filling = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Заполнение насоса'))
+    fluid_agzu = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Жидкость (АГЗУ)'))
+    fluid_isu = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Жидкость (ИСУ)'))
 
-    teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
-    teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
-    teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+    teh_rej_fluid = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Техрежим жидкости'))
+    teh_rej_oil = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Техрежим нефти'))
+    teh_rej_water = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Обводненность'))
 
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 
@@ -436,13 +436,13 @@ class SumWellInField(models.Model):
 class FieldMatrix(models.Model):
     field = models.ForeignKey(Field, blank=False, null=False, on_delete=models.CASCADE, related_name='matrix_fields')
 
-    filling = models.FloatField(default=0, verbose_name=_('Заполнение насоса'))
-    fluid_agzu = models.FloatField(default=0, verbose_name=_('Жидкость (АГЗУ)'))
-    fluid_isu = models.FloatField(default=0, verbose_name=_('Жидкость (ИСУ)'))
+    filling = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Заполнение насоса'))
+    fluid_agzu = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Жидкость (АГЗУ)'))
+    fluid_isu = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Жидкость (ИСУ)'))
 
-    teh_rej_fluid = models.FloatField(default=0, verbose_name=_('Техрежим жидкости'))
-    teh_rej_oil = models.FloatField(default=0, verbose_name=_('Техрежим нефти'))
-    teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
+    teh_rej_fluid = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Техрежим жидкости'))
+    teh_rej_oil = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Техрежим нефти'))
+    teh_rej_water = models.FloatField(default=0, null=True, blank=True, verbose_name=_('Обводненность'))
 
     timestamp = models.DateField(blank=True, null=True, verbose_name=_('Дата'))
 

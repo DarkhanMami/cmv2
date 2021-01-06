@@ -1048,7 +1048,7 @@ def update_wells(request):
 # 11:50 or 11:30
 @api_view(['GET'])
 def update_sum_well(request):     
-    for field in models.Field.objects.all(): 
+    for field in models.Field.objects.all():
         try:
             sum_well_in_field = models.SumWellInField.objects.get(field=field, timestamp=timezone.now())
         except:
