@@ -215,6 +215,10 @@ class WellMatrix(models.Model):
     tbd_fluid = models.FloatField(default=-1, verbose_name=_('ТБД жидкость'))
     status = models.CharField(blank=True, null=True, max_length=30, verbose_name=_('Статус'))
 
+    p_zab = models.FloatField(default=0, verbose_name=_('Давление (заб)'))
+    p_plast = models.FloatField(default=0, verbose_name=_('Давление (пл)'))
+
+
     # well_stop = models.FloatField(default=0, verbose_name=_('Остановы ИСУ'))
     # rotor_speed = models.FloatField(default=0, verbose_name=_('Скорость Ротора'))
     # pressure1 = models.FloatField(default=0, verbose_name=_('Давление (труб)'))
