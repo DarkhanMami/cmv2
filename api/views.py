@@ -1587,7 +1587,8 @@ def update_watt(request):
 def update_tbd_data(request):
     con = cx_Oracle.connect('integration_EMG/integra@172.20.10.220/orcl', encoding='UTF-8', nencoding='UTF-8')
     cur = con.cursor()
-    wells = models.Well.objects.all()
+    wells = models.Well.objects.filter(tbd_id__isnull=False)
+
     for well in wells:
         try:
             cur.execute("SELECT WELL_STATUS_TYPE_ID FROM WELL_STATUS where WELL_ID=" + str(well.tbd_id)
@@ -1604,9 +1605,21 @@ def update_tbd_data(request):
             row_values = cur.fetchone()
             tbd_fluid = row_values[0]
 
+            cur.execute("SELECT VALUE_DOUBLE FROM CURRENT_GDIS_VALUE where WELL_ID=" + str(well.tbd_id)
+                        + " and PARAM_GDIS_ID=211 and ROWNUM <= 1 order by DBEG desc")
+            row_values = cur.fetchone()
+            p_zab = row_values[0]
+
+            cur.execute("SELECT VALUE_DOUBLE FROM CURRENT_GDIS_VALUE where WELL_ID=" + str(well.tbd_id)
+                        + " and PARAM_GDIS_ID=210 and ROWNUM <= 1 order by DBEG desc")
+            row_values = cur.fetchone()
+            p_plast = row_values[0]
+
             well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
             well_matrix.tbd_fluid = tbd_fluid
             well_matrix.status = status
+            well_matrix.p_plast = p_plast
+            well_matrix.p_zab = p_zab
             well_matrix.save()
         except:
             pass
