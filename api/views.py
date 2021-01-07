@@ -1624,6 +1624,8 @@ def update_tbd_data(request):
         except:
             pass
 
+    con.close()
+
     return Response({
         "info": "SUCCESS"
     })
