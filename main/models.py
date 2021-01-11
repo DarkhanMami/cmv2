@@ -211,10 +211,11 @@ class WellMatrix(models.Model):
     teh_rej_water = models.FloatField(default=0, verbose_name=_('Обводненность'))
     park_fluid = models.FloatField(default=-1, verbose_name=_('Парковая жидкость'))
     park_oil = models.FloatField(default=-1, verbose_name=_('Парковая нефть'))
-    kpn = models.FloatField(default=1, verbose_name=_('Коэф. подачи насоса'))
+    kpn = models.FloatField(default=1, verbose_name=_('КПН'))
+    tpn = models.FloatField(default=1, verbose_name=_('ТПН'))
+    sdmo_status = models.FloatField(default=1, verbose_name=_('Статус (сдмо)'))
     tbd_fluid = models.FloatField(default=-1, verbose_name=_('ТБД жидкость'))
-    status = models.CharField(blank=True, null=True, max_length=30, verbose_name=_('Статус'))
-
+    status = models.CharField(blank=True, null=True, max_length=30, verbose_name=_('Статус (тбд)'))
     p_zab = models.FloatField(default=0, verbose_name=_('Давление (заб)'))
     p_plast = models.FloatField(default=0, verbose_name=_('Давление (пл)'))
 

@@ -1630,6 +1630,35 @@ def update_tbd_data(request):
         "info": "SUCCESS"
     })
 
+
+def update_sdmo_data(request):
+    wells = models.Well.objects.filter(has_isu=True, server="192.168.241.2")
+    try:
+        con1 = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
+    except Exception as e:
+        return Response({
+            "info": "Ошибка при подключении к серверу СДМО: " + e
+        })
+
+    for well in wells:
+        try:
+            cur = con1.cursor()
+            cur.execute("SELECT value FROM fc_data_last where reg=1999 and station_id=" + str(well.well_id)
+                        + " order by savetime desc")
+
+            row_values = cur.fetchone()
+            well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
+            well_matrix.sdmo_status = float(row_values[0])
+            well_matrix.save()
+        except:
+            pass
+
+    con1.close()
+
+    return Response({
+        "info": "SUCCESS"
+    })
+
 # for event in events:
 #     ...:     field = event.well.field.name
 #     ...:     well = event.well.name
