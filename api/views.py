@@ -1631,6 +1631,7 @@ def update_tbd_data(request):
     })
 
 
+@api_view(['GET'])
 def update_sdmo_data(request):
     wells = models.Well.objects.filter(has_isu=True, server="192.168.241.2")
     try:
