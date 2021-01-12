@@ -1470,26 +1470,22 @@ def update_prs(request):
 def update_kpn(request):
     wells = models.Well.objects.filter(has_isu=True)
     for well in wells:
-        data = models.WellMatrix.objects.filter(well=well).order_by('-timestamp')[:3]
-        ind = 0
-        isu = 0
-        teh = 0
-        for item in reversed(data):
-            ind = ind + 1
-            teh += item.teh_rej_fluid
-            # isu += item.fluid_isu
-            isu += item.fluid_agzu
-            if ind == 3 and teh != 0 and isu != 0:
-                kpn = isu / teh
-                item.kpn = kpn
-                item.save()
-                if well.production_type == models.Well.SGN:
-                    kpn_constant = models.Constant.objects.get(name='КПН')
-                    time_threshold = datetime.now() - timedelta(days=365)
-                    has_event = models.WellEvents.objects.filter(well=well, event__contains='Смена насоса',
-                                                                 end__gt=time_threshold).exists()
-                    if kpn <= kpn_constant.max and not has_event:
-                        models.Recommendation.objects.create(well=well, kpn=kpn, event='Проверить на предмет утечек')
+        item = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
+        teh = item.teh_rej_fluid
+        if well.tpn != 1:
+            teh = well.tpn
+        isu = item.fluid_agzu
+        if teh != 0 and isu != 0:
+            kpn = isu / teh
+            item.kpn = kpn
+            item.save()
+            if well.production_type == models.Well.SGN:
+                kpn_constant = models.Constant.objects.get(name='КПН')
+                time_threshold = datetime.now() - timedelta(days=365)
+                has_event = models.WellEvents.objects.filter(well=well, event__contains='Смена насоса',
+                                                             end__gt=time_threshold).exists()
+                if kpn <= kpn_constant.max and not has_event:
+                    models.Recommendation.objects.create(well=well, kpn=kpn, event='Проверить на предмет утечек')
 
     return Response({
         "info": "Данные обновлены"
