@@ -75,8 +75,9 @@ class PrsDeviceAdmin(admin.ModelAdmin):
 
 @admin.register(Well)
 class WellAdmin(admin.ModelAdmin):
-    list_display = ('name', 'well_id', 'tbd_id', 'gzu', 'horizon', 'production_type', 'server', 'has_isu',
-                    'shortage_isu', 'shortage_prs', 'shortage_wait', 'well_stop_prs', 'well_stop', 'rem_count')
+    list_display = ('name', 'well_id', 'tbd_id', 'gzu', 'horizon', 'production_type', 'server', 'has_isu', 'tpn',
+                    'pump_depth', 'shortage_isu', 'shortage_prs', 'shortage_wait', 'well_stop_prs', 'well_stop',
+                    'rem_count')
     search_fields = ('name',)
     list_filter = ('field',)
 
@@ -84,7 +85,7 @@ class WellAdmin(admin.ModelAdmin):
 @admin.register(WellMatrix)
 class WellMatrixAdmin(admin.ModelAdmin):
     list_display = ('well', 'filling', 'fluid_agzu', 'fluid_isu', 'tbd_fluid', 'teh_rej_fluid', 'teh_rej_oil',
-                    'teh_rej_water', 'park_fluid', 'park_oil', 'kpn', 'tpn', 'p_zab', 'p_plast', 'status',
+                    'teh_rej_water', 'park_fluid', 'park_oil', 'kpn', 'dyn_level', 'p_zab', 'p_plast', 'status',
                     'sdmo_status', 'timestamp')
     search_fields = ('well__name',)
     list_filter = ('well__field',)

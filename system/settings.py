@@ -167,7 +167,6 @@ DATABASES = {
 }
 
 
-
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "paste",
     'paste_remove_styles': 'true',
