@@ -1615,11 +1615,17 @@ def update_tbd_data(request):
             row_values = cur.fetchone()
             p_plast = row_values[0]
 
+            cur.execute("SELECT VALUE_DOUBLE FROM CURRENT_GDIS_VALUE where WELL_ID=" + str(well.tbd_id)
+                        + " and PARAM_GDIS_ID=217 and ROWNUM <= 1 order by DBEG desc")
+            row_values = cur.fetchone()
+            dyn_level = row_values[0]
+
             well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
             well_matrix.tbd_fluid = tbd_fluid
             well_matrix.status = status
             well_matrix.p_plast = p_plast
             well_matrix.p_zab = p_zab
+            well_matrix.dyn_level = dyn_level
             well_matrix.save()
         except:
             pass
