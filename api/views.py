@@ -1654,19 +1654,16 @@ def update_sdmo_data(request):
                         + " order by savetime desc")
             row_values = cur.fetchone()
             filling = float(row_values[0])
-            cur.execute("SELECT value FROM fc_data_last where reg=1959 and station_id=" + str(well.well_id)
-                        + " order by savetime desc")
-            row_values = cur.fetchone()
-            fluid_isu = float(row_values[0]) / 10000
             cur.execute("SELECT value FROM fc_data_last where reg=1998 and station_id=" + str(well.well_id)
                         + " order by savetime desc")
             row_values = cur.fetchone()
             pump_speed = float(row_values[0])
 
-            cur.execute("SELECT electric_cons FROM daily_data where station_id='" + str(well.well_id)
+            cur.execute("SELECT electric_cons, debit_theoretical FROM daily_data where station_id='" + str(well.well_id)
                         + "' order by day desc limit 1")
             row_values = cur.fetchone()
             electric_cons = float(row_values[0])
+            fluid_isu = float(row_values[1])
 
             well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
             well_matrix.sdmo_status = sdmo_status
