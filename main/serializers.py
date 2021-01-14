@@ -37,7 +37,7 @@ class WellMatrixSerializer(serializers.ModelSerializer):
         model = WellMatrix
         fields = ['well', 'filling', 'fluid_agzu', 'teh_rej_fluid', 'teh_rej_oil', 'teh_rej_water', 'fluid_isu',
                   'park_fluid', 'park_oil', 'kpn', 'tbd_fluid', 'p_zab', 'p_plast', 'dyn_level', 'sdmo_status',
-                  'status', 'timestamp']
+                  'status', 'pump_speed', 'electric_cons', 'timestamp']
 
 
 class DepressionSerializer(serializers.ModelSerializer):

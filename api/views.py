@@ -1648,10 +1648,32 @@ def update_sdmo_data(request):
             cur = con1.cursor()
             cur.execute("SELECT value FROM fc_data_last where reg=1999 and station_id=" + str(well.well_id)
                         + " order by savetime desc")
-
             row_values = cur.fetchone()
+            sdmo_status = float(row_values[0])
+            cur.execute("SELECT value FROM fc_data_last where reg=1997 and station_id=" + str(well.well_id)
+                        + " order by savetime desc")
+            row_values = cur.fetchone()
+            fluid_isu = float(row_values[0])
+            cur.execute("SELECT value FROM fc_data_last where reg=1959 and station_id=" + str(well.well_id)
+                        + " order by savetime desc")
+            row_values = cur.fetchone()
+            filling = float(row_values[0])
+            cur.execute("SELECT value FROM fc_data_last where reg=1998 and station_id=" + str(well.well_id)
+                        + " order by savetime desc")
+            row_values = cur.fetchone()
+            pump_speed = float(row_values[0])
+
+            cur.execute("SELECT electric_cons FROM daily_data where station_id='" + str(well.well_id)
+                        + "' order by day desc limit 1")
+            row_values = cur.fetchone()
+            electric_cons = float(row_values[0])
+
             well_matrix = models.WellMatrix.objects.filter(well=well).order_by('-timestamp').first()
-            well_matrix.sdmo_status = float(row_values[0])
+            well_matrix.sdmo_status = sdmo_status
+            well_matrix.filling = filling
+            well_matrix.fluid_isu = fluid_isu
+            well_matrix.pump_speed = pump_speed
+            well_matrix.electric_cons = electric_cons
             well_matrix.save()
         except:
             pass
