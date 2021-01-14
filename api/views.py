@@ -1657,7 +1657,7 @@ def update_sdmo_data(request):
             cur.execute("SELECT value FROM fc_data_last where reg=1959 and station_id=" + str(well.well_id)
                         + " order by savetime desc")
             row_values = cur.fetchone()
-            fluid_isu = float(row_values[0])
+            fluid_isu = float(row_values[0]) / 10000
             cur.execute("SELECT value FROM fc_data_last where reg=1998 and station_id=" + str(well.well_id)
                         + " order by savetime desc")
             row_values = cur.fetchone()
