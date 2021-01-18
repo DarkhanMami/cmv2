@@ -69,7 +69,7 @@ class SumWellInFieldSerializerAll(generics.ListAPIView):
 
 
 class FieldMatrixSerializerAll(generics.ListAPIView):
-    dt = datetime(2020, 12, 15)
+    dt = datetime(2021, 1, 1)
     queryset = models.FieldMatrix.objects.filter(timestamp__gte=dt).order_by('timestamp')
     serializer_class = FieldMatrixSerializer
 
@@ -112,7 +112,7 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
 
     @action(methods=['get'], detail=False)
     def get_by_well(self, request, *args, **kwargs):
-        dt = datetime(2020, 12, 15)
+        dt = datetime(2021, 1, 1)
         well = models.Well.objects.get(name=request.GET.get("well"))
         result = models.WellMatrix.objects.filter(timestamp__gte=dt, well=well).order_by('-timestamp')
         return Response(WellMatrixSerializer(result, many=True).data)
