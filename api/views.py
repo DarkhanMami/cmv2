@@ -1639,13 +1639,31 @@ def update_sdmo_data(request):
     try:
         con1 = pymysql.connect(host='192.168.241.2', port=3306, user='getter', passwd='P@ssw0rD', db='sdmo', charset='utf8')
     except Exception as e:
-        return Response({
-            "info": "Ошибка при подключении к серверу СДМО: " + e
-        })
+        pass
+    try:
+        con2 = pymysql.connect(host='192.168.243.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    except Exception as e:
+        pass
+    try:
+        con3 = pymysql.connect(host='192.168.236.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    except Exception as e:
+        pass
+    try:
+        con4 = pymysql.connect(host='192.168.128.2', port=3306, user='getter', passwd='123456', db='sdmo', charset='utf8')
+    except Exception as e:
+        pass
 
     for well in wells:
         try:
-            cur = con1.cursor()
+            if well.server == "192.168.241.2":
+                cur = con1.cursor()
+            if well.server == "192.168.243.2":
+                cur = con2.cursor()
+            if well.server == "192.168.236.2":
+                cur = con3.cursor()
+            if well.server == "192.168.128.2":
+                cur = con4.cursor()
+
             cur.execute("SELECT value FROM fc_data_last where reg=1999 and station_id=" + str(well.well_id)
                         + " order by savetime desc")
             row_values = cur.fetchone()
