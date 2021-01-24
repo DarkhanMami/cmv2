@@ -76,8 +76,7 @@ class PrsDeviceAdmin(admin.ModelAdmin):
 @admin.register(Well)
 class WellAdmin(admin.ModelAdmin):
     list_display = ('name', 'well_id', 'tbd_id', 'gzu', 'horizon', 'production_type', 'server', 'has_isu', 'tpn',
-                    'pump_depth', 'shortage_isu', 'shortage_prs', 'shortage_wait', 'well_stop_prs', 'well_stop',
-                    'rem_count')
+                    'pump_depth')
     search_fields = ('name',)
     list_filter = ('field',)
 
