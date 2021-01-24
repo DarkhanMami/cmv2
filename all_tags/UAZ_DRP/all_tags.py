@@ -3,6 +3,7 @@ import datetime, traceback, smtplib
 import sys
 sys.path.append("/webapps/cmv2/OpenOPC/src/")
 import OpenOPC
+import time
 
 
 try:
@@ -17,6 +18,8 @@ try:
     opc.connect(u'OPCServer.WinCC.1')
 
     # try:
+    Data = opc.read(tags, group='test', timeout=100000)
+    time.sleep(3)
     Data = opc.read(tags, group='test', timeout=100000)
     # rgs_tags = ['РГС_1_Уровень', 'РГС_2_Уровень', 'РГС_3_Уровень', 'РГС_3_Уровень_подтоварной_жидкости',
     #             'РГС_4_Уровень', 'РГС_4_Уровень_подтоварной_жидкости', 'РГС_1_Температура', 'РГС_2_Температура',
