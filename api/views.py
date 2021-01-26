@@ -118,6 +118,22 @@ class WellMatrixViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, Generi
         return Response(WellMatrixSerializer(result, many=True).data)
 
     @action(methods=['get'], detail=False)
+    def get_by_well_period(self, request, *args, **kwargs):
+        well = models.Well.objects.get(name=request.GET.get("well"))
+        beg_year = int(request.GET.get("year"))
+        beg_month = int(request.GET.get("month"))
+        beg_dt = datetime(beg_year, beg_month, 1)
+        end_year = beg_year
+        end_month = beg_month + 1
+        if end_month == 13:
+            end_month = 1
+            end_year = end_year + 1
+        end_dt = datetime(end_year, end_month, 1)
+
+        result = models.WellMatrix.objects.filter(timestamp__gte=beg_dt, timestamp__lte=end_dt, well=well).order_by('-timestamp')
+        return Response(WellMatrixSerializer(result, many=True).data)
+
+    @action(methods=['get'], detail=False)
     def get_by_field(self, request, *args, **kwargs):
         field = models.Field.objects.get(name=request.GET.get("field"))
         result = models.WellMatrix.objects.filter(well__field=field)
