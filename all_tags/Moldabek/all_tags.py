@@ -12,7 +12,7 @@ try:
     A = open('/webapps/cmv2/all_tags/Moldabek/tags.txt', 'r')
     tags = A.read().splitlines()
     A.close()
-    opc = OpenOPC.open_client('192.168.207.178')
+    opc = OpenOPC.open_client('192.168.155.87')
 
     opc.connect(u'OPCServer.WinCC.1')
 
