@@ -48,7 +48,7 @@ def update_tags():
     val2 = str(data['KABBSK_MU002.DR_Q_CONS_FLOW'])
     val3 = str(data['KABBSK_MU003_IMP.RO_Q_CONS_FLOW'])
     val4 = str(data['KABBSK_MU004_IMP.RO_Q_CONS_FLOW'])
-    val5 = str(data['KABBSK_MU005_IMP.RO_Q_CONS_FLOW'])
+    val5 = str(float(data['KABBSK_MU005_IMP.RO_Q_CONS_FLOW']) / 10)
 
     tmp_skv = int(data['OP_MU001_ARCH_Code_SKV1'])
     if tmp_skv < 10:
