@@ -203,9 +203,9 @@ KABBVM_MU50_PIT_01_XQ01
 KABBVM_MU50_OSTAVSH_VR_ZAMERA
 KABBVM_MU50_TT_01_XQ01
 KABBVM_MU50_SKV_ZAM1
-MM52_davl_kol
+MM52_davl_kol100
 MM52_proid_vrem
-MM52_temp_zhid
+MM52_temp_zhid100
 MM52_nom_otv
 MM52_arh_nom_otv
 MM52_arh_o_ras_zhid
