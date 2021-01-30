@@ -19,7 +19,7 @@ try:
     data = dict()
     for i in tmp:
         data[i[0]] = [i[1], i[2], i[3]]
-    print(data)
+
     opc.remove('test')
     opc.close()
     for i in range(0, 51):
