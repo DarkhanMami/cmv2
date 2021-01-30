@@ -76,7 +76,7 @@ except Exception as e:
     smtpObj.ehlo()
     smtpObj.starttls()
     smtpObj.ehlo()
-    smtpObj.login("noreply@dlc.kz", "Emb@2019")
+    smtpObj.login("noreply@dlc.kz", "Xm*6%R7u")
     if (numberOfRetries > 20):
         smtpObj.sendmail('noreply@dlc.kz', send_to, 'Timeout occured or opc server(VMB) is unavailable')
         numberOfRetries = 0

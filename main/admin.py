@@ -210,7 +210,7 @@ class MailSettingsAdmin(admin.ModelAdmin):
         mail_sender.ehlo()
         mail_sender.starttls()
         mail_sender.ehlo()
-        mail_sender.login("noreply@dlc.kz", "Emba@2019")
+        mail_sender.login("noreply@dlc.kz", "Xm*6%R7u")
         for mail_object in queryset:
             mail_users = MailUser.objects.filter(mail=mail_object)
             for mail_user in mail_users:

@@ -1514,7 +1514,7 @@ def send_mails(request):
     mail_sender.ehlo()
     mail_sender.starttls()
     mail_sender.ehlo()
-    mail_sender.login("noreply@dlc.kz", "Emba@2019")
+    mail_sender.login("noreply@dlc.kz", "Xm*6%R7u")
     dt = datetime.today()
     well_perf_sets = models.MailSettings.objects.filter(type=models.MailSettings.well_perf)
     for sett in well_perf_sets:
